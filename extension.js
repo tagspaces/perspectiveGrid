@@ -37,7 +37,11 @@ define(function(require, exports, module) {
         if (isCordova) {
           TSCORE.reLayout();
         }
-        $('#' + extensionID + 'Container [data-i18n]').i18n();
+        try {
+          $('#' + extensionID + 'Container [data-i18n]').i18n();
+        } catch(err) {
+          console.log("Failed translating extension");
+        }
         resolve(true);
       });
     });
@@ -60,6 +64,8 @@ define(function(require, exports, module) {
     console.log("Loading perspective " + extensionID);
     extensionLoaded.then(function() {
       UI.reInit();
+    }, function(err) {
+      console.warn("Loading extension failed: " + err);
     });
   };
 
