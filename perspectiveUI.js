@@ -77,7 +77,7 @@ define(function(require, exports, module) {
         '</div>' +
       '</div>' +
       '{{else}}' +
-      '<p style="margin: 5px;">No files found</p>' +
+      '<p style="margin: 5px; font-size: 13px; text-align: center;">Directory empty...</p>' +
       '{{/each}}' +
     '</div>'
   );
@@ -85,20 +85,20 @@ define(function(require, exports, module) {
   ExtUI.prototype.createFileTile = function(title, filePath, fileExt, fileTags, isSelected, metaObj) {
     var fileParentDir = TSCORE.TagUtils.extractParentDirectoryPath(filePath);
     var fileName = TSCORE.TagUtils.extractFileName(filePath);
-    var tmbPath = fileParentDir + TSCORE.dirSeparator + TSCORE.metaFolder + TSCORE.dirSeparator + fileName + TSCORE.thumbFileExt;
-    if (isCordova || isWeb) {
-    } else {
-      tmbPath = "file:///" + tmbPath;
-    }
+
+    var tmbPath = "";
     var metaObj = metaObj || {thumbnailPath : ""};
+    if(metaObj.thumbnailPath && metaObj.thumbnailPath.length > 2) {
+      tmbPath = encodeURI(metaObj.thumbnailPath)
+    }
+
     var context = {
       filepath: filePath,
-      tmbpath: tmbPath,
       fileext: fileExt,
       title: title,
       tags: [],
       selected: isSelected ? "fa-check-square" : "fa-square-o",
-      thumbPath: tmbPath //encodeURI(metaObj.thumbnailPath)
+      thumbPath: tmbPath
     };
     
     if (fileTags.length > 0) {
@@ -584,9 +584,11 @@ define(function(require, exports, module) {
     TSCORE.selectedFiles.splice(TSCORE.selectedFiles.indexOf(oldFilePath), 1);
     TSCORE.selectedFiles.push(newFilePath);
 
-    var title = TSCORE.TagUtils.extractTitle(newFilePath),
-      fileExt = TSCORE.TagUtils.extractFileExtension(newFilePath),
-      fileTags = TSCORE.TagUtils.extractTags(newFilePath);
+    var title = TSCORE.TagUtils.extractTitle(newFilePath);
+    var fileExt = TSCORE.TagUtils.extractFileExtension(newFilePath);
+    var fileTags = TSCORE.TagUtils.extractTags(newFilePath);
+    var parentFolderNewFile = TSCORE.TagUtils.extractParentDirectoryPath(newFilePath);
+    var newFileName = TSCORE.TagUtils.extractFileName(newFilePath);
 
     var $fileTile;
 
@@ -602,6 +604,10 @@ define(function(require, exports, module) {
     }
 
     var metaObj = TSCORE.Meta.findMetaObjectFromFileList(oldFilePath);
+    if(!metaObj) {
+      metaObj = {};
+      metaObj.thumbnailPath = parentFolderNewFile + TSCORE.dirSeparator + TSCORE.metaFolder + TSCORE.dirSeparator + newFileName + TSCORE.thumbFileExt;
+    }
     $fileTile.replaceWith(this.createFileTile(title, newFilePath, fileExt, fileTags, true, metaObj)); 
 
     if (isWin && !isWeb) {
