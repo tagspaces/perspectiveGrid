@@ -28,6 +28,8 @@
   -ms-flex: 1 1 200px;
 }
 
+.activeRow { background: rgba(29, 209, 159, 0.52) !important; }
+
 @media (max-width: 768px) {
   .fileTile {
     max-width: 500px;
