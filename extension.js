@@ -39,7 +39,7 @@ define(function(require, exports, module) {
         }
         try {
           $('#' + extensionID + 'Container [data-i18n]').i18n();
-        } catch(err) {
+        } catch (err) {
           console.log("Failed translating extension");
         }
         resolve(true);
