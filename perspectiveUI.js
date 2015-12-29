@@ -88,8 +88,8 @@ define(function(require, exports, module) {
 
     var tmbPath = "";
     var metaObj = metaObj || {thumbnailPath : ""};
-    if(metaObj.thumbnailPath && metaObj.thumbnailPath.length > 2) {
-      tmbPath = encodeURI(metaObj.thumbnailPath)
+    if (metaObj.thumbnailPath && metaObj.thumbnailPath.length > 2) {
+      tmbPath = encodeURI(metaObj.thumbnailPath);
     }
 
     var context = {
@@ -604,7 +604,7 @@ define(function(require, exports, module) {
     }
 
     var metaObj = TSCORE.Meta.findMetaObjectFromFileList(oldFilePath);
-    if(!metaObj) {
+    if (!metaObj) {
       metaObj = {};
       metaObj.thumbnailPath = parentFolderNewFile + TSCORE.dirSeparator + TSCORE.metaFolder + TSCORE.dirSeparator + newFileName + TSCORE.thumbFileExt;
     }
