@@ -198,7 +198,7 @@ define(function(require, exports, module) {
     });
 
     $("#" + this.extensionID + "IncludeSubDirsButton").on("click", function() {
-      TSCORE.Utils.createDirectoryIndex(TSCORE.currentPath);
+      TSCORE.IOUtils.createDirectoryIndex(TSCORE.currentPath);
     });
 
     $("#" + this.extensionID + "TagButton").on("click", function() {
@@ -226,17 +226,7 @@ define(function(require, exports, module) {
         $.i18n.t(dlgConfirmMsgId, {
           selectedFiles:  selFiles.toString()
         }), function() {
-          TSCORE.selectedFiles.forEach(function(filePath) {
-            TSCORE.IO.deleteFilePromise(filePath).then(function() {
-                TSPOSTIO.deleteElement(filePath);
-              },
-              function(error) {
-                TSCORE.hideLoadingAnimation();
-                TSCORE.showAlertDialog("Deleting file " + filePath + " failed.");
-                console.error("Deleting file " + filePath + " failed " + error);
-              }
-            );
-          });
+          TSCORE.IOUtils.deleteFiles(TSCORE.selectedFiles);
         });
     });
 
