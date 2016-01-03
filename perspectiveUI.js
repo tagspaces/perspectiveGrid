@@ -77,7 +77,7 @@ define(function(require, exports, module) {
         '</div>' +
       '</div>' +
       '{{else}}' +
-      '<p style="margin: 5px; font-size: 13px; text-align: center;">Directory empty...</p>' +
+      '<p style="margin: 5px; font-size: 13px; text-align: center;">Directory does not contain any files...</p>' +
       '{{/each}}' +
     '</div>'
   );
