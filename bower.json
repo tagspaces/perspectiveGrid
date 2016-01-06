@@ -1,5 +1,5 @@
 {
-  "name": "perspectiveGrid",
+  "name": "Grid",
   "id": "perspectiveGrid",
   "description": "A TagSpaces perspective extension allowing you to view your files in a grid with a image preview.",
   "type": "perspective",
