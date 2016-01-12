@@ -218,7 +218,7 @@ define(function(require, exports, module) {
       TSCORE.selectedFiles.forEach(function(file) {
         selFiles += " " + TSCORE.Utils.baseName(file) + " ,";
       });
-      selFiles = selFiles.substring(0, selFiles.length-1);
+      selFiles = selFiles.substring(0, selFiles.length - 1);
       var dlgConfirmMsgId = 'ns.dialogs:selectedFilesDeleteContentConfirm';
       if (TSCORE.Config.getUseTrashCan()) {
         dlgConfirmMsgId = 'ns.pro:trashFilesDeleteContentConfirm';
