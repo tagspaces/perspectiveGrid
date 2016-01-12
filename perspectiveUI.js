@@ -214,18 +214,19 @@ define(function(require, exports, module) {
     });
 
     $("#" + this.extensionID + "DeleteSelectedFilesButton").on("click", function() {
-      var selFiles = [];
+      var selFiles = " ";
       TSCORE.selectedFiles.forEach(function(file) {
-        selFiles.push(TSCORE.Utils.baseName(file));
+        selFiles += " " + TSCORE.Utils.baseName(file) + " ,";
       });
+      selFiles = selFiles.substring(0, selFiles.length-1);
       var dlgConfirmMsgId = 'ns.dialogs:selectedFilesDeleteContentConfirm';
       if (TSCORE.Config.getUseTrashCan()) {
         dlgConfirmMsgId = 'ns.pro:trashFilesDeleteContentConfirm';
       }
-      TSCORE.showConfirmDialog($.i18n.t('ns.dialogs:fileDeleteTitleConfirm'),
-        $.i18n.t(dlgConfirmMsgId, {
-          selectedFiles:  selFiles.toString()
-        }), function() {
+      TSCORE.showConfirmDialog(
+        $.i18n.t('ns.dialogs:fileDeleteTitleConfirm'),
+        $.i18n.t(dlgConfirmMsgId, {selectedFiles: selFiles}),
+        function() {
           TSCORE.IOUtils.deleteFiles(TSCORE.selectedFiles);
         });
     });
