@@ -572,9 +572,11 @@ define(function(require, exports, module) {
     console.log("Updating file in UI");
 
     // Updating the file selection
-    TSCORE.selectedFiles.splice(TSCORE.selectedFiles.indexOf(oldFilePath), 1);
-    TSCORE.selectedFiles.push(newFilePath);
-
+    if (oldFilePath !== newFilePath) {
+      TSCORE.selectedFiles.splice(TSCORE.selectedFiles.indexOf(oldFilePath), 1);
+      TSCORE.selectedFiles.push(newFilePath);
+    }
+    
     var title = TSCORE.TagUtils.extractTitle(newFilePath);
     var fileExt = TSCORE.TagUtils.extractFileExtension(newFilePath);
     var fileTags = TSCORE.TagUtils.extractTags(newFilePath);
