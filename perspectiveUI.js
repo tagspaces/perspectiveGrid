@@ -202,10 +202,12 @@ define(function(require, exports, module) {
     });
 
     $("#" + this.extensionID + "TagButton").on("click", function() {
+      if ($(this).prop('disabled')) { return false; }
       TSCORE.showAddTagsDialog();
     });
 
     $("#" + this.extensionID + "CopyMoveButton").on("click", function() {
+      if ($(this).prop('disabled')) { return false; }
       TSCORE.showMoveCopyFilesDialog();
     });
 
@@ -214,6 +216,7 @@ define(function(require, exports, module) {
     });
 
     $("#" + this.extensionID + "DeleteSelectedFilesButton").on("click", function() {
+      if ($(this).prop('disabled')) { return false; }
       var selFiles = " ";
       TSCORE.selectedFiles.forEach(function(file) {
         selFiles += " " + TSCORE.Utils.baseName(file) + " ,";
@@ -438,11 +441,11 @@ define(function(require, exports, module) {
     var self = this;
 
     $fileTile
-      //.hammer().on("doubletap", function() { //.dblclick(function() {
-      //  return false;
+      .hammer().on("doubletap", function() { //.dblclick(function() {
+        return false;
         //TSCORE.FileOpener.openFile(filePath);
         //self.selectFile(filePath);
-      //})
+      })
       .click(function() {
         TSCORE.FileOpener.openFile(filePath);
         self.selectFile(filePath);
