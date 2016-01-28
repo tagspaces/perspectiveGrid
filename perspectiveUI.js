@@ -202,12 +202,12 @@ define(function(require, exports, module) {
     });
 
     $("#" + this.extensionID + "TagButton").on("click", function() {
-      if ($(this).prop('disabled')) { return false; }
+      if ($(this).parent().hasClass("disabled")) { return false; }
       TSCORE.showAddTagsDialog();
     });
 
     $("#" + this.extensionID + "CopyMoveButton").on("click", function() {
-      if ($(this).prop('disabled')) { return false; }
+      if ($(this).parent().hasClass("disabled")) { return false; }
       TSCORE.showMoveCopyFilesDialog();
     });
 
@@ -216,7 +216,7 @@ define(function(require, exports, module) {
     });
 
     $("#" + this.extensionID + "DeleteSelectedFilesButton").on("click", function() {
-      if ($(this).prop('disabled')) { return false; }
+      if ($(this).parent().hasClass("disabled")) { return false; }
       var selFiles = " ";
       TSCORE.selectedFiles.forEach(function(file) {
         selFiles += " " + TSCORE.Utils.baseName(file) + " ,";
@@ -232,6 +232,10 @@ define(function(require, exports, module) {
         function() {
           TSCORE.IOUtils.deleteFiles(TSCORE.selectedFiles);
         });
+    });
+
+    $("#" + this.extensionID + "MainDropUp").on('click', function() {
+      TSCORE.hideAllDropDownMenus();
     });
 
     // Init Tag Context Menus
