@@ -12,6 +12,31 @@ define(function(require, exports, module) {
   var TMB_SIZES = ["200px", "300px", "100px"];
 
   var MONTH = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
+  $('#viewContainers').on('scroll', _.debounce(function() {
+    $('#viewContainers').find(".fileTile").each(function () {
+      var rect = this.getBoundingClientRect();
+      
+      var isVisibleOnScreen = (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+      );
+      
+      if (isVisibleOnScreen) {
+        var path = this.getAttribute('filepath')
+        
+        if (path.toLowerCase().indexOf('.png') > -1 || 
+            path.toLowerCase().indexOf('.jpg') > -1 || 
+            path.toLowerCase().indexOf('.jpeg') > -1) {
+          this.style.backgroundImage = 'url("' + encodeURI(path) + '")'
+        }
+      } else {
+        this.style.backgroundImage = 'none'
+      }
+    });
+  }, 200));
 
   function ExtUI(extID) {
     this.extensionID = extID;
@@ -438,6 +463,7 @@ define(function(require, exports, module) {
     }
 
     TSCORE.hideLoadingAnimation();
+    $('#viewContainers').trigger('scroll')
   };
 
   ExtUI.prototype.assingFileTileHandlers = function($fileTile) {
