@@ -28,15 +28,26 @@ define(function(require, exports, module) {
         var path = this.getAttribute('filepath')
         
         if (path.toLowerCase().indexOf('.png') > -1 || 
-            path.toLowerCase().indexOf('.jpg') > -1 || 
-            path.toLowerCase().indexOf('.jpeg') > -1) {
-          this.style.backgroundImage = 'url("' + encodeURI(path) + '")'
+          path.toLowerCase().indexOf('.jpg') > -1 ||
+          path.toLowerCase().indexOf('.jpeg') > -1) {
+
+          var img = document.createElement('img')
+          img.src = encodeURI(path)
+          var that = this
+          $(img).load(function () {
+            var canvas = document.createElement('canvas')
+            var ctx = canvas.getContext("2d");
+
+            var aspectRatio = img.naturalWidth / img.naturalHeight
+            canvas.height = 240;
+            canvas.width = canvas.height * aspectRatio;
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            that.style.backgroundImage = "url('" + canvas.toDataURL("image/png") + "')"
+          });
         }
-      } else {
-        this.style.backgroundImage = 'none'
       }
     });
-  }, 200));
+  }, 500));
 
   function ExtUI(extID) {
     this.extensionID = extID;
