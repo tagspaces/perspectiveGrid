@@ -1,28 +1,27 @@
-    {
-      "name": "perspectiveGrid",
-      "id": "perspectiveGrid",
-      "description": "A TagSpaces perspective extension allowing you to view your files in a grid with a image preview.",
-      "type": "perspective",
-      "version": "1.0.0",
-      "dependencies": {
-    
-      },
-      "devDependencies": {},
-      "authors": [
-        "TagSpaces Authors - http://tagspaces.org",
-        "Ilian Sapundshiev - http://ilian.me"
-      ],
-      "keywords": [
-        "preview",
-        "grid",
-        "thumbs"
-      ],
-      "license": "",
-      "main": [
-        "extension.js"
-      ],
-      "ignore": [
-        "Gruntfile.js"
-      ],
-      "private": true
-    }
+A TagSpaces extension allowing you to view your files in a grid with an image preview.
+
+## Features
+
+* Listing the file of the current folder in a grid fomtat.
+* Showing thumbnails image of the file if available.
+
+## Installation
+
+This extensions is packaged with any new version of TagSpaces
+
+## Source code
+
+The source code of this extension is freely available on [github.com/tagspaces/perspectiveGrid](https://github.com/tagspaces/perspectiveGrid/)
+
+## Development
+
+If you want to extend this extensions, please follow our general [extension development guide](http://tagspaces.org/documentation/extension-development-guide)
+
+## Screenshots
+
+![Screenshot of the perspectiveGrid](http://tagspaces.org/extensions/editorHTML/perspectiveGrid-screenshot.png)
+
+## License
+
+[MIT](https://github.com/tagspaces/perspectiveGrid/blob/master/LICENSE.txt)
+
