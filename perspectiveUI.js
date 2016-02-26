@@ -22,33 +22,33 @@ define(function(require, exports, module) {
       rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
       rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
-  }
+  };
   
   $('#viewContainers').on('scroll', _.debounce(function() {
     $('#viewContainers').find(".fileTile").each(function () {
       if (isVisibleOnScreen(this)) {
-        var path = this.getAttribute('filepath')
+        var path = this.getAttribute('filepath');
         
         if (path.toLowerCase().indexOf('.png') > -1 || 
           path.toLowerCase().indexOf('.jpg') > -1 ||
           path.toLowerCase().indexOf('.jpeg') > -1) {
 
           // Create temp image element to load image into
-          var img = document.createElement('img')
-          img.src = encodeURI(path)
+          var img = document.createElement('img');
+          img.src = encodeURI(path);
 
           $(img).load(function () {
             // Resample image onto canvas
-            var canvas = document.createElement('canvas')
+            var canvas = document.createElement('canvas');
             var ctx = canvas.getContext("2d");
 
-            var aspectRatio = img.naturalWidth / img.naturalHeight
+            var aspectRatio = img.naturalWidth / img.naturalHeight;
             canvas.height = 240;
             canvas.width = canvas.height * aspectRatio;
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
             
             // Use canvas content as tile background
-            this.style.backgroundImage = "url('" + canvas.toDataURL("image/png") + "')"
+            this.style.backgroundImage = "url('" + canvas.toDataURL("image/png") + "')";
           }.bind(this));
         }
       }
@@ -480,7 +480,7 @@ define(function(require, exports, module) {
     }
 
     TSCORE.hideLoadingAnimation();
-    $('#viewContainers').trigger('scroll')
+    $('#viewContainers').trigger('scroll');
   };
 
   ExtUI.prototype.assingFileTileHandlers = function($fileTile) {
