@@ -19,7 +19,7 @@ If you want to extend this extensions, please follow our general [extension deve
 
 ## Screenshots
 
-![Screenshot of the perspectiveGrid](http://tagspaces.org/extensions/editorHTML/perspectiveGrid-screenshot.png)
+![Screenshot of the perspectiveGrid](http://tagspaces.org/extensions/perspectiveGrid/perspectiveGrid-screenshot.png)
 
 ## License
 
