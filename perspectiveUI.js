@@ -497,16 +497,6 @@ define(function(require, exports, module) {
         TSCORE.FileOpener.openFile(filePath);
         self.selectFile(filePath);
       })
-      /*.draggable({
-        "cancel": false,
-        "appendTo": "body",
-        "helper": "clone",
-        "opacity": "0.5",
-        "revert": true,
-        "start": function() {
-          self.selectFile(filePath);
-        }
-      })*/
       .droppable({
         accept: ".tagButton",
         hoverClass: "activeRow",
@@ -531,8 +521,10 @@ define(function(require, exports, module) {
 
           $(ui.helper).remove();
         }
-      })
-      .find(".fileTileSelector").click(function(e) {
+      });
+
+    $fileTile.find(".fileTileSelector")
+      .click(function(e) {
         e.preventDefault();
         var $stateTag = $(this).find("i");
         if ($stateTag.hasClass("fa-square-o")) {
@@ -547,10 +539,34 @@ define(function(require, exports, module) {
         self.handleElementActivation();
         return false;
       })
-      .find(".fileTagsTile").click(function(e) {
+      .draggable({
+        "cancel": false,
+        "zIndex": 10000,
+        "appendTo": "body",
+        "helper": "clone",
+        "opacity": "0.5",
+        "revert": true,
+        "start": function() {
+          self.selectFile(filePath);
+        }
+      });
+
+
+    $fileTile.find(".fileTagsTile")
+      /*.click(function(e) {
         //e.preventDefault();
-        self.selectFile($(this).attr("filepath"));
-        TSCORE.openTagMenu(this, $(this).attr("tag"), $(this).attr("filepath"));
+        self.selectFile(filePath);
+        TSCORE.openTagMenu(this, $(this).attr("tag"), filePath);
+      })*/
+      .draggable({
+        "cancel": false,
+        "appendTo": "body",
+        "helper": "clone",
+        "revert": true,
+        "start": function() {
+          TSCORE.selectedTag = $(this).attr("tag");
+          self.selectFile(filePath);
+        }
       });
 
     Mousetrap.unbind(TSCORE.Config.getSelectAllKeyBinding());
