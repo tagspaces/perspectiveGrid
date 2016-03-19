@@ -249,7 +249,7 @@ define(function(require, exports, module) {
 
     // Handling thumbnails
     $('#viewContainers').on('scroll', _.debounce(function() {
-      $('#viewContainers').find(".fileTile").each(function () {
+      $('#viewContainers').find(".fileTile").each(function() {
         if (TSCORE.Utils.isVisibleOnScreen(this)) {
           var filePath = this.getAttribute('filepath');
           var self = this;
