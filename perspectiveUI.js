@@ -8,52 +8,8 @@ define(function(require, exports, module) {
   console.log("Loading UI for perspectiveDefault");
 
   var TSCORE = require("tscore");
-  var TSPOSTIO = require("tspostioapi");
-  var TMB_SIZES = ["200px", "300px", "100px"];
 
   var MONTH = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    
-  var isVisibleOnScreen = function(el) {
-    var rect = el.getBoundingClientRect();
-    
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-  };
-  
-  $('#viewContainers').on('scroll', _.debounce(function() {
-    $('#viewContainers').find(".fileTile").each(function () {
-      if (isVisibleOnScreen(this)) {
-        var path = this.getAttribute('filepath');
-        
-        if (path.toLowerCase().indexOf('.png') > -1 || 
-          path.toLowerCase().indexOf('.jpg') > -1 ||
-          path.toLowerCase().indexOf('.jpeg') > -1) {
-
-          // Create temp image element to load image into
-          var img = document.createElement('img');
-          img.src = encodeURI(path);
-
-          $(img).load(function () {
-            // Resample image onto canvas
-            var canvas = document.createElement('canvas');
-            var ctx = canvas.getContext("2d");
-
-            var aspectRatio = img.naturalWidth / img.naturalHeight;
-            canvas.height = 240;
-            canvas.width = canvas.height * aspectRatio;
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            
-            // Use canvas content as tile background
-            this.style.backgroundImage = "url('" + canvas.toDataURL("image/png") + "')";
-          }.bind(this));
-        }
-      }
-    });
-  }, 500));
 
   function ExtUI(extID) {
     this.extensionID = extID;
@@ -290,6 +246,19 @@ define(function(require, exports, module) {
     });*/
 
     this.initFileGroupingMenu();
+
+    // Handling thumbnails
+    $('#viewContainers').on('scroll', _.debounce(function() {
+      $('#viewContainers').find(".fileTile").each(function () {
+        if (TSCORE.Utils.isVisibleOnScreen(this)) {
+          var filePath = this.getAttribute('filepath');
+          var self = this;
+          TSCORE.Meta.loadThumbnailPromise(filePath).then(function(url) {
+            self.style.backgroundImage = "url('" + url + "')";
+          });
+        }
+      });
+    }, 500));
 
   };
 
