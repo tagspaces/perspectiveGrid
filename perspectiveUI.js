@@ -250,13 +250,7 @@ define(function(require, exports, module) {
     // Handling thumbnails
     $('#viewContainers').on('scroll', _.debounce(function() {
       $('#viewContainers').find(".fileTile").each(function() {
-        if (TSCORE.Utils.isVisibleOnScreen(this)) {
-          var filePath = this.getAttribute('filepath');
-          var self = this;
-          TSCORE.Meta.loadThumbnailPromise(filePath).then(function(url) {
-            self.style.backgroundImage = "url('" + url + "')";
-          });
-        }
+        self.setThumbnail(this);
       });
     }, 500));
 
@@ -450,6 +444,15 @@ define(function(require, exports, module) {
 
     TSCORE.hideLoadingAnimation();
     $('#viewContainers').trigger('scroll');
+  };
+
+  ExtUI.prototype.setThumbnail = function(uiElement) {
+    if (TSCORE.Utils.isVisibleOnScreen(uiElement) && (uiElement.style.backgroundImage.length < 10)) {
+      var filePath = uiElement.getAttribute('filepath');
+      TSCORE.Meta.loadThumbnailPromise(filePath).then(function(url) {
+        uiElement.style.backgroundImage = "url('" + url + "')";
+      });
+    }
   };
 
   ExtUI.prototype.assingFileTileHandlers = function($fileTile) {
@@ -648,6 +651,11 @@ define(function(require, exports, module) {
     } else {
       $fileTile = $("#" + this.extensionID + "Container div[filepath='" + newFilePath + "']");
     }
+
+    TSCORE.Meta.loadThumbnailPromise(newFilePath).then(function(url) {
+      $fileTile.css("background-image", "url('" + url + "')");
+    });
+
     this.assingFileTileHandlers($fileTile);
   };
 
