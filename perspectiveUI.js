@@ -84,8 +84,9 @@ define(function(require, exports, module) {
     var fileParentDir = TSCORE.TagUtils.extractParentDirectoryPath(filePath);
     var fileName = TSCORE.TagUtils.extractFileName(filePath);
 
-    var tmbPath = "";
+    var tmbPath = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
     var metaObj = metaObj || {thumbnailPath : ""};
+
     if (metaObj.thumbnailPath && metaObj.thumbnailPath.length > 2) {
       tmbPath = encodeURI(metaObj.thumbnailPath);
     }
@@ -447,7 +448,7 @@ define(function(require, exports, module) {
   };
 
   ExtUI.prototype.setThumbnail = function(uiElement) {
-    if (TSCORE.Utils.isVisibleOnScreen(uiElement) && (uiElement.style.backgroundImage.length < 10)) {
+    if (TSCORE.Utils.isVisibleOnScreen(uiElement) && (uiElement.style.backgroundImage.indexOf("image/gif") > 0)) {
       var filePath = uiElement.getAttribute('filepath');
       TSCORE.Meta.loadThumbnailPromise(filePath).then(function(url) {
         uiElement.style.backgroundImage = "url('" + url + "')";

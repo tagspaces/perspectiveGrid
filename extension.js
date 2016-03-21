@@ -45,6 +45,7 @@ define(function(require, exports, module) {
   function platformTuning() {
     if (isCordova) {
       $("#" + extensionID + "IncludeSubDirsButton").hide();
+      $('#' + extensionID + 'AddFileButton').hide(); // TODO tmp disabled due not working binary saving
     } else if (isChrome) {
       $('#' + extensionID + 'AddFileButton').hide();
       $('#' + extensionID + 'TagButton').hide();
