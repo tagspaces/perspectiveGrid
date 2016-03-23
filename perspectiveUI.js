@@ -269,18 +269,18 @@ define(function(require, exports, module) {
     var tmpDate;
     switch (this.currentGrouping) {
       case "day":
-        tmpDate = new Date(rawSource[TSCORE.fileListFILELMDT]);
+        tmpDate = new Date(rawSource.lmdt);
         tmpDate.setHours(0, 0, 0, 0);
         groupingTitle = TSCORE.TagUtils.formatDateTime(tmpDate, false);
         break;
       case "month":
-        tmpDate = new Date(rawSource[TSCORE.fileListFILELMDT]);
+        tmpDate = new Date(rawSource.lmdt);
         tmpDate.setHours(0, 0, 0, 0);
         tmpDate.setDate(1);
         groupingTitle = MONTH[tmpDate.getMonth()] + ", " + tmpDate.getFullYear();
         break;
       case "year":
-        tmpDate = new Date(rawSource[TSCORE.fileListFILELMDT]);
+        tmpDate = new Date(rawSource.lmdt);
         tmpDate.setHours(0, 0, 0, 0);
         tmpDate.setDate(1);
         tmpDate.setMonth(1);
@@ -291,7 +291,7 @@ define(function(require, exports, module) {
           if (TSCORE.Config.Settings.tagGroups[i].key === self.currentGrouping) {
             var tagsInGroup = _.pluck(TSCORE.Config.Settings.tagGroups[i].children, "title");
             var matchedTags = _.intersection(
-              rawSource[TSCORE.fileListTAGS],
+              rawSource.tags,
               tagsInGroup
             );
             groupingTitle = "not grouped";
@@ -311,14 +311,14 @@ define(function(require, exports, module) {
     switch (this.currentGrouping) {
       case "day":
         data = _.groupBy(data, function(value) {
-          var tmpDate = new Date(value[TSCORE.fileListFILELMDT]);
+          var tmpDate = new Date(value.lmdt);
           tmpDate.setHours(0, 0, 0, 0);
           return tmpDate.getTime();
         });
         break;
       case "month":
         data = _.groupBy(data, function(value) {
-          var tmpDate = new Date(value[TSCORE.fileListFILELMDT]);
+          var tmpDate = new Date(value.lmdt);
           tmpDate.setHours(0, 0, 0, 0);
           tmpDate.setDate(1);
           return tmpDate.getTime();
@@ -326,7 +326,7 @@ define(function(require, exports, module) {
         break;
       case "year":
         data = _.groupBy(data, function(value) {
-          var tmpDate = new Date(value[TSCORE.fileListFILELMDT]);
+          var tmpDate = new Date(value.lmdt);
           tmpDate.setHours(0, 0, 0, 0);
           tmpDate.setDate(1);
           tmpDate.setMonth(1);
@@ -340,8 +340,8 @@ define(function(require, exports, module) {
             data = _.groupBy(data, function(value) {
               var tagGroup = TSCORE.Config.getTagGroupData(grouping.key);
               for (var i = 0; i < tagGroup.children.length; i++) {
-                for (var j = 0; j < value[TSCORE.fileListTAGS].length; j++) {
-                  if (tagGroup.children[i].title === value[TSCORE.fileListTAGS][j]) {
+                for (var j = 0; j < value.tags.length; j++) {
+                  if (tagGroup.children[i].title === value.tags[j]) {
                     return tagGroup.children[i].title;
                   }
                 }
@@ -360,7 +360,7 @@ define(function(require, exports, module) {
 
     // Sort groups by date
     data = _.sortBy(data, function(value) {
-      var tmpDate = new Date(value[0][TSCORE.fileListFILELMDT]);
+      var tmpDate = new Date(value[0].lmdt);
       return -tmpDate.getTime();
     });
 
@@ -402,18 +402,18 @@ define(function(require, exports, module) {
 
       // Sort the files in group by name
       value = _.sortBy(value, function(entry) {
-        return entry[TSCORE.fileListFILENAME];
+        return entry.name;
       });
 
       // Iterating over the files in group
       for (var j = 0; j < value.length; j++) {
         $groupeContent.append(self.createFileTile(
-          value[j][TSCORE.fileListTITLE],
-          value[j][TSCORE.fileListFILEPATH],
-          value[j][TSCORE.fileListFILEEXT],
-          value[j][TSCORE.fileListTAGS],
+          value[j].title,
+          value[j].path,
+          value[j].extension,
+          value[j].tags,
           false,
-          value[j][TSCORE.fileListMETA]
+          value[j].meta
         ));
       }
     });
@@ -664,15 +664,15 @@ define(function(require, exports, module) {
     var nextFilePath;
     var self = this;
     this.searchResults.forEach(function(entry, index) {
-      if (entry[TSCORE.fileListFILEPATH] === filePath) {
+      if (entry.path === filePath) {
         var nextIndex = index + 1;
         if (nextIndex < self.searchResults.length) {
-          nextFilePath = self.searchResults[nextIndex][TSCORE.fileListFILEPATH];
+          nextFilePath = self.searchResults[nextIndex].path;
         } else {
-          nextFilePath = self.searchResults[0][TSCORE.fileListFILEPATH];
+          nextFilePath = self.searchResults[0].path;
         }
       }
-      //console.log("Path: "+entry[TSCORE.fileListFILEPATH]);
+      //console.log("Path: "+entry.path);
     });
     TSCORE.PerspectiveManager.clearSelectedFiles();
     console.log("Next file: " + nextFilePath);
@@ -683,15 +683,15 @@ define(function(require, exports, module) {
     var prevFilePath;
     var self = this;
     this.searchResults.forEach(function(entry, index) {
-      if (entry[TSCORE.fileListFILEPATH] === filePath) {
+      if (entry.path === filePath) {
         var prevIndex = index - 1;
         if (prevIndex >= 0) {
-          prevFilePath = self.searchResults[prevIndex][TSCORE.fileListFILEPATH];
+          prevFilePath = self.searchResults[prevIndex].path;
         } else {
-          prevFilePath = self.searchResults[self.searchResults.length - 1][TSCORE.fileListFILEPATH];
+          prevFilePath = self.searchResults[self.searchResults.length - 1].path;
         }
       }
-      //console.log("Path: "+entry[TSCORE.fileListFILEPATH]);
+      //console.log("Path: "+entry.path);
     });
     TSCORE.PerspectiveManager.clearSelectedFiles();
     console.log("Prev file: " + prevFilePath);
