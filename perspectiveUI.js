@@ -214,11 +214,11 @@ define(function(require, exports, module) {
       moreThanOneGroup: moreThanOneGroup
     }));
 
-    shouldShowAllFilesContainer?$("#gridShowAllFilesContainer").show():$("#gridShowAllFilesContainer").hide();
+    shouldShowAllFilesContainer ? $("#gridShowAllFilesContainer").show() : $("#gridShowAllFilesContainer").hide();
 
     $('#gridShowAllFilesButton').on("click", function() {
       self.reInit(true);
-    })
+    });
 
     $extMainContent = this.viewContainer.find(".extMainContent");
 
