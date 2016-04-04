@@ -194,8 +194,8 @@ define(function(require, exports, module) {
       shouldShowAllFilesContainer = false;
     } else {
       this.allResults = TSCORE.Search.searchData(TSCORE.fileList, TSCORE.Search.nextQuery);
-      if (this.allResults.length >= TSCORE.maxSearchResults) {
-        this.partialResult = this.allResults.slice(0, TSCORE.maxSearchResults);
+      if (this.allResults.length >= TSCORE.Config.getMaxSearchResultCount()) {
+        this.partialResult = this.allResults.slice(0, TSCORE.Config.getMaxSearchResultCount());
         this.searchResults = this.partialResult;
         shouldShowAllFilesContainer = true;
       } else {
