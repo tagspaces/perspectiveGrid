@@ -132,22 +132,11 @@ define(function(require, exports, module) {
     });
 
     $("#" + this.extensionID + "DeleteSelectedFilesButton").on("click", function() {
-      if ($(this).parent().hasClass("disabled")) { return false; }
-      var selFiles = " ";
-      TSCORE.selectedFiles.forEach(function(file) {
-        selFiles += " " + TSCORE.Utils.baseName(file) + " ,";
-      });
-      selFiles = selFiles.substring(0, selFiles.length - 1);
-      var dlgConfirmMsgId = 'ns.dialogs:selectedFilesDeleteContentConfirm';
-      if (TSCORE.Config.getUseTrashCan()) {
-        dlgConfirmMsgId = 'ns.pro:trashFilesDeleteContentConfirm';
+      if ($(this).parent().hasClass("disabled")) {
+        return false;
+      } else {
+        TSCORE.UI.showDeleteFilesDialog();
       }
-      TSCORE.showConfirmDialog(
-        $.i18n.t('ns.dialogs:fileDeleteTitleConfirm'),
-        $.i18n.t(dlgConfirmMsgId, {selectedFiles: selFiles}),
-        function() {
-          TSCORE.IOUtils.deleteFiles(TSCORE.selectedFiles);
-        });
     });
 
     $("#" + this.extensionID + "MainDropUp").on('click', function() {
@@ -651,11 +640,13 @@ define(function(require, exports, module) {
     var newFileName = TSCORE.TagUtils.extractFileName(newFilePath);
 
     var $fileTile;
+    var attrFilePath;
 
     if (isWin && !isWeb) {
       oldFilePath = oldFilePath.replace("\\", "");
       $("#" + this.extensionID + "Container div[filepath]").each(function() {
-        if ($(this).attr("filepath").replace("\\", "") === oldFilePath) {
+        attrFilePath = $(this).attr("filepath");
+        if (attrFilePath.replace("\\", "") === oldFilePath) {
           $fileTile = $(this);
         }
       });
@@ -673,7 +664,8 @@ define(function(require, exports, module) {
     if (isWin && !isWeb) {
       newFilePath = newFilePath.replace("\\", "");
       $("#" + this.extensionID + "Container div[filepath]").each(function() {
-        if ($(this).attr("filepath").replace("\\", "") === newFilePath) {
+        attrFilePath = $(this).attr("filepath");
+        if (attrFilePath.replace("\\", "") === newFilePath) {
           $fileTile = $(this);
         }
       });
