@@ -20,13 +20,12 @@ define(function(require, exports, module) {
     console.log("Initializing perspective " + extensionID);
 
     extensionLoaded = new Promise(function(resolve, reject) {
-      console.warn("extensionLoaded--> " + extensionID);
       require([
         extensionDirectory + '/perspectiveUI.js',          
         "text!" + extensionDirectory + '/toolbar.html',
-        "css!" + extensionDirectory + '/extension.css',   
-        "css!" + extensionDirectory + '/css/markdown.css',             
-      ], function(extUI, toolbarTPL) {
+        "marked", 
+        "css!" + extensionDirectory + '/extension.css',                      
+      ], function(extUI, toolbarTPL, marked) {
         var toolbarTemplate = Handlebars.compile(toolbarTPL);
         UI = new extUI.ExtUI(extensionID);
         UI.buildUI(toolbarTemplate);
@@ -36,12 +35,6 @@ define(function(require, exports, module) {
         }
         try {
           $('#' + extensionID + 'Container [data-i18n]').i18n();
-          
-          var myMarkedFunk;
-          require(["marked"], function(marked) {
-            myMarkedFunk = marked;
-          });           
-          
           $('#aboutExtensionModalGrid').on('show.bs.modal', function() {
             $.ajax({
               url: extensionDirectory + '/README.md',
@@ -49,8 +42,8 @@ define(function(require, exports, module) {
             })
             .done(function(mdData) {
               //console.log("DATA: " + mdData);
-              if (typeof(myMarkedFunk) != 'undefined') {
-                $("#aboutExtensionModalGrid .modal-body").html(myMarkedFunk(mdData));
+              if (typeof(marked) != 'undefined') {
+                $("#aboutExtensionModalGrid .modal-body").html(marked(mdData));
               } else {
                 $("#aboutExtensionModalGrid .modal-body").html(mdData);
                 console.warn("marked function not found");                  
