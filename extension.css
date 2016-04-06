@@ -122,4 +122,23 @@
   border: 0px lightgray solid;
 }
 
+#aboutExtensionModalGrid img {
+  max-width: 100%;
+}
 
+#aboutExtensionModalGrid h1 {
+  font-size: 22px;
+}
+
+#aboutExtensionModalGrid h2 {
+  font-size: 20px;
+}
+
+#aboutExtensionModalGrid h3 {
+  font-size: 18px;
+}
+
+#aboutExtensionModalGrid .modal-body {
+  max-height: 500px;
+  overflow: auto;
+}
