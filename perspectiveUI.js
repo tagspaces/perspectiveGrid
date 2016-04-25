@@ -58,6 +58,19 @@ define(function(require, exports, module) {
     '</div>'
     );
 
+  //'<div class="fa fa-folder-o"></div>' +
+  var folderTileTmpl = Handlebars.compile(
+    '<div title="{{folderpath}}" folderpath="{{folderpath}}" class="fileTile">' +
+      '<button class="btn btn-link fileTileSelector" folderpath="{{folderpath}}"><i class="fa {{selected}} fa-lg"></i> <span class="fileExtTile fa fa-folder-o">{{fileext}}</span> </button>' +
+      '<div class="tagsInFileTile">' +
+      '{{#each tags}}' +
+        '<button class="btn btn-sm tagButton fileTagsTile" tag="{{tag}}" folderpath="{{folderpath}}" style="{{style}}">{{tag}}</button>' +
+      '{{/each}}' +
+      '</div>' +      
+      '<div class="titleInFileTile">{{title}}</div>' +
+    '</div>'
+    );
+    
   var mainLayoutTemplate = Handlebars.compile(
     '<div class="extMainContent accordion">' +
       '{{#each groups}}' +
@@ -65,9 +78,9 @@ define(function(require, exports, module) {
         '{{#if ../moreThanOneGroup}}' +
         '<div class="accordion-heading btn-group" style="width:100%; margin: 0px; border-bottom: solid 1px #eee; background-color: #f0f0f0;">' +
           '<button class="btn btn-link groupTitle" data-toggle="collapse" data-target="#{{../../id}}SortingButtons{{@index}}">' +
-            '<i class="fa fa-minus-square">&nbsp;</i>' +
-          '</button>' +
-          '<span class="btn btn-link groupTitle" id="{{../../id}}HeaderTitle{{@index}}" style="margin-left: 0px; padding-left: 0px;"></span>' +
+          '<i class="fa fa-minus-square">&nbsp;</i>' +
+        '</button>' +
+        '<span class="btn btn-link groupTitle" id="{{../../id}}HeaderTitle{{@index}}" style="margin-left: 0px; padding-left: 0px;"></span>' +
         '</div>' +
         '{{/if}}' +
         '<div class="accordion-body collapse in" id="{{../id}}SortingButtons{{@index}}" style="margin: 0px 0px 0px 3px; border: 0px;">' +
@@ -181,18 +194,20 @@ define(function(require, exports, module) {
       this.searchResults = this.allResults;
       this.partialResult = [];
       shouldShowAllFilesContainer = false;
-    } else {
-      this.allResults = TSCORE.Search.searchData(TSCORE.fileList, TSCORE.Search.nextQuery);
+    } else {      
+      var arrFolderAndFiles = [];
+      arrFolderAndFiles = arrFolderAndFiles.concat(TSCORE.subDirsList, TSCORE.fileList);
+      //this.allResults = TSCORE.Search.searchData(TSCORE.fileList, TSCORE.Search.nextQuery);
+      this.allResults = TSCORE.Search.searchData(arrFolderAndFiles, TSCORE.Search.nextQuery);
       if (this.allResults.length >= TSCORE.Config.getMaxSearchResultCount()) {
-        this.partialResult = this.allResults.slice(0, TSCORE.Config.getMaxSearchResultCount());
-        this.searchResults = this.partialResult;
+        this.partialResult = this.allResults.slice(0, TSCORE.Config.getMaxSearchResultCount());        
+        this.searchResults = this.partialResult;        
         shouldShowAllFilesContainer = true;
-      } else {
-        this.searchResults = this.allResults;
+      } else {        
+        this.searchResults = this.allResults;        
         shouldShowAllFilesContainer = false;
       }
     }
-
     var fileGroups = self.calculateGrouping(this.searchResults);
 
     var moreThanOneGroup = (fileGroups.length > 1) ? true : false;
@@ -228,14 +243,24 @@ define(function(require, exports, module) {
 
       // Iterating over the files in group
       for (var j = 0; j < value.length; j++) {
-        $groupeContent.append(self.createFileTile(
-          value[j].title,
-          value[j].path,
-          value[j].extension,
-          value[j].tags,
-          false,
-          value[j].meta
-        ));
+        //console.warn("value: " +value[j].isDirectory + " -- " + value[j].name);        
+        if (value[j].isDirectory) {
+          $groupeContent.append(self.createFolderTile(
+            value[j].name,
+            value[j].path,
+            false            
+          ));
+          continue; 
+        } else {
+          $groupeContent.append(self.createFileTile(
+            value[j].title,
+            value[j].path,
+            value[j].extension,
+            value[j].tags,
+            false,
+            value[j].meta
+          ));
+        }
       }
     });
 
@@ -313,6 +338,19 @@ define(function(require, exports, module) {
 
     return fileTileTmpl(context);
   };
+
+  ExtUI.prototype.createFolderTile = function(name, filePath, isSelected) {
+    
+    var context = {
+      folderpath: filePath,
+      title: name,
+      tags: [],
+      selected: isSelected ? "fa-check-square" : "fa-square-o"
+    };    
+    
+    return folderTileTmpl(context);
+  };
+
 
   ExtUI.prototype.initFileGroupingMenu = function() {
     var self = this;
@@ -475,6 +513,7 @@ define(function(require, exports, module) {
 
   ExtUI.prototype.assingFileTileHandlers = function($fileTile) {
     var filePath = $fileTile.attr("filepath");
+    var folderPath = $fileTile.attr("folderpath");
     var self = this;
 
     $fileTile
@@ -484,15 +523,19 @@ define(function(require, exports, module) {
         //self.selectFile(filePath);
       })
       .click(function() {
-        TSCORE.FileOpener.openFile(filePath);
-        self.selectFile(filePath);
+        if (folderPath) {
+          TSCORE.navigateToDirectory(folderPath);
+        } else {
+          TSCORE.FileOpener.openFile(filePath);
+          self.selectFile(filePath);
+        }
       })
       .droppable({
         accept: ".tagButton",
         hoverClass: "activeRow",
         drop: function(event, ui) {
           var tagName = TSCORE.selectedTag; //ui.draggable.attr("tag");                                   
-          var targetFilePath = filePath; // $(this).attr("filepath");;
+          var targetFilePath = (folderPath ? folderPath : filePath); // $(this).attr("filepath");;
 
           // preventing self drag of tags
           var targetTags = TSCORE.TagUtils.extractTags(targetFilePath);
