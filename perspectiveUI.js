@@ -236,6 +236,39 @@ define(function(require, exports, module) {
         shouldShowAllFilesContainer = false;
       }
     }
+    
+    function SortByName(a, b) {
+      var aName = a.name.toLowerCase();
+      var bName = b.name.toLowerCase();       
+      return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));       
+    }    
+    
+    function SortByIsDirectory(a, b) {
+      if (b.isDirectory && a.isDirectory) {  
+        return 0;
+      }
+      return a.isDirectory && !b.isDirectory ? -1 : 1;
+    }
+ 
+    //sort by isDirectory in order to show folders on the top of the list
+    this.searchResults = this.searchResults.sort(SortByIsDirectory);
+    if (showFoldersInList && this.searchResults.length > 0 && this.searchResults[0].isDirectory) { //sort by isDirectory and next by names only if in list have folders
+      var arrFolders = [] , arrFiles = [];              
+      for (var inx = 0; inx < this.searchResults.length; inx++) {
+        if (this.searchResults[inx].isDirectory) {
+          arrFolders.push(this.searchResults[inx]); 
+        } else {
+          arrFiles.push(this.searchResults[inx]);
+        }      
+      }
+      arrFolders = arrFolders.sort(SortByName);
+      arrFiles = arrFiles.sort(SortByName);
+      this.searchResults = arrFolders.concat(arrFiles); 
+    } else {
+      this.searchResults = this.searchResults.sort(SortByName);
+    }
+    
+    
     var fileGroups = self.calculateGrouping(this.searchResults);
 
     var moreThanOneGroup = (fileGroups.length > 1) ? true : false;
@@ -265,10 +298,12 @@ define(function(require, exports, module) {
       $groupeTitle.text(groupingTitle);
 
       // Sort the files in group by name
+      /*
       value = _.sortBy(value, function(entry) {
         return entry.name;
       });
-
+      */
+         
       // Iterating over the files in group
       for (var j = 0; j < value.length; j++) {
         //console.warn("value: " +value[j].isDirectory + " -- " + value[j].name);        
