@@ -209,17 +209,13 @@ define(function(require, exports, module) {
       self.reInit(true);
     });
 
-
-    this.viewContainer.on("contextmenu mousedown", ".fileTile", function(e) {  
-      if (e.which == 3) {
-        var selEl = $(this).parent().find(".fileTitle button");
-        //console.warn("right mousedown: " + $(this).attr("filepath"));
-        e.preventDefault();
-        TSCORE.hideAllDropDownMenus();        
-        TSCORE.PerspectiveManager.clearSelectedFiles();
-        self.selectFile($(this).attr("filepath"));
-        TSCORE.showContextMenu("#fileMenu", $(this));
-      }  
+    this.viewContainer.on("contextmenu", ".fileTile", function(e) {
+      var selEl = $(this).parent().find(".fileTitle button");
+      e.preventDefault();
+      TSCORE.hideAllDropDownMenus();
+      TSCORE.PerspectiveManager.clearSelectedFiles();
+      self.selectFile($(this).attr("filepath"));
+      TSCORE.showContextMenu("#fileMenu", $(this));
       return false;
     }); 
 
