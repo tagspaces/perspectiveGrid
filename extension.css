@@ -88,21 +88,25 @@
   top:0;
   left:0;
   z-index: 101;
-  background-color: rgba(220,220,220,0.7);
+  background-color: rgba(220,220,220);
+  opacity: 0.7;
   margin: 5px;
   padding: 2px 4px 2px 4px;
+  color: white;
 }
 
 .fileTileSelector:hover, .fileTileSelector:active, .fileTileSelector:focus {
   border-radius: 3px;
-  background-color: rgba(220,220,220,0.7);
+  background-color: rgba(220,220,220);
+  color: white;
+  opacity: 1;
 }
 
 .fileExtTile {
   border-radius: 0 !important;
   text-align: center;
   padding: 1px;
-  color: black ;
+  color: inherit;
   z-index: 99;
 	text-transform:uppercase;
 }

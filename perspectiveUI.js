@@ -48,7 +48,7 @@ define(function(require, exports, module) {
 
   var fileTileTmpl = Handlebars.compile(
     '<div title="{{filepath}}" filepath="{{filepath}}" class="fileTile" style="background-image: url(\'{{thumbPath}}\')">' +
-      '<button class="btn btn-link fileTileSelector" filepath="{{filepath}}"><i class="fa {{selected}} fa-lg"></i> <span class="fileExtTile">{{fileext}}</span></button>' +
+      '<button class="btn btn-link fileTileSelector fileExtColor" data-ext="{{fileext}}" filepath="{{filepath}}"><i class="fa {{selected}} fa-lg"></i> <span class="fileExtTile">{{fileext}}</span></button>' +
       '<div class="tagsInFileTile">' +
       '{{#each tags}}' +
         '<button class="btn btn-sm tagButton fileTagsTile" tag="{{tag}}" filepath="{{filepath}}" style="{{style}}">{{tag}}<!-- <span class="fa fa-ellipsis-v"></span--></button>' +
