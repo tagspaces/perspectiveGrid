@@ -133,7 +133,6 @@ define(function(require, exports, module) {
     $('#fileMenuMoveCopyFile').hide();
     $('#fileMenuRenameFile').hide();
     $('#editDocument').hide();
-
     //$('.flexMaxWidth .editable .editable-click').off('click');
 
     $(document).off('drop dragend dragenter dragover dragleave', function(event) {
