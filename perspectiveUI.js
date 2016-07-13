@@ -69,20 +69,22 @@ define(function(require, exports, module) {
 
   var fileTileTmpl = Handlebars.compile(
     '<div title="{{filepath}}" filepath="{{filepath}}" class="fileTile" style="background-image: url(\'{{thumbPath}}\')">' +
-      '<button class="btn btn-link fileTileSelector fileExtColor" data-ext="{{fileext}}" filepath="{{filepath}}"><i class="fa {{selected}} fa-lg"></i> <span class="fileExtTile">{{fileext}}</span></button>' +
+      '<button class="btn btn-link fileTileSelector fileExtColor" data-ext="{{fileext}}" filepath="{{filepath}}">' +
+        '<i class="fa {{selected}} fa-lg"></i><span class="fileExtTile">{{fileext}}</span></button>' +
       '<div class="tagsInFileTile">' +
       '{{#each tags}}' +
-        '<button class="btn btn-sm tagButton fileTagsTile" tag="{{tag}}" filepath="{{filepath}}" style="{{style}}">{{tag}}<!-- <span class="fa fa-ellipsis-v"></span--></button>' +
+        '<button class="btn btn-sm tagButton fileTagsTile" tag="{{tag}}" filepath="{{filepath}}" style="{{style}}">{{tag}}' +
+          '<!-- <span class="fa fa-ellipsis-v"></span--></button>' +
       '{{/each}}' +
       '</div>' +
       '<div class="titleInFileTile">{{title}}</div>' +
     '</div>'
     );
 
-  //'<div class="fa fa-folder-o"></div>' +
   var folderTileTmpl = Handlebars.compile(
     '<div title="{{folderpath}}" folderpath="{{folderpath}}" class="fileTile">' +
-      '<button class="btn btn-link fileTileSelector" folderpath="{{folderpath}}"><i class="fa {{selected}} fa-lg"></i> <span class="fileExtTile fa fa-folder-o">{{fileext}}</span> </button>' +
+      '<button class="btn btn-link fileTileSelector fileExtColor" data-ext="folder" folderpath="{{folderpath}}">' +
+        '<i class="fa fa-folder-o fa-lg"></i><span class="fileExtTile">{{title}}</span></button>' +
       '<div class="tagsInFileTile">' +
       '{{#each tags}}' +
         '<button class="btn btn-sm tagButton fileTagsTile" tag="{{tag}}" folderpath="{{folderpath}}" style="{{style}}">{{tag}}</button>' +
@@ -637,20 +639,26 @@ define(function(require, exports, module) {
     $fileTile.find(".fileTileSelector")
       .click(function(e) {
         e.preventDefault();
-        var $stateTag = $(this).find("i");
-        if ($stateTag.hasClass("fa-square-o")) {
-          $stateTag.removeClass("fa-square-o").addClass("fa fa-check-square");
-          $(this).parent().addClass("ui-selected");
-          TSCORE.selectedFiles.push(filePath);
-          selectedIsFolderArr[filePath] =  (typeof($(this).attr("folderpath")) != "undefined");         
+        var folderPath = $(this).attr("folderpath");
+        if(folderPath) {
+          TSCORE.navigateToDirectory(folderPath);
+          return false;
         } else {
-          $stateTag.removeClass("fa-check-square").addClass("fa-square-o");
-          $(this).parent().removeClass("ui-selected");
-          TSCORE.selectedFiles.splice(TSCORE.selectedFiles.indexOf(filePath), 1);
-          selectedIsFolderArr[filePath] =  false;
+          var $stateTag = $(this).find("i");
+          if ($stateTag.hasClass("fa-square-o")) {
+            $stateTag.removeClass("fa-square-o").addClass("fa fa-check-square");
+            $(this).parent().addClass("ui-selected");
+            TSCORE.selectedFiles.push(filePath);
+            selectedIsFolderArr[filePath] =  (typeof($(this).attr("folderpath")) != "undefined");
+          } else {
+            $stateTag.removeClass("fa-check-square").addClass("fa-square-o");
+            $(this).parent().removeClass("ui-selected");
+            TSCORE.selectedFiles.splice(TSCORE.selectedFiles.indexOf(filePath), 1);
+            selectedIsFolderArr[filePath] =  false;
+          }
+          self.handleElementActivation();
+          return false;
         }
-        self.handleElementActivation();
-        return false;
       })
       .draggable({
         "cancel": false,
@@ -660,7 +668,11 @@ define(function(require, exports, module) {
         "opacity": "0.5",
         "revert": true,
         "start": function() {
-          self.selectFile(filePath);
+          if($(this).attr("folderpath")) {
+            return false;
+          } else {
+            self.selectFile(filePath);
+          }
         }
       });
 

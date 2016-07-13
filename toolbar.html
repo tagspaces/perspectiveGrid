@@ -56,13 +56,14 @@
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer">
-        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><i class="fa fa-check fa-lg"></i>
+        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">
+          <i class="fa fa-check fa-lg"></i>
         </button>
       </div>
     </div>
   </div>
 </div>
-<div class="modal fullScreenMobile" id="{{id}}ExtensionModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal" id="{{id}}ExtensionModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -70,22 +71,20 @@
         <h4 class="modal-title" data-i18n="ns.perspectiveList:moreOperations"></h4>
       </div>
       <div class="modal-body">
-        <button class="btn btn-link" type="button" id="{{id}}CreateFileButton" data-dismiss="modal">
+        <button class="btn btn-default" type="button" id="{{id}}CreateFileButton" data-dismiss="modal">
           <i class="fa fa-file-o fa-lg"></i> <span data-i18n="ns.perspectiveList:showNewFileDialog"></span>
         </button>
         <div class="btn-group">
-          <button class="btn btn-link" type="button" title="Group" id="{{id}}GroupingButton" data-toggle="dropdown">
+          <button class="btn btn-default" type="button" title="Group" id="{{id}}GroupingButton" data-toggle="dropdown">
             <i class="fa fa-group fa-lg"></i> Group Files<span class="caret"></span>
           </button>
-          <ul id="{{id}}GroupingMenu" class="dropdown-menu "></ul>
-        </div>      
-        <div class="btn-group">
-          <div class="col-sm-12 checkbox">
-            <label for="{{id}}showFoldersInListCheckbox">
-              <input type="checkbox" id="{{id}}showFoldersInListCheckbox"/>
-              <span data-i18n="ns.perspectiveList:showFoldersInList"></span>
-            </label>
-          </div>
+          <ul id="{{id}}GroupingMenu" class="dropdown-menu"></ul>
+        </div><br>
+        <div class="checkbox" style="margin-top: 30px; margin-bottom: 30px;">
+          <label for="{{id}}showFoldersInListCheckbox">
+            <input type="checkbox" id="{{id}}showFoldersInListCheckbox"/>
+            <span data-i18n="ns.perspectiveList:showFolders"></span>
+          </label>
         </div>
       </div>
       <div class="modal-footer">
