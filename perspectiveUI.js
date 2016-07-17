@@ -84,7 +84,7 @@ define(function(require, exports, module) {
   var folderTileTmpl = Handlebars.compile(
     '<div title="{{folderpath}}" folderpath="{{folderpath}}" class="fileTile">' +
       '<button class="btn btn-link fileTileSelector fileExtColor" data-ext="folder" folderpath="{{folderpath}}">' +
-        '<i class="fa fa-folder-o fa-lg"></i><span class="fileExtTile">{{title}}</span></button>' +
+        '<i class="fa fa-folder-o fa-lg"></i><!--span class="fileExtTile">{{title}}</span--></button>' +
       '<div class="tagsInFileTile">' +
       '{{#each tags}}' +
         '<button class="btn btn-sm tagButton fileTagsTile" tag="{{tag}}" folderpath="{{folderpath}}" style="{{style}}">{{tag}}</button>' +
