@@ -69,7 +69,7 @@ define(function(require, exports, module) {
 
   var fileTileTmpl = Handlebars.compile(
     '<div title="{{filepath}}" filepath="{{filepath}}" class="fileTile" style="background-image: url(\'{{thumbPath}}\')">' +
-      '<button class="btn btn-link fileTileSelector fileExtColor" data-ext="{{fileext}}" filepath="{{filepath}}">' +
+      '<button class="btn btn-link fileTileSelector {{coloredExtClass}}" data-ext="{{fileext}}" filepath="{{filepath}}">' +
         '<i class="fa {{selected}} fa-lg"></i><span class="fileExtTile">{{fileext}}</span></button>' +
       '<div class="tagsInFileTile">' +
       '{{#each tags}}' +
@@ -83,7 +83,7 @@ define(function(require, exports, module) {
 
   var folderTileTmpl = Handlebars.compile(
     '<div title="{{folderpath}}" folderpath="{{folderpath}}" class="fileTile">' +
-      '<button class="btn btn-link fileTileSelector fileExtColor" data-ext="folder" folderpath="{{folderpath}}">' +
+      '<button class="btn btn-link fileTileSelector {{coloredExtClass}}" data-ext="folder" folderpath="{{folderpath}}">' +
         '<i class="fa fa-folder-o fa-lg"></i><!--span class="fileExtTile">{{title}}</span--></button>' +
       '<div class="tagsInFileTile">' +
       '{{#each tags}}' +
@@ -388,6 +388,7 @@ define(function(require, exports, module) {
       filepath: filePath,
       fileext: fileExt,
       title: title,
+      coloredExtClass: TSCORE.Config.getColoredFileExtensionsEnabled()? "fileExtColor" : "",
       tags: [],
       selected: isSelected ? "fa-check-square" : "fa-square-o",
       thumbPath: tmbPath
