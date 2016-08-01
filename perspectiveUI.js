@@ -388,7 +388,7 @@ define(function(require, exports, module) {
       filepath: filePath,
       fileext: fileExt,
       title: title,
-      coloredExtClass: TSCORE.Config.getColoredFileExtensionsEnabled()? "fileExtColor" : "",
+      coloredExtClass: TSCORE.Config.getColoredFileExtensionsEnabled() ? "fileExtColor" : "",
       tags: [],
       selected: isSelected ? "fa-check-square" : "fa-square-o",
       thumbPath: tmbPath
@@ -641,7 +641,7 @@ define(function(require, exports, module) {
       .click(function(e) {
         e.preventDefault();
         var folderPath = $(this).attr("folderpath");
-        if(folderPath) {
+        if (folderPath) {
           TSCORE.navigateToDirectory(folderPath);
           return false;
         } else {
@@ -669,7 +669,7 @@ define(function(require, exports, module) {
         "opacity": "0.5",
         "revert": true,
         "start": function() {
-          if($(this).attr("folderpath")) {
+          if ($(this).attr("folderpath")) {
             return false;
           } else {
             self.selectFile(filePath);
