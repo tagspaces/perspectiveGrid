@@ -44,7 +44,7 @@ define(function(require, exports, module) {
               //console.log("DATA: " + mdData);
               if (marked) {
                 var modalBody = $("#aboutExtensionModalGrid .modal-body");
-                modalBody.html(marked(mdData, { sanitize: true }));
+                modalBody.html(marked(mdData, {sanitize: true}));
                 handleLinks(modalBody);
               } else {
                 console.log("markdown to html transformer not found");

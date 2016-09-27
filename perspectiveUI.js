@@ -206,10 +206,9 @@ define(function(require, exports, module) {
           self.setThumbnail(this);
         });
       }, 500));
-      //.contextmenu(function(e) {
-      //  $('.mainDropUpMenu').show();
-      //});
-
+    //.contextmenu(function(e) {
+    //  $('.mainDropUpMenu').show();
+    //});
   };
 
   ExtUI.prototype.reInit = function(showAllResult) {
