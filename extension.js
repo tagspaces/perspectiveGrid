@@ -122,19 +122,7 @@ define(function(require, exports, module) {
     return UI.getPrevFile(filePath);
   }
 
-  function setReadOnly(filePath) {
-    $('#tagMenuEditTag').hide();
-    $('#tagTreeMenuEditTag').hide();
-    $('#tagFile').hide();
-    $('#duplicateFile').hide();
-    $('#renameFile').hide();
-    $('#addTagFileViewer').hide();
-    $('#fileMenuAddTag').hide();
-    $('#fileMenuMoveCopyFile').hide();
-    $('#fileMenuRenameFile').hide();
-    $('#editDocument').hide();
-    //$('.flexMaxWidth .editable .editable-click').off('click');
-
+  function setReadOnly() {
     $(document).off('drop dragend dragenter dragover dragleave', function(event) {
       event.preventDefault();
     });
