@@ -21,10 +21,10 @@ define(function(require, exports, module) {
 
     extensionLoaded = new Promise(function(resolve, reject) {
       require([
-        extensionDirectory + '/perspectiveUI.js',          
+        extensionDirectory + '/perspectiveUI.js',
         "text!" + extensionDirectory + '/toolbar.html',
-        "marked", 
-        "css!" + extensionDirectory + '/extension.css',                      
+        "marked",
+        "css!" + extensionDirectory + '/extension.css',
       ], function(extUI, toolbarTPL, marked) {
         var toolbarTemplate = Handlebars.compile(toolbarTPL);
         UI = new extUI.ExtUI(extensionID);
@@ -39,8 +39,7 @@ define(function(require, exports, module) {
             $.ajax({
               url: extensionDirectory + '/README.md',
               type: 'GET'
-            })
-            .done(function(mdData) {
+            }).done(function(mdData) {
               //console.log("DATA: " + mdData);
               if (marked) {
                 var modalBody = $("#aboutExtensionModalGrid .modal-body");
@@ -48,13 +47,12 @@ define(function(require, exports, module) {
                 handleLinks(modalBody);
               } else {
                 console.log("markdown to html transformer not found");
-              }  
-            })
-            .fail(function(data) {
+              }
+            }).fail(function(data) {
               console.warn("Loading file failed " + data);
             });
-          }); 
-          
+          });
+
         } catch (err) {
           console.log("Failed translating extension");
         }
@@ -68,7 +66,7 @@ define(function(require, exports, module) {
       var currentSrc = $(this).attr("href");
       $(this).bind('click', function(e) {
         e.preventDefault();
-        var msg = {command: "openLinkExternally", link : currentSrc};
+        var msg = {command: "openLinkExternally", link: currentSrc};
         window.parent.postMessage(JSON.stringify(msg), "*");
       });
     });
@@ -124,6 +122,24 @@ define(function(require, exports, module) {
     return UI.getPrevFile(filePath);
   }
 
+  function setReadOnly(filePath) {
+    $('#tagMenuEditTag').hide();
+    $('#tagTreeMenuEditTag').hide();
+    $('#tagFile').hide();
+    $('#duplicateFile').hide();
+    $('#renameFile').hide();
+    $('#addTagFileViewer').hide();
+    $('#fileMenuAddTag').hide();
+    $('#fileMenuMoveCopyFile').hide();
+    $('#fileMenuRenameFile').hide();
+    $('#editDocument').hide();
+    //$('.flexMaxWidth .editable .editable-click').off('click');
+
+    $(document).off('drop dragend dragenter dragover dragleave', function(event) {
+      event.preventDefault();
+    });
+  }
+
   function updateTreeData(fsTreeData) {
 
     console.log("Updating tree data not implemented");
@@ -143,5 +159,6 @@ define(function(require, exports, module) {
   exports.removeFileUI = removeFileUI;
   exports.updateFileUI = updateFileUI;
   exports.updateTreeData = updateTreeData;
+  exports.setReadOnly = setReadOnly;
 
 });
