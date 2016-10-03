@@ -147,18 +147,6 @@ define(function(require, exports, module) {
       TSCORE.showCreateDirectoryDialog(TSCORE.currentPath);
     });
 
-    $("#" + this.extensionID + "CreateHTMLFileButton").on("click", function() {
-      TSCORE.createHTMLFile();
-    });
-
-    $("#" + this.extensionID + "CreateMDFileButton").on("click", function() {
-      TSCORE.createMDFile();
-    });
-
-    $("#" + this.extensionID + "CreateTXTFileButton").on("click", function() {
-      TSCORE.createTXTFile();
-    });
-
     $("#" + this.extensionID + "IncludeSubDirsButton").on("click", function() {
       TSCORE.IOUtils.createDirectoryIndex(TSCORE.currentPath);
     });
@@ -171,10 +159,6 @@ define(function(require, exports, module) {
     $("#" + this.extensionID + "CopyMoveButton").on("click", function() {
       if ($(this).parent().hasClass("disabled")) { return false; }
       TSCORE.showMoveCopyFilesDialog();
-    });
-
-    $("#" + this.extensionID + "AddFileButton").on("click", function() {
-      $("#addFileInput").click();
     });
 
     $("#" + this.extensionID + "DeleteSelectedFilesButton").on("click", function() {
