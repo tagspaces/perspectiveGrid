@@ -6,7 +6,6 @@
     <li class="dropdown-header">
       <button class="close">&times;</button>&nbsp;
     </li>
-    <li class="divider"></li>
     <li><a id="{{id}}ToogleSelectAll">
       <i class="fa fa-square-o fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:toggleSelectAll"></span>
     </a></li>
@@ -19,19 +18,20 @@
     <li class="disabled"><a id="{{id}}DeleteSelectedFilesButton">
       <i class="fa fa-trash fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:deleteSelectedFiles"></span>
     </a></li>
+    <li class="divider"></li>
+    <li><a id="moreButton" data-toggle="modal" data-target="#{{id}}ExtensionModal">
+      <i class="fa fa-th-large fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:fileGrouping"></span>
+    </a></li>
+    <li><a id="{{id}}showFoldersInListCheckbox">
+        <i class="fa fa-folder fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:showFolders"></span>
+      </a></li>
+    <li><a id="{{id}}hideFoldersInListCheckbox">
+        <i class="fa fa-folder fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:hideFolders"></span>
+      </a></li>
     <li><a id="{{id}}IncludeSubDirsButton">
       <i class="fa fa-refresh fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:showSubfolderContent"></span>
     </a></li>
     <li class="divider"></li>
-    <li><a id="moreButton" data-toggle="modal" data-target="#{{id}}ExtensionModal">
-      <i class="fa fa-ellipsis-h fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:moreOperations"></span>
-    </a></li>
-    <li><a id="{{id}}showFoldersInListCheckbox">
-        <i class="fa fa-check-o fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:showFolders"></span>
-      </a></li>
-    <li><a id="{{id}}hideFoldersInListCheckbox">
-        <i class="fa fa-square-square fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:hideFolders"></span>
-      </a></li>
     <li><a id="aboutButton" data-toggle="modal" data-target="#aboutExtensionModalGrid">
       <i class="fa fa-comment fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:about"></span>
     </a></li>      
@@ -58,23 +58,15 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
-        <h4 class="modal-title" data-i18n="ns.perspectiveList:moreOperations"></h4>
+        <h4 class="modal-title" data-i18n="ns.perspectiveList:fileGrouping"></h4>
       </div>
       <div class="modal-body">
-        <div class="btn-group">
-          <ul id="{{id}}GroupingMenu" class=""></ul>
-        </div><br>
-        <!--<div class="checkbox" style="margin-top: 30px; margin-bottom: 30px;">-->
-          <!--<label for="{{id}}showFoldersInListCheckbox">-->
-            <!--<input type="checkbox" id="{{id}}showFoldersInListCheckbox"/>-->
-            <!--<span data-i18n="ns.perspectiveList:showFolders"></span>-->
-          <!--</label>-->
-        <!--</div>-->
+        <ul id="{{id}}GroupingMenu" class=""></ul>
       </div>
-      <div class="modal-footer">
+      <!--div class="modal-footer">
         <button id="modal_button_ok" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><i class="fa fa-check fa-lg"></i>
         </button>
-      </div>
+      </div-->
     </div>
   </div>
 </div>

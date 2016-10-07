@@ -434,18 +434,21 @@ define(function(require, exports, module) {
     var suggMenu = $("#" + self.extensionID + "GroupingMenu");
     suggMenu.append($('<li>').append($('<a>', {
         title: "Ungroup all elementes",
+        "data-dismiss": "modal",
+        class: "btn btn-link",
         text: " Ungroup"
       }).prepend("<i class='fa fa-times-circle'></i>").click(function() {
         $("#" + self.extensionID + "GroupingButton").text(" Group ").prepend("<i class='fa fa-group' />").append("<span class='caret'></span>");
         self.switchGrouping("");
       })
     ));
-    suggMenu.append('<li class="divider"></li>');
 
     // Adding context menu entries according to the taggroups
     for (var i = 0; i < self.supportedGroupings.length; i++) {
       suggMenu.append($('<li>').append($('<button>', {
           text: " Group by " + self.supportedGroupings[i].title,
+          "data-dismiss": "modal",
+          class: "btn btn-link",
           key: self.supportedGroupings[i].key,
           group: self.supportedGroupings[i].title
         }).prepend("<i class='fa fa-group fa-fw' />").click(function() {
@@ -454,12 +457,6 @@ define(function(require, exports, module) {
         }) // jshint ignore:line
       ));
     }
-    //
-    //
-    //$('#groupByMenu').on('click', function(e){
-    //  $("#" + self.extensionID + "GroupingButton").show();
-    //  $("#mainMenu").hide();
-    //});
   };
 
   ExtUI.prototype.switchGrouping = function(grouping) {
