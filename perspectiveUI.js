@@ -134,12 +134,19 @@ define(function(require, exports, module) {
       TSCORE.showFileCreateDialog();
     });
 
-    $("#" + this.extensionID + "showFoldersInListCheckbox").attr('checked', showFoldersInList);
-    $("#" + this.extensionID + "showFoldersInListCheckbox").on("click", function(evt) {
-      showFoldersInList = evt.currentTarget.checked;
+    var $showFoldersInListCheckBox = $("#" + this.extensionID + "showFoldersInListCheckbox");
+    $showFoldersInListCheckBox.attr('checked', showFoldersInList);
+    $showFoldersInListCheckBox.on("click", function(evt) {
       self.showFoldersInListCheckbox();
-      saveExtSettings();
     });
+
+    var $hideFoldersInListCheckBox = $("#" + this.extensionID + "hideFoldersInListCheckbox");
+    $hideFoldersInListCheckBox.attr('checked', showFoldersInList);
+    $hideFoldersInListCheckBox.on("click", function(evt) {
+      self.hideFoldersInListCheckbox();
+    });
+    $hideFoldersInListCheckBox.hide();
+
 
     $("#modal_button_ok").on("click", function(evt) {
       TSCORE.navigateToDirectory(TSCORE.currentPath);
@@ -863,15 +870,18 @@ define(function(require, exports, module) {
   };
 
   ExtUI.prototype.showFoldersInListCheckbox = function() {
-    var checkIcon = $("#" + this.extensionID + "showFoldersInListCheckbox").find("i");
-    if (checkIcon.hasClass("fa-square-o")) {
-      TSCORE.navigateToDirectory(TSCORE.currentPath);
-      $(this).find("i").removeClass("fa-check-o").addClass("fa-square-square");
-    } else {
-      $(this).find("i").removeClass("fa-check-square").addClass("fa-square-o");
-    }
-    checkIcon.toggleClass("fa-check-square");
-    checkIcon.toggleClass("fa-square-o");
+    showFoldersInList = true;
+    TSCORE.navigateToDirectory(TSCORE.currentPath);
+    saveExtSettings();
+    $("#" + this.extensionID + "hideFoldersInListCheckbox").show();
+    $("#" + this.extensionID + "showFoldersInListCheckbox").hide();
+  };
+
+  ExtUI.prototype.hideFoldersInListCheckbox = function() {
+    showFoldersInList = false;
+    TSCORE.navigateToDirectory(TSCORE.currentPath);
+    $("#" + this.extensionID + "hideFoldersInListCheckbox").hide();
+    $("#" + this.extensionID + "showFoldersInListCheckbox").show();
   };
 
   exports.ExtUI = ExtUI;
