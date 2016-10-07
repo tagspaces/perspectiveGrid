@@ -26,14 +26,13 @@
     <li><a id="moreButton" data-toggle="modal" data-target="#{{id}}ExtensionModal">
       <i class="fa fa-ellipsis-h fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:moreOperations"></span>
     </a></li>
-    <!--<li><a id="groupByMenu">-->
-      <!--<i class="fa fa-ellipsis-h fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:moreOperations"></span>-->
-    <!--</a></li>-->
+    <li><a id="{{id}}showFoldersInListCheckbox">
+        <i class="fa fa-square-o fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:showFolders"></span>
+      </a></li>
     <li><a id="aboutButton" data-toggle="modal" data-target="#aboutExtensionModalGrid">
       <i class="fa fa-comment fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:about"></span>
     </a></li>      
   </ul>
-  <!--<ul id="{{id}}GroupingMenu" class="dropdown-menu pull-right"></ul>-->
 </div>
 <div class="modal fullScreenMobile" id="aboutExtensionModalGrid" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
@@ -62,12 +61,12 @@
         <div class="btn-group">
           <ul id="{{id}}GroupingMenu" class=""></ul>
         </div><br>
-        <div class="checkbox" style="margin-top: 30px; margin-bottom: 30px;">
-          <label for="{{id}}showFoldersInListCheckbox">
-            <input type="checkbox" id="{{id}}showFoldersInListCheckbox"/>
-            <span data-i18n="ns.perspectiveList:showFolders"></span>
-          </label>
-        </div>
+        <!--<div class="checkbox" style="margin-top: 30px; margin-bottom: 30px;">-->
+          <!--<label for="{{id}}showFoldersInListCheckbox">-->
+            <!--<input type="checkbox" id="{{id}}showFoldersInListCheckbox"/>-->
+            <!--<span data-i18n="ns.perspectiveList:showFolders"></span>-->
+          <!--</label>-->
+        <!--</div>-->
       </div>
       <div class="modal-footer">
         <button id="modal_button_ok" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><i class="fa fa-check fa-lg"></i>
