@@ -420,7 +420,6 @@ define(function(require, exports, module) {
     var self = this;
 
     var suggMenu = $("#" + self.extensionID + "GroupingMenu");
-
     suggMenu.append($('<li>').append($('<a>', {
         title: "Ungroup all elementes",
         text: " Ungroup"
@@ -438,7 +437,7 @@ define(function(require, exports, module) {
 
     // Adding context menu entries according to the taggroups
     for (var i = 0; i < self.supportedGroupings.length; i++) {
-      suggMenu.append($('<li>').append($('<a>', {
+      suggMenu.append($('<li>').append($('<button>', {
           text: " Group by " + self.supportedGroupings[i].title,
           key: self.supportedGroupings[i].key,
           group: self.supportedGroupings[i].title
@@ -454,6 +453,12 @@ define(function(require, exports, module) {
         }) // jshint ignore:line
       ));
     }
+    //
+    //
+    //$('#groupByMenu').on('click', function(e){
+    //  $("#" + self.extensionID + "GroupingButton").show();
+    //  $("#mainMenu").hide();
+    //});
   };
 
   ExtUI.prototype.switchGrouping = function(grouping) {

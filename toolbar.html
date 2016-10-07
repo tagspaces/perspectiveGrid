@@ -2,7 +2,7 @@
   <button type="button" class="btn dropdown-toggle roundButton perspectiveMainMenuButton" data-toggle="dropdown" id="{{id}}MainDropUp">
     <i class="fa fa-ellipsis-v fa-2x"></i>
   </button>
-  <ul class="dropdown-menu pull-right mainDropUpMenu">
+  <ul id="mainMenu" class="dropdown-menu pull-right mainDropUpMenu">
     <li class="dropdown-header">
       <button class="close">&times;</button>&nbsp;
     </li>
@@ -26,10 +26,14 @@
     <li><a id="moreButton" data-toggle="modal" data-target="#{{id}}ExtensionModal">
       <i class="fa fa-ellipsis-h fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:moreOperations"></span>
     </a></li>
+    <!--<li><a id="groupByMenu">-->
+      <!--<i class="fa fa-ellipsis-h fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:moreOperations"></span>-->
+    <!--</a></li>-->
     <li><a id="aboutButton" data-toggle="modal" data-target="#aboutExtensionModalGrid">
       <i class="fa fa-comment fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:about"></span>
     </a></li>      
   </ul>
+  <!--<ul id="{{id}}GroupingMenu" class="dropdown-menu pull-right"></ul>-->
 </div>
 <div class="modal fullScreenMobile" id="aboutExtensionModalGrid" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
@@ -55,14 +59,8 @@
         <h4 class="modal-title" data-i18n="ns.perspectiveList:moreOperations"></h4>
       </div>
       <div class="modal-body">
-        <button class="btn btn-default" type="button" id="{{id}}CreateFileButton" data-dismiss="modal">
-          <i class="fa fa-file-o fa-lg"></i> <span data-i18n="ns.perspectiveList:showNewFileDialog"></span>
-        </button>
         <div class="btn-group">
-          <button class="btn btn-default" type="button" title="Group" id="{{id}}GroupingButton" data-toggle="dropdown">
-            <i class="fa fa-group fa-lg"></i> Group Files<span class="caret"></span>
-          </button>
-          <ul id="{{id}}GroupingMenu" class="dropdown-menu"></ul>
+          <ul id="{{id}}GroupingMenu" class=""></ul>
         </div><br>
         <div class="checkbox" style="margin-top: 30px; margin-bottom: 30px;">
           <label for="{{id}}showFoldersInListCheckbox">
