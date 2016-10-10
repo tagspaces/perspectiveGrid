@@ -44,24 +44,24 @@ define(function(require, exports, module) {
     this.supportedGroupings = [];
     this.supportedSortings = [
       {
-        "title" : "Name",
-        "key" : "byName"
+        "title": "Name",
+        "key": "byName"
       },
       {
-        "title" : "Time",
-        "key" : "byTimeStamp"
+        "title": "Time",
+        "key": "byTimeStamp"
       },
       {
-        "title" : "Size",
-        "key" : "byFileSize"
+        "title": "Size",
+        "key": "byFileSize"
       },
       {
-        "title" : "Date Modified",
-        "key" : "byDateModified"
+        "title": "Date Modified",
+        "key": "byDateModified"
       },
       {
-        "title" : "Directory",
-        "key" : "byDirectory"
+        "title": "Directory",
+        "key": "byDirectory"
       }
     ];
 
@@ -919,9 +919,12 @@ define(function(require, exports, module) {
     }
 
     function SortBySize(a, b) {
-      // ASC  -> a.length - b.length
-      // DESC -> b.length - a.length
-      return b.length - a.length;
+      //if (asc) {
+      //  return (a.size > b.size) ? 1 : (a.size < b.size) ? -1 : 0;
+      //} else {
+      //  return (a.size > b.size) ? -1 : (a.size < b.size) ? 1 : 0;
+      //}
+      return (a.size > b.size) ? -1 : (a.size < b.size) ? 1 : 0;
     }
 
     function SortByTime(a, b) {
@@ -930,8 +933,9 @@ define(function(require, exports, module) {
     }
 
     function SortByDateModified(a, b) {
-       return new Date(b.date) - new Date(a.date);
+      return new Date(b.date) - new Date(a.date);
     }
+
     this.allResults = TSCORE.Search.searchData(TSCORE.fileList, TSCORE.Search.nextQuery);
     this.searchResults = this.allResults;
     //sort by criteria in order to show on the top of the list
@@ -952,7 +956,6 @@ define(function(require, exports, module) {
         this.searchResults = arrFolders.concat(arrFiles);
       }
     } else if (criteria === 'byName') {
-      console.debug(this.searchResults);
       this.searchResults = this.searchResults.sort(SortByName);
     } else if (criteria === 'byTimeStamp') {
       this.searchResults = this.searchResults.sort(SortByTime);
