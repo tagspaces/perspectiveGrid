@@ -42,6 +42,28 @@ define(function(require, exports, module) {
     this.currentTmbSize = 0;
     this.searchResults = undefined;
     this.supportedGroupings = [];
+    this.supportedSortings = [
+      {
+        "title" : "Name",
+        "key" : "byName"
+      },
+      {
+        "title" : "Time",
+        "key" : "byTimeStamp"
+      },
+      {
+        "title" : "Size",
+        "key" : "byFileSize"
+      },
+      {
+        "title" : "Date Modified",
+        "key" : "byDateModified"
+      },
+      {
+        "title" : "Directory",
+        "key" : "byDirectory"
+      }
+    ];
 
     this.supportedGroupings.push({
       "title": "Day",
@@ -196,6 +218,7 @@ define(function(require, exports, module) {
      });*/
 
     this.initFileGroupingMenu();
+    this.initFileSortingMenu();
 
     $('#viewContainers').on('scroll', _.debounce(function() { // Triggering thumbnails generation
       $('#viewContainers').find(".fileTile").each(function() {
@@ -454,12 +477,6 @@ define(function(require, exports, module) {
         }) // jshint ignore:line
       ));
     }
-    //
-    //
-    //$('#groupByMenu').on('click', function(e){
-    //  $("#" + self.extensionID + "GroupingButton").show();
-    //  $("#mainMenu").hide();
-    //});
   };
 
   ExtUI.prototype.switchGrouping = function(grouping) {
@@ -882,6 +899,83 @@ define(function(require, exports, module) {
     TSCORE.navigateToDirectory(TSCORE.currentPath);
     $("#" + this.extensionID + "hideFoldersInListCheckbox").hide();
     $("#" + this.extensionID + "showFoldersInListCheckbox").show();
+  };
+
+  ExtUI.prototype.sortByCriteria = function(criteria) {
+    function SortByName(a, b) {
+      var aName = a.name.toLowerCase();
+      var bName = b.name.toLowerCase();
+      return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+    }
+
+    function SortByIsDirectory(a, b) {
+      if (b.isDirectory && a.isDirectory) {
+        return 0;
+      }
+      return a.isDirectory && !b.isDirectory ? -1 : 1;
+    }
+
+    function SortBySize(a, b) {
+      // ASC  -> a.length - b.length
+      // DESC -> b.length - a.length
+      return b.length - a.length;
+    }
+
+    function SortByTime(a, b) {
+      //return new Date('1970/01/01 ' + a) - new Date('1970/01/01 ' + b);
+      return a.timestamp - b.timestamp;
+    }
+
+    function SortByDateModified(a, b) {
+       return new Date(b.date) - new Date(a.date);
+    }
+    this.allResults = TSCORE.Search.searchData(TSCORE.fileList, TSCORE.Search.nextQuery);
+    this.searchResults = this.allResults;
+    //sort by criteria in order to show on the top of the list
+    if (criteria === 'byDirectory') {
+      this.searchResults = this.searchResults.sort(SortByIsDirectory);
+      showFoldersInList = true;
+      if (showFoldersInList && this.searchResults.length > 0 && this.searchResults[0].isDirectory) { //sort by isDirectory and next by names only if in list have folders
+        var arrFolders = [], arrFiles = [];
+        for (var inx = 0; inx < this.searchResults.length; inx++) {
+          if (this.searchResults[inx].isDirectory) {
+            arrFolders.push(this.searchResults[inx]);
+          } else {
+            arrFiles.push(this.searchResults[inx]);
+          }
+        }
+        arrFolders = arrFolders.sort(SortByName);
+        arrFiles = arrFiles.sort(SortByName);
+        this.searchResults = arrFolders.concat(arrFiles);
+      }
+    } else if (criteria === 'byName') {
+      console.debug(this.searchResults);
+      this.searchResults = this.searchResults.sort(SortByName);
+    } else if (criteria === 'byTimeStamp') {
+      this.searchResults = this.searchResults.sort(SortByTime);
+    } else if (criteria === 'byFileSize') {
+      this.searchResults = this.searchResults.sort(SortBySize);
+    } else if (criteria === 'byDateModified') {
+      this.searchResults = this.searchResults.sort(SortByDateModified);
+    }
+  };
+
+  ExtUI.prototype.initFileSortingMenu = function() {
+    var self = this;
+    var suggMenu = $("#" + self.extensionID + "SortingMenu");
+
+    //Adding context menu
+    for (var i = 0; i < self.supportedSortings.length; i++) {
+      suggMenu.append($('<li>').append($('<button>', {
+          text: " Sort by " + self.supportedSortings[i].title,
+          key: self.supportedSortings[i].key,
+          group: self.supportedSortings[i].title
+        }).prepend("<i class='fa fa-group fa-fw' />").click(function() {
+          $("#" + self.extensionID + "SortingButton").attr("title", " Sort by " + $(this).attr("sort") + " ").text(" " + $(this).attr("sort") + " ").prepend("<i class='fa fa-group fa-fw' />").append("<span class='caret'></span>");
+          self.sortByCriteria($(this).attr("key"));
+        }) // jshint ignore:line
+      ));
+    }
   };
 
   exports.ExtUI = ExtUI;

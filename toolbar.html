@@ -23,6 +23,10 @@
       <i class="fa fa-refresh fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:showSubfolderContent"></span>
     </a></li>
     <li class="divider"></li>
+    <li><a id="{{id}}sortingCriteria" data-toggle="modal" data-target="#{{id}}SortExtensionModal">
+      <i class="fa fa-ellipsis-h fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:sortingCriteria"></span>
+    </a></li>
+    <li class="divider"></li>
     <li><a id="moreButton" data-toggle="modal" data-target="#{{id}}ExtensionModal">
       <i class="fa fa-ellipsis-h fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectiveList:moreOperations"></span>
     </a></li>
@@ -73,6 +77,26 @@
       </div>
       <div class="modal-footer">
         <button id="modal_button_ok" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><i class="fa fa-check fa-lg"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="{{id}}SortExtensionModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title" data-i18n="ns.perspectiveList:sortingCriteria"></h4>
+      </div>
+      <div class="modal-body">
+        <div class="btn-group">
+          <ul id="{{id}}SortingMenu" class=""></ul>
+        </div><br>
+      </div>
+      <div class="modal-footer">
+        <button id="okButton" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><i class="fa fa-check fa-lg"></i>
         </button>
       </div>
     </div>
