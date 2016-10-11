@@ -15,6 +15,7 @@ define(function(require, exports, module) {
   var showFoldersInList = false;
   var hasFolderInList = false;
   var showSortDataInList = 'byName';
+  var orderBy = true;
   var extSettings;
   loadExtSettings();
 
@@ -175,6 +176,13 @@ define(function(require, exports, module) {
     });
     $showFoldersInListCheckBox.hide();
 
+    $('#orderBy input').on('change', function() {
+      if (this.value === 'ascending') {
+        orderBy = true;
+      } else if (this.value === 'descending') {
+        orderBy = false;
+      }
+    });
 
     $("#modal_button_ok").on("click", function(evt) {
       TSCORE.navigateToDirectory(TSCORE.currentPath);
@@ -277,41 +285,37 @@ define(function(require, exports, module) {
     }
 
     function SortBySize(a, b) {
-      //if (asc) {
-      //  return (a.size > b.size) ? 1 : (a.size < b.size) ? -1 : 0;
-      //} else {
-      //  return (a.size > b.size) ? -1 : (a.size < b.size) ? 1 : 0;
-      //}
-      return (a.size > b.size) ? -1 : (a.size < b.size) ? 1 : 0;
+      if (orderBy) {
+        return (a.size > b.size) ? 1 : (a.size < b.size) ? -1 : 0;
+      } else {
+        return (a.size < b.size) ? -1 : (a.size > b.size) ? 1 : 0;
+      }
     }
 
     function SortByDateModified(a, b) {
-      //if (asc) {
-      //  return (a.lmdt > b.lmdt) ? 1 : (a.lmdt < b.lmdt) ? -1 : 0;
-      //} else {
-      //  return (a.lmdt > b.lmdt) ? -1 : (a.lmdt < b.lmdt) ? 1 : 0;
-      //}
-      return (a.lmdt > b.lmdt) ? -1 : (a.lmdt < b.lmdt) ? 1 : 0;
+      if (orderBy) {
+        return (a.lmdt > b.lmdt) ? 1 : (a.lmdt < b.lmdt) ? -1 : 0;
+      } else {
+        return (a.lmdt < b.lmdt) ? -1 : (a.lmdt > b.lmdt) ? 1 : 0;
+      }
     }
 
     function SortByExtension(a, b) {
       var aName = a.extension.toLowerCase();
       var bName = b.extension.toLowerCase();
-      //if (asc) {
-      //  return aName.localeCompare(bName);
-      //} else {
-      //  return bName.localeCompare(aName);
-      //}
-      return aName.localeCompare(bName);
+      if (orderBy) {
+        return aName.localeCompare(bName);
+      } else {
+        return bName.localeCompare(aName);
+      }
     }
 
     function SortByTagCount(a, b) {
-      //if (asc) {
-      //  return (a.tags.length > b.tags.length) ? 1 : (a.tags.length < b.tags.length) ? -1 : 0;
-      //} else {
-      //  return (a.tags.length > b.tags.length) ? -1 : (a.tags.length < b.tags.length) ? 1 : 0;
-      //}
-      return (a.tags.length > b.tags.length) ? -1 : (a.tags.length < b.tags.length) ? 1 : 0;
+      if (orderBy) {
+        return (a.tags.length > b.tags.length) ? 1 : (a.tags.length < b.tags.length) ? -1 : 0;
+      } else {
+        return (a.tags.length < b.tags.length) ? -1 : (a.tags.length > b.tags.length) ? 1 : 0;
+      }
     }
 
     switch (criteria) {
@@ -348,7 +352,7 @@ define(function(require, exports, module) {
         this.searchResults = this.searchResults.sort(SortByTagCount);
         break;
       default:
-        this.searchResults = this.searchResults.sort(SortByName);
+        this.searchResults = this.searchResults.sort(SortByIsDirectory);
     }
 
     var fileGroups = self.calculateGrouping(this.searchResults);

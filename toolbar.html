@@ -84,7 +84,13 @@
       </div>
       <div class="modal-body">
         <div class="btn-group">
-          <ul id="{{id}}SortingMenu" class=""></ul>
+          <form id="orderBy">
+            <input type="radio" name="orderBy" value="ascending" checked>
+            <span data-i18n="ns.perspectiveList:ascending" ></span><br>
+            <input type="radio" name="orderBy" value="descending">
+            <span data-i18n="ns.perspectiveList:descending" ></span><br>
+          </form>
+          <ul id="{{id}}SortingMenu"></ul>
         </div><br>
       </div>
       <!--<div class="modal-footer">-->
