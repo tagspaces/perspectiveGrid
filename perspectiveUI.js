@@ -14,7 +14,7 @@ define(function(require, exports, module) {
   var selectedIsFolderArr = [];
   var showFoldersInList = false;
   var hasFolderInList = false;
-  var showSortDataInList = false;
+  var showSortDataInList = 'byName';
   var extSettings;
   loadExtSettings();
 
@@ -64,6 +64,10 @@ define(function(require, exports, module) {
       {
         "title": "Directory",
         "key": "byDirectory"
+      },
+      {
+        "title": "Extension",
+        "key": "byExtension"
       }
     ];
 
@@ -273,6 +277,7 @@ define(function(require, exports, module) {
     }
 
     function SortBySize(a, b) {
+      console.log(a);
       //if (asc) {
       //  return (a.size > b.size) ? 1 : (a.size < b.size) ? -1 : 0;
       //} else {
@@ -281,13 +286,24 @@ define(function(require, exports, module) {
       return (a.size > b.size) ? -1 : (a.size < b.size) ? 1 : 0;
     }
 
-    function SortByTime(a, b) {
-      //return new Date('1970/01/01 ' + a) - new Date('1970/01/01 ' + b);
-      return a.timestamp - b.timestamp;
+    function SortByDateModified(a, b) {
+      //if (asc) {
+      //  return (a.lmdt > b.lmdt) ? 1 : (a.lmdt < b.lmdt) ? -1 : 0;
+      //} else {
+      //  return (a.lmdt > b.lmdt) ? -1 : (a.lmdt < b.lmdt) ? 1 : 0;
+      //}
+      return (a.lmdt > b.lmdt) ? -1 : (a.lmdt < b.lmdt) ? 1 : 0;
     }
 
-    function SortByDateModified(a, b) {
-      return new Date(b.date) - new Date(a.date);
+    function SortByExtension(a, b) {
+      var aName = a.extension.toLowerCase();
+      var bName = b.extension.toLowerCase();
+      //if (asc) {
+      //  return aName.localeCompare(bName);
+      //} else {
+      //  return bName.localeCompare(aName);
+      //}
+      return aName.localeCompare(bName);
     }
 
     if (criteria === 'byDirectory') {
@@ -308,14 +324,12 @@ define(function(require, exports, module) {
       }
     } else if (criteria === 'byName') {
       this.searchResults = this.searchResults.sort(SortByName);
-    } else if (criteria === 'byTimeStamp') {
-      this.searchResults = this.searchResults.sort(SortByTime);
     } else if (criteria === 'byFileSize') {
       this.searchResults = this.searchResults.sort(SortBySize);
-      console.log('------ Show result --------');
-      console.debug(this.searchResults);
     } else if (criteria === 'byDateModified') {
       this.searchResults = this.searchResults.sort(SortByDateModified);
+    } else if (criteria === 'byExtension') {
+      this.searchResults = this.searchResults.sort(SortByExtension);
     }
 
     var fileGroups = self.calculateGrouping(this.searchResults);
@@ -1012,7 +1026,7 @@ define(function(require, exports, module) {
         }).prepend("<i class='fa fa-group fa-fw' />").click(function() {
           $("#" + self.extensionID + "SortingButton").attr("title", " Sort by " + $(this).attr("sort") + " ").text(" " + $(this).attr("sort") + " ").prepend("<i class='fa fa-group fa-fw' />").append("<span class='caret'></span>");
           self.reInit(true,$(this).attr("key"));
-          //showSortDataInList = true;
+          //showSortDataInList = $(this).attr("key");
           //TSCORE.navigateToDirectory(TSCORE.currentPath);
           //saveExtSettings();
         }) // jshint ignore:line
