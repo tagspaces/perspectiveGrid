@@ -167,7 +167,7 @@ define(function(require, exports, module) {
     $hideFoldersInListCheckBox.on("click", function(evt) {
       self.hideFoldersInListCheckbox();
     });
-    $hideFoldersInListCheckBox.hide();
+    $showFoldersInListCheckBox.hide();
 
 
     $("#modal_button_ok").on("click", function(evt) {
@@ -941,7 +941,7 @@ define(function(require, exports, module) {
     //sort by criteria in order to show on the top of the list
     if (criteria === 'byDirectory') {
       this.searchResults = this.searchResults.sort(SortByIsDirectory);
-      showFoldersInList = true;
+      //showFoldersInList = true;
       if (showFoldersInList && this.searchResults.length > 0 && this.searchResults[0].isDirectory) { //sort by isDirectory and next by names only if in list have folders
         var arrFolders = [], arrFiles = [];
         for (var inx = 0; inx < this.searchResults.length; inx++) {
