@@ -314,32 +314,41 @@ define(function(require, exports, module) {
       return (a.tags.length > b.tags.length) ? -1 : (a.tags.length < b.tags.length) ? 1 : 0;
     }
 
-    if (criteria === 'byDirectory') {
-      this.searchResults = this.searchResults.sort(SortByIsDirectory);
-      //showFoldersInList = true;
-      if (showFoldersInList && this.searchResults.length > 0 && this.searchResults[0].isDirectory) { //sort by isDirectory and next by names only if in list have folders
-        var arrFolders = [], arrFiles = [];
-        for (var inx = 0; inx < this.searchResults.length; inx++) {
-          if (this.searchResults[inx].isDirectory) {
-            arrFolders.push(this.searchResults[inx]);
-          } else {
-            arrFiles.push(this.searchResults[inx]);
+    switch (criteria) {
+      case "byDirectory":
+        this.searchResults = this.searchResults.sort(SortByIsDirectory);
+        //showFoldersInList = true;
+        if (showFoldersInList && this.searchResults.length > 0 && this.searchResults[0].isDirectory) { //sort by isDirectory and next by names only if in list have folders
+          var arrFolders = [], arrFiles = [];
+          for (var inx = 0; inx < this.searchResults.length; inx++) {
+            if (this.searchResults[inx].isDirectory) {
+              arrFolders.push(this.searchResults[inx]);
+            } else {
+              arrFiles.push(this.searchResults[inx]);
+            }
           }
+          arrFolders = arrFolders.sort(SortByName);
+          arrFiles = arrFiles.sort(SortByName);
+          this.searchResults = arrFolders.concat(arrFiles);
         }
-        arrFolders = arrFolders.sort(SortByName);
-        arrFiles = arrFiles.sort(SortByName);
-        this.searchResults = arrFolders.concat(arrFiles);
-      }
-    } else if (criteria === 'byName') {
-      this.searchResults = this.searchResults.sort(SortByName);
-    } else if (criteria === 'byFileSize') {
-      this.searchResults = this.searchResults.sort(SortBySize);
-    } else if (criteria === 'byDateModified') {
-      this.searchResults = this.searchResults.sort(SortByDateModified);
-    } else if (criteria === 'byExtension') {
-      this.searchResults = this.searchResults.sort(SortByExtension);
-    } else if (criteria === 'byTagCount') {
-      this.searchResults = this.searchResults.sort(SortByTagCount);
+        break;
+      case "byName":
+        this.searchResults = this.searchResults.sort(SortByName);
+        break;
+      case "byFileSize":
+        this.searchResults = this.searchResults.sort(SortBySize);
+        break;
+      case "byDateModified":
+        this.searchResults = this.searchResults.sort(SortByDateModified);
+        break;
+      case "byExtension":
+        this.searchResults = this.searchResults.sort(SortByExtension);
+        break;
+      case "byTagCount":
+        this.searchResults = this.searchResults.sort(SortByTagCount);
+        break;
+      default:
+        this.searchResults = this.searchResults.sort(SortByName);
     }
 
     var fileGroups = self.calculateGrouping(this.searchResults);
@@ -992,7 +1001,8 @@ define(function(require, exports, module) {
    this.allResults = TSCORE.Search.searchData(TSCORE.fileList, TSCORE.Search.nextQuery);
    this.searchResults = this.allResults;
    //sort by criteria in order to show on the top of the list
-   if (criteria === 'byDirectory') {
+   switch (criteria) {
+   case "byDirectory":
    this.searchResults = this.searchResults.sort(SortByIsDirectory);
    //showFoldersInList = true;
    if (showFoldersInList && this.searchResults.length > 0 && this.searchResults[0].isDirectory) { //sort by isDirectory and next by names only if in list have folders
@@ -1008,16 +1018,24 @@ define(function(require, exports, module) {
    arrFiles = arrFiles.sort(SortByName);
    this.searchResults = arrFolders.concat(arrFiles);
    }
-   } else if (criteria === 'byName') {
+   break;
+   case "byName":
    this.searchResults = this.searchResults.sort(SortByName);
-   } else if (criteria === 'byTimeStamp') {
-   this.searchResults = this.searchResults.sort(SortByTime);
-   } else if (criteria === 'byFileSize') {
+   break;
+   case "byFileSize":
    this.searchResults = this.searchResults.sort(SortBySize);
-   console.log('------ Show result --------');
-   console.debug(this.searchResults);
-   } else if (criteria === 'byDateModified') {
+   break;
+   case "byDateModified":
    this.searchResults = this.searchResults.sort(SortByDateModified);
+   break;
+   case "byExtension":
+   this.searchResults = this.searchResults.sort(SortByExtension);
+   break;
+   case "byTagCount":
+   this.searchResults = this.searchResults.sort(SortByTagCount);
+   break;
+   default:
+   this.searchResults = this.searchResults.sort(SortByName);
    }
    };
    */
