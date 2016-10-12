@@ -84,14 +84,21 @@
       </div>
       <div class="modal-body">
         <div class="btn-group">
-          <form id="orderBy">
-            <input type="radio" name="orderBy" value="ascending" checked>
-            <span data-i18n="ns.perspectiveList:ascending" ></span><br>
-            <input type="radio" name="orderBy" value="descending">
-            <span data-i18n="ns.perspectiveList:descending" ></span><br>
-          </form>
-          <ul id="{{id}}SortingMenu"></ul>
-        </div><br>
+          <!--<form id="orderBy">-->
+            <!--<input type="radio" name="orderBy" value="ascending" checked>-->
+            <!--<span data-i18n="ns.perspectiveList:ascending" ></span><br>-->
+            <!--<input type="radio" name="orderBy" value="descending">-->
+            <!--<span data-i18n="ns.perspectiveList:descending" ></span><br>-->
+          <!--</form>-->
+          <div class="row">
+            <div class="col-sm-6">
+              <ul id="{{id}}SortingMenuAscending"></ul>
+            </div>
+            <div class="col-sm-6">
+              <ul id="{{id}}SortingMenuDescending"></ul>
+            </div>
+          </div>
+        </div>
       </div>
       <!--<div class="modal-footer">-->
         <!--<button id="okButton" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><i class="fa fa-check fa-lg"></i>-->
