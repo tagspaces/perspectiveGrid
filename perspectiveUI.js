@@ -63,10 +63,6 @@ define(function(require, exports, module) {
         "key": "byDateModified"
       },
       {
-        "title": "Directory",
-        "key": "byDirectory"
-      },
-      {
         "title": "Extension",
         "key": "byExtension"
       }
