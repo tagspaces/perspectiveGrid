@@ -244,7 +244,7 @@ define(function(require, exports, module) {
     //});
   };
 
-  ExtUI.prototype.reInit = function(showAllResult, criteria) {
+  ExtUI.prototype.reInit = function(showAllResult) {
     var self = this;
     var shouldShowAllFilesContainer;
 
@@ -1004,7 +1004,7 @@ define(function(require, exports, module) {
           $("#" + self.extensionID + "SortingButton").attr("title", " Sort by " + $(this).attr("sort") + " ").text(" " + $(this).attr("sort") + " ").prepend("<i class='fa fa-group fa-fw' />").append("<span class='caret'></span>");
           orderBy = false;
           showSortDataInList = $(this).attr("key");
-          self.sortByCriteria($(this).attr("key"));
+          self.sortByCriteria($(this).attr("key"), orderBy);
           //self.reInit(true, $(this).attr("key"));
           self.reInit();
           //saveExtSettings();
