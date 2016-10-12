@@ -886,17 +886,10 @@ define(function(require, exports, module) {
 
   ExtUI.prototype.sortByCriteria = function(criteria, orderBy) {
     function SortByName(a, b) {
-      console.log("Priroity A");
-      console.debug(a);
-      console.log("Priroity B");
-      console.debug(b);
-      var aName = a.name.toLowerCase();
-      var bName = b.name.toLowerCase();
       if (orderBy) {
-        return ((a.isDirectory && !b.isDirectory) && aName < bName) ? -1 : ((aName > bName) ? 1 : 0);
-        //  return aName.localeCompare(bName);
+        return (b.isDirectory-a.isDirectory) || (a.name.toString().localeCompare(b.name));
       } else {
-        return bName.localeCompare(aName);
+        return (b.isDirectory-a.isDirectory) || (b.name.toString().localeCompare(a.name));
       }
     }
 
@@ -913,35 +906,33 @@ define(function(require, exports, module) {
 
     function SortBySize(a, b) {
       if (orderBy) {
-        return (a.size > b.size) ? 1 : (a.size < b.size) ? -1 : 0;
+        return (b.isDirectory-a.isDirectory) || (a.size - b.size);
       } else {
-        return (a.size < b.size) ? 1 : (a.size > b.size) ? -1 : 0;
+        return (b.isDirectory-a.isDirectory) || (b.size - a.size);
       }
     }
 
     function SortByDateModified(a, b) {
       if (orderBy) {
-        return (a.lmdt > b.lmdt) ? 1 : (a.lmdt < b.lmdt) ? -1 : 0;
+        return (b.isDirectory-a.isDirectory) || (a.lmdt - b.lmdt);
       } else {
-        return (a.lmdt < b.lmdt) ? 1 : (a.lmdt > b.lmdt) ? -1 : 0;
+        return (b.isDirectory-a.isDirectory) || (b.lmdt - a.lmdt);
       }
     }
 
     function SortByExtension(a, b) {
-      var aName = a.extension.toLowerCase();
-      var bName = b.extension.toLowerCase();
       if (orderBy) {
-        return aName.localeCompare(bName);
+        return (b.isDirectory-a.isDirectory) || (a.extension.toString().localeCompare(b.extension));
       } else {
-        return bName.localeCompare(aName);
+        return (b.isDirectory-a.isDirectory) || (b.extension.toString().localeCompare(a.extension));
       }
     }
 
     function SortByTagCount(a, b) {
       if (orderBy) {
-        return (a.tags.length < b.tags.length) ? 1 : (a.tags.length > b.tags.length) ? -1 : 0;
+        return (b.isDirectory-a.isDirectory) || (a.tags.length - b.tags.length);
       } else {
-        return (a.tags.length > b.tags.length) ? 1 : (a.tags.length < b.tags.length) ? -1 : 0;
+        return (b.isDirectory-a.isDirectory) || (b.tags.length-a.tags.length);
       }
     }
 
