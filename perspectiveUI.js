@@ -270,7 +270,9 @@ define(function(require, exports, module) {
         shouldShowAllFilesContainer = false;
       }
     }
-
+    if(orderBy === undefined){
+      self.sortByCriteria('',true);
+    }
     var fileGroups = self.calculateGrouping(this.searchResults);
 
     var moreThanOneGroup = (fileGroups.length > 1) ? true : false;
