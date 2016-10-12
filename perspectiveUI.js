@@ -266,8 +266,8 @@ define(function(require, exports, module) {
         shouldShowAllFilesContainer = false;
       }
     }
-    if(orderBy === undefined){
-      self.sortByCriteria('',true);
+    if (orderBy === undefined) {
+      self.sortByCriteria('', true);
     }
     var fileGroups = self.calculateGrouping(this.searchResults);
 
@@ -886,10 +886,15 @@ define(function(require, exports, module) {
 
   ExtUI.prototype.sortByCriteria = function(criteria, orderBy) {
     function SortByName(a, b) {
+      console.log("Priroity A");
+      console.debug(a);
+      console.log("Priroity B");
+      console.debug(b);
       var aName = a.name.toLowerCase();
       var bName = b.name.toLowerCase();
       if (orderBy) {
-        return aName.localeCompare(bName);
+        return ((a.isDirectory && !b.isDirectory) && aName < bName) ? -1 : ((aName > bName) ? 1 : 0);
+        //  return aName.localeCompare(bName);
       } else {
         return bName.localeCompare(aName);
       }
@@ -899,11 +904,11 @@ define(function(require, exports, module) {
       if (b.isDirectory && a.isDirectory) {
         return 0;
       }
-      if (orderBy) {
-        return a.isDirectory && !b.isDirectory ? -1 : 1;
-      } else {
-        return a.isDirectory && !b.isDirectory ? 1 : -1;
-      }
+      //if (orderBy) {
+      return a.isDirectory && !b.isDirectory ? -1 : 1;
+      //} else {
+      //  return a.isDirectory && !b.isDirectory ? 1 : -1;
+      //}
     }
 
     function SortBySize(a, b) {
