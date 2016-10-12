@@ -901,7 +901,11 @@ define(function(require, exports, module) {
       if (b.isDirectory && a.isDirectory) {
         return 0;
       }
-      return a.isDirectory && !b.isDirectory ? -1 : 1;
+      if (orderBy) {
+        return a.isDirectory && !b.isDirectory ? -1 : 1;
+      } else {
+        return a.isDirectory && !b.isDirectory ? 1 : -1;
+      }
     }
 
     function SortBySize(a, b) {
