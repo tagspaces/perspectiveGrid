@@ -890,7 +890,11 @@ define(function(require, exports, module) {
     function SortByName(a, b) {
       var aName = a.name.toLowerCase();
       var bName = b.name.toLowerCase();
-      return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+      if (orderBy) {
+        return aName.localeCompare(bName);
+      } else {
+        return bName.localeCompare(aName);
+      }
     }
 
     function SortByIsDirectory(a, b) {
