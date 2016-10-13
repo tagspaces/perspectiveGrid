@@ -887,9 +887,9 @@ define(function(require, exports, module) {
   ExtUI.prototype.sortByCriteria = function(criteria, orderBy) {
     function SortByName(a, b) {
       if (orderBy) {
-        return (b.isDirectory-a.isDirectory) || (a.name.toString().localeCompare(b.name));
+        return (b.isDirectory - a.isDirectory) || (a.name.toString().localeCompare(b.name));
       } else {
-        return (b.isDirectory-a.isDirectory) || (b.name.toString().localeCompare(a.name));
+        return (b.isDirectory - a.isDirectory) || (b.name.toString().localeCompare(a.name));
       }
     }
 
@@ -906,33 +906,33 @@ define(function(require, exports, module) {
 
     function SortBySize(a, b) {
       if (orderBy) {
-        return (b.isDirectory-a.isDirectory) || (a.size - b.size);
+        return (b.isDirectory - a.isDirectory) || (a.size - b.size);
       } else {
-        return (b.isDirectory-a.isDirectory) || (b.size - a.size);
+        return (b.isDirectory - a.isDirectory) || (b.size - a.size);
       }
     }
 
     function SortByDateModified(a, b) {
       if (orderBy) {
-        return (b.isDirectory-a.isDirectory) || (a.lmdt - b.lmdt);
+        return (b.isDirectory - a.isDirectory) || (a.lmdt - b.lmdt);
       } else {
-        return (b.isDirectory-a.isDirectory) || (b.lmdt - a.lmdt);
+        return (b.isDirectory - a.isDirectory) || (b.lmdt - a.lmdt);
       }
     }
 
     function SortByExtension(a, b) {
       if (orderBy) {
-        return (b.isDirectory-a.isDirectory) || (a.extension.toString().localeCompare(b.extension));
+        return (b.isDirectory - a.isDirectory) || (a.extension.toString().localeCompare(b.extension));
       } else {
-        return (b.isDirectory-a.isDirectory) || (b.extension.toString().localeCompare(a.extension));
+        return (b.isDirectory - a.isDirectory) || (b.extension.toString().localeCompare(a.extension));
       }
     }
 
     function SortByTagCount(a, b) {
       if (orderBy) {
-        return (b.isDirectory-a.isDirectory) || (a.tags.length - b.tags.length);
+        return (b.isDirectory - a.isDirectory) || (a.tags.length - b.tags.length);
       } else {
-        return (b.isDirectory-a.isDirectory) || (b.tags.length-a.tags.length);
+        return (b.isDirectory - a.isDirectory) || (b.tags.length - a.tags.length);
       }
     }
 
