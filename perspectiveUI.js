@@ -224,8 +224,8 @@ define(function(require, exports, module) {
       var thumbnailsHeight = $('.fileTile').css('height');
       var resizeW = parseFloat(thumbnailsWidth);
       var resizeH = parseFloat(thumbnailsHeight);
-      $('.fileTile').css('width',(resizeW + 30) + 'px');
-      $('.fileTile').css('height',(resizeH + 20) + 'px');
+      $('.fileTile').css('width', (resizeW + 30) + 'px');
+      $('.fileTile').css('height', (resizeH + 20) + 'px');
     });
 
     $("#decreasingThumbnails").on('click', function(e) {
@@ -234,8 +234,8 @@ define(function(require, exports, module) {
       var thumbnailsHeight = $('.fileTile').css('height');
       var resizeW = parseFloat(thumbnailsWidth);
       var resizeH = parseFloat(thumbnailsHeight);
-      $('.fileTile').css('width',(resizeW - 30) + 'px');
-      $('.fileTile').css('height',(resizeH - 20) + 'px');
+      $('.fileTile').css('width', (resizeW - 30) + 'px');
+      $('.fileTile').css('height', (resizeH - 20) + 'px');
     });
 
     // Init Tag Context Menus
