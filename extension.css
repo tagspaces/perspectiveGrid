@@ -21,8 +21,7 @@
   border: 1px solid #D4D4D4;
   text-align: left;
   height: 150px;
-  width: 200px;
-
+  /*width: 200px;*/
   max-width: 480px;
   max-height: 440px;
   min-width: 110px;
@@ -35,9 +34,9 @@
   background-position: center;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   
-  /*flex: 1 1 200px;*/
-  /*-webkit-flex: 1 1 200px;*/
-  /*-ms-flex: 1 1 200px;*/
+  flex: 1 1 200px;
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
 }
 
 .activeRow { background: rgba(29, 209, 159, 0.52) !important; }

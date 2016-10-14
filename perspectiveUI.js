@@ -220,22 +220,29 @@ define(function(require, exports, module) {
 
     $("#increasingThumbnails").on('click', function(e) {
       e.stopPropagation();
-      var thumbnailsWidth = $('.fileTile').css('width');
+      var thumbnailsWidth = $('.fileTile').css('-webkit-flex');
+      var index = thumbnailsWidth.lastIndexOf(' ');
+      var currentWidth = thumbnailsWidth.slice(index);
       var thumbnailsHeight = $('.fileTile').css('height');
-      var resizeW = parseFloat(thumbnailsWidth);
+      var resizeW = parseFloat(currentWidth);
       var resizeH = parseFloat(thumbnailsHeight);
-      $('.fileTile').css('width', (resizeW + 30) + 'px');
-      $('.fileTile').css('height', (resizeH + 20) + 'px');
+      if(resizeW > 345){
+        resizeW = 346;
+      }
+      $('.fileTile').css('-webkit-flex', (resizeW + 60) + 'px');
+      $('.fileTile').css('height', (resizeH + 60) + 'px');
     });
 
     $("#decreasingThumbnails").on('click', function(e) {
       e.stopPropagation();
-      var thumbnailsWidth = $('.fileTile').css('width');
+      var thumbnailsWidth = $('.fileTile').css('-webkit-flex');
+      var index = thumbnailsWidth.lastIndexOf(' ');
+      var currentWidth = thumbnailsWidth.slice(index);
       var thumbnailsHeight = $('.fileTile').css('height');
-      var resizeW = parseFloat(thumbnailsWidth);
+      var resizeW = parseFloat(currentWidth);
       var resizeH = parseFloat(thumbnailsHeight);
-      $('.fileTile').css('width', (resizeW - 30) + 'px');
-      $('.fileTile').css('height', (resizeH - 20) + 'px');
+      $('.fileTile').css('-webkit-flex', (resizeW - 70) + 'px');
+      $('.fileTile').css('height', (resizeH - 60) + 'px');
     });
 
     // Init Tag Context Menus
