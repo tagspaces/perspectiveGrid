@@ -218,6 +218,26 @@ define(function(require, exports, module) {
       TSCORE.hideAllDropDownMenus();
     });
 
+    $("#increasingThumbnails").on('click', function(e) {
+      e.stopPropagation();
+      var thumbnailsWidth = $('.fileTile').css('width');
+      var thumbnailsHeight = $('.fileTile').css('height');
+      var resizeW = parseFloat(thumbnailsWidth);
+      var resizeH = parseFloat(thumbnailsHeight);
+      $('.fileTile').css('width',(resizeW + 30) + 'px');
+      $('.fileTile').css('height',(resizeH + 20) + 'px');
+    });
+
+    $("#decreasingThumbnails").on('click', function(e) {
+      e.stopPropagation();
+      var thumbnailsWidth = $('.fileTile').css('width');
+      var thumbnailsHeight = $('.fileTile').css('height');
+      var resizeW = parseFloat(thumbnailsWidth);
+      var resizeH = parseFloat(thumbnailsHeight);
+      $('.fileTile').css('width',(resizeW - 30) + 'px');
+      $('.fileTile').css('height',(resizeH - 20) + 'px');
+    });
+
     // Init Tag Context Menus
     /*$(".tagButton").contextmenu(function() {
      TSCORE.hideAllDropDownMenus();
