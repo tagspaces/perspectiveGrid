@@ -39,7 +39,6 @@ define(function(require, exports, module) {
       "zoomFactor": zoomFactor
     };
     localStorage.setItem('perpectiveGridSettings', JSON.stringify(settings));
-    console.debug(settings);
   }
 
   //load settings for perpectiveGrid
@@ -254,15 +253,6 @@ define(function(require, exports, module) {
 
     $("#decreasingThumbnails").on('click', function(e) {
       e.stopPropagation();
-      //var thumbnailsWidth = $('.fileTile').css('-webkit-flex');
-      //var currentWidth = thumbnailsWidth.slice(thumbnailsWidth.lastIndexOf(' '));
-      //var thumbnailsHeight = $('.fileTile').css('height');
-      //var resizeW = parseFloat(currentWidth) - 70;
-      //var resizeH = parseFloat(thumbnailsHeight) - 60;
-      //zoomFactor = resizeW + ',' + resizeH;
-      //$('.fileTile').css('-webkit-flex', (resizeW) + 'px');
-      //$('.fileTile').css('height', (resizeH) + 'px');
-
       $('#perspectiveGridSortingButtons0').find('.fileTile').each(function() {
         if ($(".fileTile").hasClass(zoomSteps[currentZoomState])) {
           $("div.fileTile.ui-droppable").removeClass(zoomSteps[currentZoomState]);
