@@ -1037,7 +1037,7 @@ define(function(require, exports, module) {
           class: "btn btn-link",
           key: self.supportedSortings[i].key,
           group: self.supportedSortings[i].title
-        }).prepend("<i class='fa fa-group fa-fw' />").click(function() {
+        }).prepend("<i class='fa fa-sort-amount-asc fa-fw' />").click(function() {
           $("#" + self.extensionID + "SortingButton").attr("title", " Sort by " + $(this).attr("sort") + " ").text(" " + $(this).attr("sort") + " ").prepend("<i class='fa fa-group fa-fw' />").append("<span class='caret'></span>");
           orderBy = true;
           showSortDataInList = $(this).attr("key");
@@ -1051,7 +1051,7 @@ define(function(require, exports, module) {
           class: "btn btn-link",
           key: self.supportedSortings[i].key,
           group: self.supportedSortings[i].title
-        }).prepend("<i class='fa fa-group fa-fw' />").click(function() {
+        }).prepend("<i class='fa fa-sort-amount-desc fa-fw' />").click(function() {
           $("#" + self.extensionID + "SortingButton").attr("title", " Sort by " + $(this).attr("sort") + " ").text(" " + $(this).attr("sort") + " ").prepend("<i class='fa fa-group fa-fw' />").append("<span class='caret'></span>");
           orderBy = false;
           showSortDataInList = $(this).attr("key");
