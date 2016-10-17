@@ -175,7 +175,7 @@ define(function(require, exports, module) {
       self.hideFoldersInListCheckbox();
     });
 
-    if (extSettings.showFoldersInList) {
+    if (showFoldersInList) {
       $hideFoldersInList.show();
       $showFoldersInList.hide();
     } else {
