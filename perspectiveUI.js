@@ -47,23 +47,23 @@ define(function(require, exports, module) {
     this.supportedGroupings = [];
     this.supportedSortings = [
       {
-        "title": "Name",
+        "title": $.i18n.t("ns.common:orderByName"),//"Name",
         "key": "byName"
       },
       {
-        "title": "Tag Count",
+        "title": $.i18n.t("ns.common:orderByTagCount"),//"Tag Count",
         "key": "byTagCount"
       },
       {
-        "title": "Size",
+        "title": $.i18n.t("ns.common:orderBySize"),//"Size",
         "key": "byFileSize"
       },
       {
-        "title": "Date Modified",
+        "title": $.i18n.t("ns.common:orderByDate"),//"Date Modified",
         "key": "byDateModified"
       },
       {
-        "title": "Extension",
+        "title": $.i18n.t("ns.common:orderByExtension"),//"Extension",
         "key": "byExtension"
       }
     ];
@@ -1008,7 +1008,7 @@ define(function(require, exports, module) {
     //Adding context menu
     for (var i = 0; i < self.supportedSortings.length; i++) {
       suggMenuAscending.append($('<li>').append($('<button>', {
-          text: "By " + self.supportedSortings[i].title + " ascending",
+          text: $.i18n.t("ns.common:by") + " " + self.supportedSortings[i].title + " " + $.i18n.t("ns.common:ascending"),
           "data-dismiss": "modal",
           class: "btn btn-link",
           key: self.supportedSortings[i].key,
@@ -1020,11 +1020,11 @@ define(function(require, exports, module) {
           self.sortByCriteria($(this).attr("key"), orderBy);
           //self.reInit(true, $(this).attr("key"));
           self.reInit();
-          //saveExtSettings();
+          saveExtSettings();
         }) // jshint ignore:line
       ));
       suggMenuDescending.append($('<li>').append($('<button>', {
-          text: " By " + self.supportedSortings[i].title + " descending",
+          text: $.i18n.t("ns.common:by") + " " + self.supportedSortings[i].title + " " + $.i18n.t("ns.common:descending"),
           "data-dismiss": "modal",
           class: "btn btn-link",
           key: self.supportedSortings[i].key,
@@ -1036,7 +1036,7 @@ define(function(require, exports, module) {
           self.sortByCriteria($(this).attr("key"), orderBy);
           //self.reInit(true, $(this).attr("key"));
           self.reInit();
-          //saveExtSettings();
+          saveExtSettings();
         }) // jshint ignore:line
       ));
     }
