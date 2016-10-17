@@ -15,7 +15,7 @@ define(function(require, exports, module) {
   var showFoldersInList = false;
   var hasFolderInList = false;
   var showSortDataInList = 'byDirectory';
-  var orderBy;
+  var orderBy, thumbnailsSize, numberOfFiles;
   var extSettings;
   loadExtSettings();
 
@@ -26,9 +26,12 @@ define(function(require, exports, module) {
   function saveExtSettings() {
     var settings = {
       "showFoldersInList": showFoldersInList,
-      "showSortDataInList": showSortDataInList
+      "showSortDataInList": showSortDataInList,
+      "numberOfFiles": numberOfFiles,
+      "thumbnailsSize": thumbnailsSize
     };
     localStorage.setItem('perpectiveGridSettings', JSON.stringify(settings));
+    console.debug(settings);
   }
 
   //load settings for perpectiveGrid
@@ -47,23 +50,23 @@ define(function(require, exports, module) {
     this.supportedGroupings = [];
     this.supportedSortings = [
       {
-        "title": $.i18n.t("ns.common:orderByName"),//"Name",
+        "title": $.i18n.t("ns.common:orderByName"), // Name
         "key": "byName"
       },
       {
-        "title": $.i18n.t("ns.common:orderByTagCount"),//"Tag Count",
+        "title": $.i18n.t("ns.common:orderByTagCount"), // Tag Count
         "key": "byTagCount"
       },
       {
-        "title": $.i18n.t("ns.common:orderBySize"),//"Size",
+        "title": $.i18n.t("ns.common:orderBySize"), // Size
         "key": "byFileSize"
       },
       {
-        "title": $.i18n.t("ns.common:orderByDate"),//"Date Modified",
+        "title": $.i18n.t("ns.common:orderByDate"), // Date Modified
         "key": "byDateModified"
       },
       {
-        "title": $.i18n.t("ns.common:orderByExtension"),//"Extension",
+        "title": $.i18n.t("ns.common:orderByExtension"), // Extension
         "key": "byExtension"
       }
     ];
@@ -159,18 +162,23 @@ define(function(require, exports, module) {
       TSCORE.showFileCreateDialog();
     });
 
-    var $showFoldersInListCheckBox = $("#" + this.extensionID + "showFoldersInListCheckbox");
-    $showFoldersInListCheckBox.attr('checked', showFoldersInList);
-    $showFoldersInListCheckBox.on("click", function(evt) {
+    var $showFoldersInList = $("#" + this.extensionID + "showFoldersInListCheckbox");
+    //$showFoldersInList.attr('checked', showFoldersInList);
+    $showFoldersInList.on("click", function(evt) {
       self.showFoldersInListCheckbox();
     });
 
-    var $hideFoldersInListCheckBox = $("#" + this.extensionID + "hideFoldersInListCheckbox");
-    $hideFoldersInListCheckBox.attr('checked', showFoldersInList);
-    $hideFoldersInListCheckBox.on("click", function(evt) {
+    var $hideFoldersInList = $("#" + this.extensionID + "hideFoldersInListCheckbox");
+    //$hideFoldersInListCheckBox.attr('checked', showFoldersInList);
+    $hideFoldersInList.on("click", function(evt) {
       self.hideFoldersInListCheckbox();
     });
-    $showFoldersInListCheckBox.hide();
+
+    if (extSettings.showFoldersInList) {
+      $hideFoldersInList.show();
+    } else {
+      $hideFoldersInList.hide();
+    }
 
     $('#orderBy input').on('change', function() {
       if (this.value === 'ascending') {
@@ -226,9 +234,10 @@ define(function(require, exports, module) {
       var thumbnailsHeight = $('.fileTile').css('height');
       var resizeW = parseFloat(currentWidth);
       var resizeH = parseFloat(thumbnailsHeight);
-      if(resizeW > 345){
+      if (resizeW > 345) {
         resizeW = 346;
       }
+      extSettings.thumbnailsSize = resizeW + ',' + resizeH;
       $('.fileTile').css('-webkit-flex', (resizeW + 60) + 'px');
       $('.fileTile').css('height', (resizeH + 60) + 'px');
     });
@@ -241,6 +250,7 @@ define(function(require, exports, module) {
       var thumbnailsHeight = $('.fileTile').css('height');
       var resizeW = parseFloat(currentWidth);
       var resizeH = parseFloat(thumbnailsHeight);
+      extSettings.thumbnailsSize = resizeW + ',' + resizeH;
       $('.fileTile').css('-webkit-flex', (resizeW - 70) + 'px');
       $('.fileTile').css('height', (resizeH - 60) + 'px');
     });
@@ -899,7 +909,7 @@ define(function(require, exports, module) {
   ExtUI.prototype.showFoldersInListCheckbox = function() {
     showFoldersInList = true;
     TSCORE.navigateToDirectory(TSCORE.currentPath);
-    saveExtSettings();
+    //saveExtSettings();
     $("#" + this.extensionID + "hideFoldersInListCheckbox").show();
     $("#" + this.extensionID + "showFoldersInListCheckbox").hide();
   };
@@ -1020,7 +1030,7 @@ define(function(require, exports, module) {
           self.sortByCriteria($(this).attr("key"), orderBy);
           //self.reInit(true, $(this).attr("key"));
           self.reInit();
-          saveExtSettings();
+          //showFoldersInList = false;
         }) // jshint ignore:line
       ));
       suggMenuDescending.append($('<li>').append($('<button>', {
@@ -1036,7 +1046,7 @@ define(function(require, exports, module) {
           self.sortByCriteria($(this).attr("key"), orderBy);
           //self.reInit(true, $(this).attr("key"));
           self.reInit();
-          saveExtSettings();
+          //showFoldersInList = false;
         }) // jshint ignore:line
       ));
     }
