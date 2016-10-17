@@ -16,20 +16,27 @@ define(function(require, exports, module) {
   var hasFolderInList = false;
   var showSortDataInList = 'byDirectory';
   var orderBy, numberOfFiles;
-  var thumbnailsSize = '200,160';
+  var zoomFactor;
   var extSettings;
   loadExtSettings();
 
   if (extSettings && extSettings.showFoldersInList) {
     showFoldersInList = extSettings.showFoldersInList;
   }
+
+  var zoomSteps = ['zoomSmallest', 'zoomSmaller', 'zoomSmall', 'zoomDefault', 'zoomLarge', 'zoomLarger', 'zoomLargest'];
+  var currentZoomState = 3;
+  if (extSettings && extSettings.zoomFactor) {
+    currentZoomState = extSettings.zoomFactor;
+  }
+
   //save settings for perpectiveGrid
   function saveExtSettings() {
     var settings = {
       "showFoldersInList": showFoldersInList,
       "showSortDataInList": showSortDataInList,
       "numberOfFiles": numberOfFiles,
-      "thumbnailsSize": thumbnailsSize
+      "zoomFactor": zoomFactor
     };
     localStorage.setItem('perpectiveGridSettings', JSON.stringify(settings));
     console.debug(settings);
@@ -231,30 +238,42 @@ define(function(require, exports, module) {
 
     $("#increasingThumbnails").on('click', function(e) {
       e.stopPropagation();
-      var thumbnailsWidth = $('.fileTile').css('-webkit-flex');
-      var currentWidth = thumbnailsWidth.slice(thumbnailsWidth.lastIndexOf(' '));
-      var thumbnailsHeight = $('.fileTile').css('height');
-      var resizeW = parseFloat(currentWidth) + 70;
-      var resizeH = parseFloat(thumbnailsHeight) + 60;
-      if (resizeW > 345) {
-        resizeW = 346;
+      $('#perspectiveGridSortingButtons0').find('.fileTile').each(function() {
+        if ($(".fileTile").hasClass(zoomSteps[currentZoomState])) {
+          $("div.fileTile.ui-droppable").removeClass("." + zoomSteps[currentZoomState]);
+        }
+      });
+      currentZoomState++;
+      if (currentZoomState >= zoomSteps.length) {
+        currentZoomState = 6;
       }
-      thumbnailsSize = resizeW + ',' + resizeH;
-      $('.fileTile').css('-webkit-flex', (resizeW) + 'px');
-      $('.fileTile').css('height', (resizeH) + 'px');
+      zoomFactor = currentZoomState;
+      $('.fileTile').addClass(zoomSteps[currentZoomState]);
       saveExtSettings();
     });
 
     $("#decreasingThumbnails").on('click', function(e) {
       e.stopPropagation();
-      var thumbnailsWidth = $('.fileTile').css('-webkit-flex');
-      var currentWidth = thumbnailsWidth.slice(thumbnailsWidth.lastIndexOf(' '));
-      var thumbnailsHeight = $('.fileTile').css('height');
-      var resizeW = parseFloat(currentWidth) - 70;
-      var resizeH = parseFloat(thumbnailsHeight) - 60;
-      thumbnailsSize = resizeW + ',' + resizeH;
-      $('.fileTile').css('-webkit-flex', (resizeW) + 'px');
-      $('.fileTile').css('height', (resizeH) + 'px');
+      //var thumbnailsWidth = $('.fileTile').css('-webkit-flex');
+      //var currentWidth = thumbnailsWidth.slice(thumbnailsWidth.lastIndexOf(' '));
+      //var thumbnailsHeight = $('.fileTile').css('height');
+      //var resizeW = parseFloat(currentWidth) - 70;
+      //var resizeH = parseFloat(thumbnailsHeight) - 60;
+      //zoomFactor = resizeW + ',' + resizeH;
+      //$('.fileTile').css('-webkit-flex', (resizeW) + 'px');
+      //$('.fileTile').css('height', (resizeH) + 'px');
+
+      $('#perspectiveGridSortingButtons0').find('.fileTile').each(function() {
+        if ($(".fileTile").hasClass(zoomSteps[currentZoomState])) {
+          $("div.fileTile.ui-droppable").removeClass("." + zoomSteps[currentZoomState]);
+        }
+      });
+      currentZoomState--;
+      if (currentZoomState < 0) {
+        currentZoomState = 0;
+      }
+      zoomFactor = currentZoomState;
+      $('.fileTile').addClass(zoomSteps[currentZoomState]);
       saveExtSettings();
     });
 
@@ -618,9 +637,7 @@ define(function(require, exports, module) {
       TSCORE.Meta.loadThumbnailPromise(filePath).then(function(url) {
         uiElement.style.backgroundImage = "url('" + url + "')";
       });
-      var size = thumbnailsSize.split(',');
-      $('.fileTile').css('-webkit-flex', size[0] + 'px');
-      $('.fileTile').css('height', size[1] + 'px');
+      $('.fileTile').addClass(zoomSteps[currentZoomState]);
     }
   };
 
@@ -929,7 +946,7 @@ define(function(require, exports, module) {
   };
 
   ExtUI.prototype.sortByCriteria = function(criteria, orderBy) {
-    function SortByName(a, b) {
+    function sortByName(a, b) {
       if (orderBy) {
         return (b.isDirectory - a.isDirectory) || (a.name.toString().localeCompare(b.name));
       } else {
@@ -937,7 +954,7 @@ define(function(require, exports, module) {
       }
     }
 
-    function SortByIsDirectory(a, b) {
+    function sortByIsDirectory(a, b) {
       if (b.isDirectory && a.isDirectory) {
         return 0;
       }
@@ -948,7 +965,7 @@ define(function(require, exports, module) {
       //}
     }
 
-    function SortBySize(a, b) {
+    function sortBySize(a, b) {
       if (orderBy) {
         return (b.isDirectory - a.isDirectory) || (a.size - b.size);
       } else {
@@ -956,7 +973,7 @@ define(function(require, exports, module) {
       }
     }
 
-    function SortByDateModified(a, b) {
+    function sortByDateModified(a, b) {
       if (orderBy) {
         return (b.isDirectory - a.isDirectory) || (a.lmdt - b.lmdt);
       } else {
@@ -964,7 +981,7 @@ define(function(require, exports, module) {
       }
     }
 
-    function SortByExtension(a, b) {
+    function sortByExtension(a, b) {
       if (orderBy) {
         return (b.isDirectory - a.isDirectory) || (a.extension.toString().localeCompare(b.extension));
       } else {
@@ -972,7 +989,7 @@ define(function(require, exports, module) {
       }
     }
 
-    function SortByTagCount(a, b) {
+    function sortByTagCount(a, b) {
       if (orderBy) {
         return (b.isDirectory - a.isDirectory) || (a.tags.length - b.tags.length);
       } else {
@@ -982,7 +999,7 @@ define(function(require, exports, module) {
 
     switch (criteria) {
       case "byDirectory":
-        this.searchResults = this.searchResults.sort(SortByIsDirectory);
+        this.searchResults = this.searchResults.sort(sortByIsDirectory);
         //showFoldersInList = true;
         if (showFoldersInList && this.searchResults.length > 0 && this.searchResults[0].isDirectory) { //sort by isDirectory and next by names only if in list have folders
           var arrFolders = [], arrFiles = [];
@@ -993,28 +1010,28 @@ define(function(require, exports, module) {
               arrFiles.push(this.searchResults[inx]);
             }
           }
-          arrFolders = arrFolders.sort(SortByName);
-          arrFiles = arrFiles.sort(SortByName);
+          arrFolders = arrFolders.sort(sortByName);
+          arrFiles = arrFiles.sort(sortByName);
           this.searchResults = arrFolders.concat(arrFiles);
         }
         break;
       case "byName":
-        this.searchResults = this.searchResults.sort(SortByName);
+        this.searchResults = this.searchResults.sort(sortByName);
         break;
       case "byFileSize":
-        this.searchResults = this.searchResults.sort(SortBySize);
+        this.searchResults = this.searchResults.sort(sortBySize);
         break;
       case "byDateModified":
-        this.searchResults = this.searchResults.sort(SortByDateModified);
+        this.searchResults = this.searchResults.sort(sortByDateModified);
         break;
       case "byExtension":
-        this.searchResults = this.searchResults.sort(SortByExtension);
+        this.searchResults = this.searchResults.sort(sortByExtension);
         break;
       case "byTagCount":
-        this.searchResults = this.searchResults.sort(SortByTagCount);
+        this.searchResults = this.searchResults.sort(sortByTagCount);
         break;
       default:
-        this.searchResults = this.searchResults.sort(SortByIsDirectory);
+        this.searchResults = this.searchResults.sort(sortByIsDirectory);
     }
   };
 
