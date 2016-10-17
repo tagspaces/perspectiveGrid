@@ -15,7 +15,8 @@ define(function(require, exports, module) {
   var showFoldersInList = false;
   var hasFolderInList = false;
   var showSortDataInList = 'byDirectory';
-  var orderBy, thumbnailsSize, numberOfFiles;
+  var orderBy, numberOfFiles;
+  var thumbnailsSize = '200,160';
   var extSettings;
   loadExtSettings();
 
@@ -231,30 +232,30 @@ define(function(require, exports, module) {
     $("#increasingThumbnails").on('click', function(e) {
       e.stopPropagation();
       var thumbnailsWidth = $('.fileTile').css('-webkit-flex');
-      var index = thumbnailsWidth.lastIndexOf(' ');
-      var currentWidth = thumbnailsWidth.slice(index);
+      var currentWidth = thumbnailsWidth.slice(thumbnailsWidth.lastIndexOf(' '));
       var thumbnailsHeight = $('.fileTile').css('height');
-      var resizeW = parseFloat(currentWidth);
-      var resizeH = parseFloat(thumbnailsHeight);
+      var resizeW = parseFloat(currentWidth) + 70;
+      var resizeH = parseFloat(thumbnailsHeight) + 60;
       if (resizeW > 345) {
         resizeW = 346;
       }
-      extSettings.thumbnailsSize = resizeW + ',' + resizeH;
-      $('.fileTile').css('-webkit-flex', (resizeW + 60) + 'px');
-      $('.fileTile').css('height', (resizeH + 60) + 'px');
+      thumbnailsSize = resizeW + ',' + resizeH;
+      $('.fileTile').css('-webkit-flex', (resizeW) + 'px');
+      $('.fileTile').css('height', (resizeH) + 'px');
+      saveExtSettings();
     });
 
     $("#decreasingThumbnails").on('click', function(e) {
       e.stopPropagation();
       var thumbnailsWidth = $('.fileTile').css('-webkit-flex');
-      var index = thumbnailsWidth.lastIndexOf(' ');
-      var currentWidth = thumbnailsWidth.slice(index);
+      var currentWidth = thumbnailsWidth.slice(thumbnailsWidth.lastIndexOf(' '));
       var thumbnailsHeight = $('.fileTile').css('height');
-      var resizeW = parseFloat(currentWidth);
-      var resizeH = parseFloat(thumbnailsHeight);
-      extSettings.thumbnailsSize = resizeW + ',' + resizeH;
-      $('.fileTile').css('-webkit-flex', (resizeW - 70) + 'px');
-      $('.fileTile').css('height', (resizeH - 60) + 'px');
+      var resizeW = parseFloat(currentWidth) - 70;
+      var resizeH = parseFloat(thumbnailsHeight) - 60;
+      thumbnailsSize = resizeW + ',' + resizeH;
+      $('.fileTile').css('-webkit-flex', (resizeW) + 'px');
+      $('.fileTile').css('height', (resizeH) + 'px');
+      saveExtSettings();
     });
 
     // Init Tag Context Menus
@@ -617,6 +618,9 @@ define(function(require, exports, module) {
       TSCORE.Meta.loadThumbnailPromise(filePath).then(function(url) {
         uiElement.style.backgroundImage = "url('" + url + "')";
       });
+      var size = thumbnailsSize.split(',');
+      $('.fileTile').css('-webkit-flex', size[0] + 'px');
+      $('.fileTile').css('height', size[1] + 'px');
     }
   };
 
@@ -1031,9 +1035,7 @@ define(function(require, exports, module) {
           orderBy = true;
           showSortDataInList = $(this).attr("key");
           self.sortByCriteria($(this).attr("key"), orderBy);
-          //self.reInit(true, $(this).attr("key"));
           self.reInit();
-          //showFoldersInList = false;
         }) // jshint ignore:line
       ));
       suggMenuDescending.append($('<li>').append($('<button>', {
@@ -1047,9 +1049,7 @@ define(function(require, exports, module) {
           orderBy = false;
           showSortDataInList = $(this).attr("key");
           self.sortByCriteria($(this).attr("key"), orderBy);
-          //self.reInit(true, $(this).attr("key"));
           self.reInit();
-          //showFoldersInList = false;
         }) // jshint ignore:line
       ));
     }
