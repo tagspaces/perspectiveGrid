@@ -176,8 +176,10 @@ define(function(require, exports, module) {
 
     if (extSettings.showFoldersInList) {
       $hideFoldersInList.show();
+      $showFoldersInList.hide();
     } else {
       $hideFoldersInList.hide();
+      $showFoldersInList.show();
     }
 
     $('#orderBy input').on('change', function() {
@@ -909,7 +911,7 @@ define(function(require, exports, module) {
   ExtUI.prototype.showFoldersInListCheckbox = function() {
     showFoldersInList = true;
     TSCORE.navigateToDirectory(TSCORE.currentPath);
-    //saveExtSettings();
+    saveExtSettings();
     $("#" + this.extensionID + "hideFoldersInListCheckbox").show();
     $("#" + this.extensionID + "showFoldersInListCheckbox").hide();
   };
@@ -917,6 +919,7 @@ define(function(require, exports, module) {
   ExtUI.prototype.hideFoldersInListCheckbox = function() {
     showFoldersInList = false;
     TSCORE.navigateToDirectory(TSCORE.currentPath);
+    saveExtSettings();
     $("#" + this.extensionID + "hideFoldersInListCheckbox").hide();
     $("#" + this.extensionID + "showFoldersInListCheckbox").show();
   };
