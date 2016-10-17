@@ -415,6 +415,7 @@ define(function(require, exports, module) {
         $("#statusBar").text(this.searchResults.length + " files found");
       }
     }
+    $('.fileTile').addClass(zoomSteps[currentZoomState]);
 
     TSCORE.hideLoadingAnimation();
     $('#viewContainers').trigger('scroll');
@@ -627,7 +628,6 @@ define(function(require, exports, module) {
       TSCORE.Meta.loadThumbnailPromise(filePath).then(function(url) {
         uiElement.style.backgroundImage = "url('" + url + "')";
       });
-      $('.fileTile').addClass(zoomSteps[currentZoomState]);
     }
   };
 
