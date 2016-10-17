@@ -240,7 +240,7 @@ define(function(require, exports, module) {
       e.stopPropagation();
       $('#perspectiveGridSortingButtons0').find('.fileTile').each(function() {
         if ($(".fileTile").hasClass(zoomSteps[currentZoomState])) {
-          $("div.fileTile.ui-droppable").removeClass("." + zoomSteps[currentZoomState]);
+          $("div.fileTile.ui-droppable").removeClass(zoomSteps[currentZoomState]);
         }
       });
       currentZoomState++;
@@ -265,7 +265,7 @@ define(function(require, exports, module) {
 
       $('#perspectiveGridSortingButtons0').find('.fileTile').each(function() {
         if ($(".fileTile").hasClass(zoomSteps[currentZoomState])) {
-          $("div.fileTile.ui-droppable").removeClass("." + zoomSteps[currentZoomState]);
+          $("div.fileTile.ui-droppable").removeClass(zoomSteps[currentZoomState]);
         }
       });
       currentZoomState--;
