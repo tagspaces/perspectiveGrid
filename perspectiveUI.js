@@ -57,23 +57,23 @@ define(function(require, exports, module) {
     this.supportedGroupings = [];
     this.supportedSortings = [
       {
-        "title": $.i18n.t("ns.common:orderByName"), // Name
+        "title": $.i18n.t("ns.perspectives:orderByName"), // Name
         "key": "byName"
       },
       {
-        "title": $.i18n.t("ns.common:orderByTagCount"), // Tag Count
+        "title": $.i18n.t("ns.perspectives:orderByTagCount"), // Tag Count
         "key": "byTagCount"
       },
       {
-        "title": $.i18n.t("ns.common:orderBySize"), // Size
+        "title": $.i18n.t("ns.perspectives:orderBySize"), // Size
         "key": "byFileSize"
       },
       {
-        "title": $.i18n.t("ns.common:orderByDate"), // Date Modified
+        "title": $.i18n.t("ns.perspectives:orderByDate"), // Date Modified
         "key": "byDateModified"
       },
       {
-        "title": $.i18n.t("ns.common:orderByExtension"), // Extension
+        "title": $.i18n.t("ns.perspectives:orderByExtension"), // Extension
         "key": "byExtension"
       }
     ];
@@ -1032,7 +1032,7 @@ define(function(require, exports, module) {
     //Adding context menu
     for (var i = 0; i < self.supportedSortings.length; i++) {
       suggMenuAscending.append($('<li>').append($('<button>', {
-          text: $.i18n.t("ns.common:by") + " " + self.supportedSortings[i].title + " " + $.i18n.t("ns.common:ascending"),
+          text: $.i18n.t("ns.perspectives:by") + " " + self.supportedSortings[i].title + " " + $.i18n.t("ns.perspectives:ascending"),
           "data-dismiss": "modal",
           class: "btn btn-link",
           key: self.supportedSortings[i].key,
@@ -1046,7 +1046,7 @@ define(function(require, exports, module) {
         }) // jshint ignore:line
       ));
       suggMenuDescending.append($('<li>').append($('<button>', {
-          text: $.i18n.t("ns.common:by") + " " + self.supportedSortings[i].title + " " + $.i18n.t("ns.common:descending"),
+          text: $.i18n.t("ns.perspectives:by") + " " + self.supportedSortings[i].title + " " + $.i18n.t("ns.perspectives:descending"),
           "data-dismiss": "modal",
           class: "btn btn-link",
           key: self.supportedSortings[i].key,
