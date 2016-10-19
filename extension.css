@@ -196,19 +196,19 @@
   flex: 1 1 250px;
   -webkit-flex: 1 1 250px;
   -ms-flex: 1 1 250px;
-  height: 150px;
+  height: 200px;
 }
 
 .zoomLarger {
   flex: 1 1 340px;
   -webkit-flex: 1 1 340px;
   -ms-flex: 1 1 340px;
-  height: 150px;
+  height: 300px;
 }
 
 .zoomLargest {
   flex: 1 1 370px;
   -webkit-flex: 1 1 370px;
   -ms-flex: 1 1 370px;
-  height: 150px;
+  height: 400px;
 }
