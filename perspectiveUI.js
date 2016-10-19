@@ -57,7 +57,7 @@ define(function(require, exports, module) {
     this.supportedGroupings = [];
     this.supportedSortings = [
       {
-        "title": $.i18n.t("ns.perspectives:orderByName"), // Name
+        "title": $.i18n.t("ns.perspectives:fileName"), // Name
         "key": "byName"
       },
       {
@@ -65,15 +65,15 @@ define(function(require, exports, module) {
         "key": "byTagCount"
       },
       {
-        "title": $.i18n.t("ns.perspectives:orderBySize"), // Size
+        "title": $.i18n.t("ns.perspectives:fileSize"), // Size
         "key": "byFileSize"
       },
       {
-        "title": $.i18n.t("ns.perspectives:orderByDate"), // Date Modified
+        "title": $.i18n.t("ns.perspectives:fileLDTM"), // Date Modified
         "key": "byDateModified"
       },
       {
-        "title": $.i18n.t("ns.perspectives:orderByExtension"), // Extension
+        "title": $.i18n.t("ns.perspectives:fileExtension"), // Extension
         "key": "byExtension"
       }
     ];
