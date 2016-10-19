@@ -14,16 +14,29 @@ define(function(require, exports, module) {
   var selectedIsFolderArr = [];
   var showFoldersInList = false;
   var hasFolderInList = false;
+  var showSortDataInList = 'byDirectory';
+  var orderBy, numberOfFiles;
+  var zoomFactor;
   var extSettings;
   loadExtSettings();
 
   if (extSettings && extSettings.showFoldersInList) {
     showFoldersInList = extSettings.showFoldersInList;
   }
+
+  var zoomSteps = ['zoomSmallest', 'zoomSmaller', 'zoomSmall', 'zoomDefault', 'zoomLarge', 'zoomLarger', 'zoomLargest'];
+  var currentZoomState = 3;
+  if (extSettings && extSettings.zoomFactor) {
+    currentZoomState = extSettings.zoomFactor;
+  }
+
   //save settings for perpectiveGrid
   function saveExtSettings() {
     var settings = {
       "showFoldersInList": showFoldersInList,
+      "showSortDataInList": showSortDataInList,
+      "numberOfFiles": numberOfFiles,
+      "zoomFactor": zoomFactor
     };
     localStorage.setItem('perpectiveGridSettings', JSON.stringify(settings));
   }
@@ -42,6 +55,28 @@ define(function(require, exports, module) {
     this.currentTmbSize = 0;
     this.searchResults = undefined;
     this.supportedGroupings = [];
+    this.supportedSortings = [
+      {
+        "title": $.i18n.t("ns.perspectives:fileName"), // Name
+        "key": "byName"
+      },
+      {
+        "title": $.i18n.t("ns.perspectives:orderByTagCount"), // Tag Count
+        "key": "byTagCount"
+      },
+      {
+        "title": $.i18n.t("ns.perspectives:fileSize"), // Size
+        "key": "byFileSize"
+      },
+      {
+        "title": $.i18n.t("ns.perspectives:fileLDTM"), // Date Modified
+        "key": "byDateModified"
+      },
+      {
+        "title": $.i18n.t("ns.perspectives:fileExtension"), // Extension
+        "key": "byExtension"
+      }
+    ];
 
     this.supportedGroupings.push({
       "title": "Day",
@@ -134,19 +169,33 @@ define(function(require, exports, module) {
       TSCORE.showFileCreateDialog();
     });
 
-    var $showFoldersInListCheckBox = $("#" + this.extensionID + "showFoldersInListCheckbox");
-    $showFoldersInListCheckBox.attr('checked', showFoldersInList);
-    $showFoldersInListCheckBox.on("click", function(evt) {
+    var $showFoldersInList = $("#" + this.extensionID + "showFoldersInListCheckbox");
+    //$showFoldersInList.attr('checked', showFoldersInList);
+    $showFoldersInList.on("click", function(evt) {
       self.showFoldersInListCheckbox();
     });
 
-    var $hideFoldersInListCheckBox = $("#" + this.extensionID + "hideFoldersInListCheckbox");
-    $hideFoldersInListCheckBox.attr('checked', showFoldersInList);
-    $hideFoldersInListCheckBox.on("click", function(evt) {
+    var $hideFoldersInList = $("#" + this.extensionID + "hideFoldersInListCheckbox");
+    //$hideFoldersInListCheckBox.attr('checked', showFoldersInList);
+    $hideFoldersInList.on("click", function(evt) {
       self.hideFoldersInListCheckbox();
     });
-    $hideFoldersInListCheckBox.hide();
 
+    if (showFoldersInList) {
+      $hideFoldersInList.show();
+      $showFoldersInList.hide();
+    } else {
+      $hideFoldersInList.hide();
+      $showFoldersInList.show();
+    }
+
+    $('#orderBy input').on('change', function() {
+      if (this.value === 'ascending') {
+        orderBy = true;
+      } else if (this.value === 'descending') {
+        orderBy = false;
+      }
+    });
 
     $("#modal_button_ok").on("click", function(evt) {
       TSCORE.navigateToDirectory(TSCORE.currentPath);
@@ -186,6 +235,38 @@ define(function(require, exports, module) {
       TSCORE.hideAllDropDownMenus();
     });
 
+    $("#increasingThumbnails").on('click', function(e) {
+      e.stopPropagation();
+      $('#perspectiveGridSortingButtons0').find('.fileTile').each(function() {
+        if ($(".fileTile").hasClass(zoomSteps[currentZoomState])) {
+          $("div.fileTile.ui-droppable").removeClass(zoomSteps[currentZoomState]);
+        }
+      });
+      currentZoomState++;
+      if (currentZoomState >= zoomSteps.length) {
+        currentZoomState = 6;
+      }
+      zoomFactor = currentZoomState;
+      $('.fileTile').addClass(zoomSteps[currentZoomState]);
+      saveExtSettings();
+    });
+
+    $("#decreasingThumbnails").on('click', function(e) {
+      e.stopPropagation();
+      $('#perspectiveGridSortingButtons0').find('.fileTile').each(function() {
+        if ($(".fileTile").hasClass(zoomSteps[currentZoomState])) {
+          $("div.fileTile.ui-droppable").removeClass(zoomSteps[currentZoomState]);
+        }
+      });
+      currentZoomState--;
+      if (currentZoomState < 0) {
+        currentZoomState = 0;
+      }
+      zoomFactor = currentZoomState;
+      $('.fileTile').addClass(zoomSteps[currentZoomState]);
+      saveExtSettings();
+    });
+
     // Init Tag Context Menus
     /*$(".tagButton").contextmenu(function() {
      TSCORE.hideAllDropDownMenus();
@@ -196,6 +277,7 @@ define(function(require, exports, module) {
      });*/
 
     this.initFileGroupingMenu();
+    this.initFileSortingMenu();
 
     $('#viewContainers').on('scroll', _.debounce(function() { // Triggering thumbnails generation
       $('#viewContainers').find(".fileTile").each(function() {
@@ -233,39 +315,9 @@ define(function(require, exports, module) {
         shouldShowAllFilesContainer = false;
       }
     }
-
-    function SortByName(a, b) {
-      var aName = a.name.toLowerCase();
-      var bName = b.name.toLowerCase();
-      return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+    if (orderBy === undefined) {
+      self.sortByCriteria('', true);
     }
-
-    function SortByIsDirectory(a, b) {
-      if (b.isDirectory && a.isDirectory) {
-        return 0;
-      }
-      return a.isDirectory && !b.isDirectory ? -1 : 1;
-    }
-
-    //sort by isDirectory in order to show folders on the top of the list
-    this.searchResults = this.searchResults.sort(SortByIsDirectory);
-    if (showFoldersInList && this.searchResults.length > 0 && this.searchResults[0].isDirectory) { //sort by isDirectory and next by names only if in list have folders
-      var arrFolders = [], arrFiles = [];
-      for (var inx = 0; inx < this.searchResults.length; inx++) {
-        if (this.searchResults[inx].isDirectory) {
-          arrFolders.push(this.searchResults[inx]);
-        } else {
-          arrFiles.push(this.searchResults[inx]);
-        }
-      }
-      arrFolders = arrFolders.sort(SortByName);
-      arrFiles = arrFiles.sort(SortByName);
-      this.searchResults = arrFolders.concat(arrFiles);
-    } else {
-      this.searchResults = this.searchResults.sort(SortByName);
-    }
-
-
     var fileGroups = self.calculateGrouping(this.searchResults);
 
     var moreThanOneGroup = (fileGroups.length > 1) ? true : false;
@@ -363,6 +415,7 @@ define(function(require, exports, module) {
         $("#statusBar").text(this.searchResults.length + " files found");
       }
     }
+    $('.fileTile').addClass(zoomSteps[currentZoomState]);
 
     TSCORE.hideLoadingAnimation();
     $('#viewContainers').trigger('scroll');
@@ -877,8 +930,136 @@ define(function(require, exports, module) {
   ExtUI.prototype.hideFoldersInListCheckbox = function() {
     showFoldersInList = false;
     TSCORE.navigateToDirectory(TSCORE.currentPath);
+    saveExtSettings();
     $("#" + this.extensionID + "hideFoldersInListCheckbox").hide();
     $("#" + this.extensionID + "showFoldersInListCheckbox").show();
+  };
+
+  ExtUI.prototype.sortByCriteria = function(criteria, orderBy) {
+    function sortByName(a, b) {
+      if (orderBy) {
+        return (b.isDirectory - a.isDirectory) || (a.name.toString().localeCompare(b.name));
+      } else {
+        return (b.isDirectory - a.isDirectory) || (b.name.toString().localeCompare(a.name));
+      }
+    }
+
+    function sortByIsDirectory(a, b) {
+      if (b.isDirectory && a.isDirectory) {
+        return 0;
+      }
+      //if (orderBy) {
+      return a.isDirectory && !b.isDirectory ? -1 : 1;
+      //} else {
+      //  return a.isDirectory && !b.isDirectory ? 1 : -1;
+      //}
+    }
+
+    function sortBySize(a, b) {
+      if (orderBy) {
+        return (b.isDirectory - a.isDirectory) || (a.size - b.size);
+      } else {
+        return (b.isDirectory - a.isDirectory) || (b.size - a.size);
+      }
+    }
+
+    function sortByDateModified(a, b) {
+      if (orderBy) {
+        return (b.isDirectory - a.isDirectory) || (a.lmdt - b.lmdt);
+      } else {
+        return (b.isDirectory - a.isDirectory) || (b.lmdt - a.lmdt);
+      }
+    }
+
+    function sortByExtension(a, b) {
+      if (orderBy) {
+        return (b.isDirectory - a.isDirectory) || (a.extension.toString().localeCompare(b.extension));
+      } else {
+        return (b.isDirectory - a.isDirectory) || (b.extension.toString().localeCompare(a.extension));
+      }
+    }
+
+    function sortByTagCount(a, b) {
+      if (orderBy) {
+        return (b.isDirectory - a.isDirectory) || (a.tags.length - b.tags.length);
+      } else {
+        return (b.isDirectory - a.isDirectory) || (b.tags.length - a.tags.length);
+      }
+    }
+
+    switch (criteria) {
+      case "byDirectory":
+        this.searchResults = this.searchResults.sort(sortByIsDirectory);
+        //showFoldersInList = true;
+        if (showFoldersInList && this.searchResults.length > 0 && this.searchResults[0].isDirectory) { //sort by isDirectory and next by names only if in list have folders
+          var arrFolders = [], arrFiles = [];
+          for (var inx = 0; inx < this.searchResults.length; inx++) {
+            if (this.searchResults[inx].isDirectory) {
+              arrFolders.push(this.searchResults[inx]);
+            } else {
+              arrFiles.push(this.searchResults[inx]);
+            }
+          }
+          arrFolders = arrFolders.sort(sortByName);
+          arrFiles = arrFiles.sort(sortByName);
+          this.searchResults = arrFolders.concat(arrFiles);
+        }
+        break;
+      case "byName":
+        this.searchResults = this.searchResults.sort(sortByName);
+        break;
+      case "byFileSize":
+        this.searchResults = this.searchResults.sort(sortBySize);
+        break;
+      case "byDateModified":
+        this.searchResults = this.searchResults.sort(sortByDateModified);
+        break;
+      case "byExtension":
+        this.searchResults = this.searchResults.sort(sortByExtension);
+        break;
+      case "byTagCount":
+        this.searchResults = this.searchResults.sort(sortByTagCount);
+        break;
+      default:
+        this.searchResults = this.searchResults.sort(sortByIsDirectory);
+    }
+  };
+
+  ExtUI.prototype.initFileSortingMenu = function() {
+    var self = this;
+    var suggMenuAscending = $("#" + self.extensionID + "SortingMenuAscending");
+    var suggMenuDescending = $("#" + self.extensionID + "SortingMenuDescending");
+    //Adding context menu
+    for (var i = 0; i < self.supportedSortings.length; i++) {
+      suggMenuAscending.append($('<li>').append($('<button>', {
+          text: $.i18n.t("ns.perspectives:by") + " " + self.supportedSortings[i].title + " " + $.i18n.t("ns.perspectives:ascending"),
+          "data-dismiss": "modal",
+          class: "btn btn-link",
+          key: self.supportedSortings[i].key,
+          group: self.supportedSortings[i].title
+        }).prepend("<i class='fa fa-sort-amount-asc fa-fw' />").click(function() {
+          $("#" + self.extensionID + "SortingButton").attr("title", " Sort by " + $(this).attr("sort") + " ").text(" " + $(this).attr("sort") + " ").prepend("<i class='fa fa-group fa-fw' />").append("<span class='caret'></span>");
+          orderBy = true;
+          showSortDataInList = $(this).attr("key");
+          self.sortByCriteria($(this).attr("key"), orderBy);
+          self.reInit();
+        }) // jshint ignore:line
+      ));
+      suggMenuDescending.append($('<li>').append($('<button>', {
+          text: $.i18n.t("ns.perspectives:by") + " " + self.supportedSortings[i].title + " " + $.i18n.t("ns.perspectives:descending"),
+          "data-dismiss": "modal",
+          class: "btn btn-link",
+          key: self.supportedSortings[i].key,
+          group: self.supportedSortings[i].title
+        }).prepend("<i class='fa fa-sort-amount-desc fa-fw' />").click(function() {
+          $("#" + self.extensionID + "SortingButton").attr("title", " Sort by " + $(this).attr("sort") + " ").text(" " + $(this).attr("sort") + " ").prepend("<i class='fa fa-group fa-fw' />").append("<span class='caret'></span>");
+          orderBy = false;
+          showSortDataInList = $(this).attr("key");
+          self.sortByCriteria($(this).attr("key"), orderBy);
+          self.reInit();
+        }) // jshint ignore:line
+      ));
+    }
   };
 
   exports.ExtUI = ExtUI;

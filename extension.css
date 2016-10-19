@@ -21,7 +21,11 @@
   border: 1px solid #D4D4D4;
   text-align: left;
   height: 150px;
-  max-width: 300px;
+  /*width: 200px;*/
+  max-width: 480px;
+  max-height: 440px;
+  min-width: 110px;
+  min-height: 80px;
   overflow: hidden;
   position:relative;
   background-color: white;
@@ -29,7 +33,7 @@
   background-size: cover;
   background-position: center;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-
+  
   flex: 1 1 200px;
   -webkit-flex: 1 1 200px;
   -ms-flex: 1 1 200px;
@@ -145,4 +149,66 @@
 #aboutExtensionModalGrid .modal-body {
   max-height: 500px;
   overflow: auto;
+}
+
+.unpadding {
+  padding:0;
+}
+
+.unstyled{
+  list-style-type: none;
+}
+
+#resizableThumbnails {
+  margin-top:4%;
+  margin-left:12%;
+}
+
+.zoomSmallest {
+  flex: 1 1 130px;
+  -webkit-flex: 1 1 130px;
+  -ms-flex: 1 1 130px;
+  height: 80px;
+}
+
+.zoomSmaller {
+  flex: 1 1 150px;
+  -webkit-flex: 1 1 150px;
+  -ms-flex: 1 1 150px;
+  height: 100px;
+}
+
+.zoomSmall {
+  flex: 1 1 170px;
+  -webkit-flex: 1 1 170px;
+  -ms-flex: 1 1 170px;
+  height: 120px;
+}
+
+.zoomDefault {
+  flex: 1 1 200px;
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  height: 150px;
+}
+
+.zoomLarge {
+  flex: 1 1 250px;
+  -webkit-flex: 1 1 250px;
+  -ms-flex: 1 1 250px;
+  height: 200px;
+}
+
+.zoomLarger {
+  flex: 1 1 340px;
+  -webkit-flex: 1 1 340px;
+  -ms-flex: 1 1 340px;
+  height: 300px;
+}
+
+.zoomLargest {
+  flex: 1 1 370px;
+  -webkit-flex: 1 1 370px;
+  -ms-flex: 1 1 370px;
+  height: 400px;
 }
