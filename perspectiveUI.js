@@ -488,7 +488,7 @@ define(function(require, exports, module) {
     suggMenu.append($('<li>').append($('<a>', {
         title: "Ungroup all elementes",
         "data-dismiss": "modal",
-        class: "btn btn-link",
+        class: "btn btn-link transformation-none",
         text: " Ungroup"
       }).prepend("<i class='fa fa-times-circle'></i>").click(function() {
         $("#" + self.extensionID + "GroupingButton").text(" Group ").prepend("<i class='fa fa-group' />").append("<span class='caret'></span>");
@@ -501,7 +501,7 @@ define(function(require, exports, module) {
       suggMenu.append($('<li>').append($('<button>', {
           text: " Group by " + self.supportedGroupings[i].title,
           "data-dismiss": "modal",
-          class: "btn btn-link",
+          class: "btn btn-link transformation-none",
           key: self.supportedGroupings[i].key,
           group: self.supportedGroupings[i].title
         }).prepend("<i class='fa fa-group fa-fw' />").click(function() {
@@ -1034,7 +1034,7 @@ define(function(require, exports, module) {
       suggMenuAscending.append($('<li>').append($('<button>', {
           text: $.i18n.t("ns.perspectives:by") + " " + self.supportedSortings[i].title + " " + $.i18n.t("ns.perspectives:ascending"),
           "data-dismiss": "modal",
-          class: "btn btn-link",
+          class: "btn btn-link transformation-none",
           key: self.supportedSortings[i].key,
           group: self.supportedSortings[i].title
         }).prepend("<i class='fa fa-sort-amount-asc fa-fw' />").click(function() {
@@ -1048,7 +1048,7 @@ define(function(require, exports, module) {
       suggMenuDescending.append($('<li>').append($('<button>', {
           text: $.i18n.t("ns.perspectives:by") + " " + self.supportedSortings[i].title + " " + $.i18n.t("ns.perspectives:descending"),
           "data-dismiss": "modal",
-          class: "btn btn-link",
+          class: "btn btn-link transformation-none",
           key: self.supportedSortings[i].key,
           group: self.supportedSortings[i].title
         }).prepend("<i class='fa fa-sort-amount-desc fa-fw' />").click(function() {

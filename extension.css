@@ -212,3 +212,7 @@
   -ms-flex: 1 1 370px;
   height: 400px;
 }
+
+.transformation-none {
+  text-transform: none !important;
+}
