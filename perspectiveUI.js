@@ -48,7 +48,6 @@ define(function(require, exports, module) {
       "orderBy": orderBy
     };
     localStorage.setItem('perpectiveGridSettings', JSON.stringify(settings));
-    console.log(settings);
   }
 
   //load settings for perpectiveGrid
