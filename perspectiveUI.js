@@ -1,7 +1,7 @@
 /* Copyright (c) 2013-2016 The TagSpaces Authors.
  * Use of this source code is governed by the MIT license which can be found in the LICENSE.txt file. */
 
-/* global define, Handlebars, isWin, _  */
+/* global define, Handlebars, Mousetrap, isWin, _  */
 define(function(require, exports, module) {
   "use strict";
 
@@ -731,6 +731,20 @@ define(function(require, exports, module) {
     Mousetrap.unbind(TSCORE.Config.getSelectAllKeyBinding());
     Mousetrap.bindGlobal(TSCORE.Config.getSelectAllKeyBinding(), function() {
       self.toggleSelectAll();
+    });
+
+    Mousetrap.bind(['command+up', 'ctrl+up'], function(e) {
+      if (TSCORE.selectedFiles[0]) {
+        TSCORE.FileOpener.openFile(TSCORE.PerspectiveManager.getPrevFile(TSCORE.FileOpener.getOpenedFilePath()));
+      }
+      return false;
+    });
+
+    Mousetrap.bind(['command+down', 'ctrl+down'], function(e) {
+      if (TSCORE.selectedFiles[0]) {
+        TSCORE.FileOpener.openFile(TSCORE.PerspectiveManager.getNextFile(TSCORE.FileOpener.getOpenedFilePath()));
+      }
+      return false;
     });
   };
 
