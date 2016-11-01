@@ -1,7 +1,7 @@
 /* Copyright (c) 2013-2016 The TagSpaces Authors.
  * Use of this source code is governed by the MIT license which can be found in the LICENSE.txt file. */
 
-/* global define, Handlebars, isWin, _  */
+/* global define, Handlebars, isWin, Mousetrap, _  */
 define(function(require, exports, module) {
   "use strict";
 
@@ -24,6 +24,14 @@ define(function(require, exports, module) {
     showFoldersInList = extSettings.showFoldersInList;
   }
 
+  if (extSettings && extSettings.orderBy) {
+    orderBy = extSettings.orderBy;
+  }
+
+  if (extSettings && extSettings.showSortDataInList) {
+    showSortDataInList = extSettings.showSortDataInList;
+  }
+
   var zoomSteps = ['zoomSmallest', 'zoomSmaller', 'zoomSmall', 'zoomDefault', 'zoomLarge', 'zoomLarger', 'zoomLargest'];
   var currentZoomState = 3;
   if (extSettings && extSettings.zoomFactor) {
@@ -36,9 +44,11 @@ define(function(require, exports, module) {
       "showFoldersInList": showFoldersInList,
       "showSortDataInList": showSortDataInList,
       "numberOfFiles": numberOfFiles,
-      "zoomFactor": zoomFactor
+      "zoomFactor": zoomFactor,
+      "orderBy": orderBy
     };
     localStorage.setItem('perpectiveGridSettings', JSON.stringify(settings));
+    console.log(settings);
   }
 
   //load settings for perpectiveGrid
@@ -317,7 +327,10 @@ define(function(require, exports, module) {
     }
     if (orderBy === undefined) {
       self.sortByCriteria('', true);
+    } else {
+      self.sortByCriteria(showSortDataInList, orderBy);
     }
+
     var fileGroups = self.calculateGrouping(this.searchResults);
 
     var moreThanOneGroup = (fileGroups.length > 1) ? true : false;
@@ -711,7 +724,6 @@ define(function(require, exports, module) {
       }
     });
 
-
     $fileTile.find(".fileTagsTile")
     /*.click(function(e) {
      //e.preventDefault();
@@ -1041,6 +1053,7 @@ define(function(require, exports, module) {
           $("#" + self.extensionID + "SortingButton").attr("title", " Sort by " + $(this).attr("sort") + " ").text(" " + $(this).attr("sort") + " ").prepend("<i class='fa fa-group fa-fw' />").append("<span class='caret'></span>");
           orderBy = true;
           showSortDataInList = $(this).attr("key");
+          saveExtSettings();
           self.sortByCriteria($(this).attr("key"), orderBy);
           self.reInit();
         }) // jshint ignore:line
@@ -1055,6 +1068,7 @@ define(function(require, exports, module) {
           $("#" + self.extensionID + "SortingButton").attr("title", " Sort by " + $(this).attr("sort") + " ").text(" " + $(this).attr("sort") + " ").prepend("<i class='fa fa-group fa-fw' />").append("<span class='caret'></span>");
           orderBy = false;
           showSortDataInList = $(this).attr("key");
+          saveExtSettings();
           self.sortByCriteria($(this).attr("key"), orderBy);
           self.reInit();
         }) // jshint ignore:line
