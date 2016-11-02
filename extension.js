@@ -122,6 +122,11 @@ define(function(require, exports, module) {
     return UI.getPrevFile(filePath);
   }
 
+  function selectFile(filePath) {
+
+    return UI.selectFile(filePath);
+  }
+
   function setReadOnly() {
     $(document).off('drop dragend dragenter dragover dragleave', function(event) {
       event.preventDefault();
@@ -144,6 +149,7 @@ define(function(require, exports, module) {
   exports.clearSelectedFiles = clearSelectedFiles;
   exports.getNextFile = getNextFile;
   exports.getPrevFile = getPrevFile;
+  exports.selectFile = selectFile;
   exports.removeFileUI = removeFileUI;
   exports.updateFileUI = updateFileUI;
   exports.updateTreeData = updateTreeData;
