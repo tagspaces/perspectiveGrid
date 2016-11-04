@@ -758,14 +758,13 @@ define(function(require, exports, module) {
       if ($(this).attr("filepath") === filePath) {
         $(this).parent().toggleClass("ui-selected");
         $(this).find("i").toggleClass("fa-check-square").toggleClass("fa-square-o");
-        TSCORE.selectedFiles.push($(this).attr("filepath"));
+        //TSCORE.selectedFiles.push($(this).attr("filepath"));
         selectedIsFolderArr[$(this).attr("filepath")] = (typeof($(this).attr("folderpath")) != "undefined");
         $("#viewContainers").animate({
           scrollTop: $('.ui-selected').offset().top - $("#perspectiveGridContainer").offset().top
         }, 100);
       }
     });
-
     TSCORE.selectedFiles.push(filePath);
     this.handleElementActivation();
   };
