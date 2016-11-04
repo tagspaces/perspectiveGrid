@@ -66,23 +66,23 @@ define(function(require, exports, module) {
     this.supportedGroupings = [];
     this.supportedSortings = [
       {
-        "title": $.i18n.t("ns.perspectives:fileName"), // Name
+        "title": $.i18n.t("ns.perspectives:orderByName"),
         "key": "byName"
       },
       {
-        "title": $.i18n.t("ns.perspectives:orderByTagCount"), // Tag Count
+        "title": $.i18n.t("ns.perspectives:orderByTagCount"),
         "key": "byTagCount"
       },
       {
-        "title": $.i18n.t("ns.perspectives:fileSize"), // Size
+        "title": $.i18n.t("ns.perspectives:orderBySize"),
         "key": "byFileSize"
       },
       {
-        "title": $.i18n.t("ns.perspectives:fileLDTM"), // Date Modified
+        "title": $.i18n.t("ns.perspectives:orderByDate"),
         "key": "byDateModified"
       },
       {
-        "title": $.i18n.t("ns.perspectives:fileExtension"), // Extension
+        "title": $.i18n.t("ns.perspectives:orderByExtension"),
         "key": "byExtension"
       }
     ];
@@ -498,10 +498,10 @@ define(function(require, exports, module) {
 
     var suggMenu = $("#" + self.extensionID + "GroupingMenu");
     suggMenu.append($('<li>').append($('<a>', {
-        title: "Ungroup all elementes",
+        title: $.i18n.t("ns.perspectives:ungroupTitle"),
         "data-dismiss": "modal",
         class: "btn btn-link transformation-none",
-        text: " Ungroup"
+        text: " " + $.i18n.t("ns.perspectives:ungroup")
       }).prepend("<i class='fa fa-times-circle'></i>").click(function() {
         $("#" + self.extensionID + "GroupingButton").text(" Group ").prepend("<i class='fa fa-group' />").append("<span class='caret'></span>");
         self.switchGrouping("");
@@ -511,7 +511,7 @@ define(function(require, exports, module) {
     // Adding context menu entries according to the taggroups
     for (var i = 0; i < self.supportedGroupings.length; i++) {
       suggMenu.append($('<li>').append($('<button>', {
-          text: " Group by " + self.supportedGroupings[i].title,
+          text: " " + $.i18n.t("ns.perspectives:groupBy") + " " + self.supportedGroupings[i].title,
           "data-dismiss": "modal",
           class: "btn btn-link transformation-none",
           key: self.supportedGroupings[i].key,
@@ -1043,7 +1043,7 @@ define(function(require, exports, module) {
     //Adding context menu
     for (var i = 0; i < self.supportedSortings.length; i++) {
       suggMenuAscending.append($('<li>').append($('<button>', {
-          text: $.i18n.t("ns.perspectives:by") + " " + self.supportedSortings[i].title + " " + $.i18n.t("ns.perspectives:ascending"),
+          text: self.supportedSortings[i].title + " " + $.i18n.t("ns.perspectives:ascending"),
           "data-dismiss": "modal",
           class: "btn btn-link transformation-none",
           key: self.supportedSortings[i].key,
@@ -1058,7 +1058,7 @@ define(function(require, exports, module) {
         }) // jshint ignore:line
       ));
       suggMenuDescending.append($('<li>').append($('<button>', {
-          text: $.i18n.t("ns.perspectives:by") + " " + self.supportedSortings[i].title + " " + $.i18n.t("ns.perspectives:descending"),
+          text: self.supportedSortings[i].title + " " + $.i18n.t("ns.perspectives:descending"),
           "data-dismiss": "modal",
           class: "btn btn-link transformation-none",
           key: self.supportedSortings[i].key,
