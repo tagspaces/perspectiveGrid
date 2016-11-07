@@ -876,12 +876,10 @@ define(function(require, exports, module) {
     var nextFilePath;
     var self = this;
     var indexNonDirectory = [];
-    this.searchResults.map(function(entry, index) {
+    this.searchResults.forEach(function(entry, index) {
       if (entry.isDirectory === false) {
         indexNonDirectory.push(index);
       }
-    });
-    this.searchResults.forEach(function(entry, index) {
       if (entry.path === filePath) {
         var nextIndex = index + 1;
         if (nextIndex < self.searchResults.length && self.searchResults[nextIndex].isDirectory === false) {
