@@ -900,20 +900,17 @@ define(function(require, exports, module) {
     var prevFilePath;
     var self = this;
     var indexNonDirectory = [];
-    var length;
-    this.searchResults.map(function(entry, index) {
+
+    this.searchResults.forEach(function(entry, index) {
       if (entry.isDirectory === false) {
         indexNonDirectory.push(index);
-        length = indexNonDirectory.length;
       }
-    });
-    this.searchResults.forEach(function(entry, index) {
       if (entry.path === filePath) {
         var prevIndex = index - 1;
         if (prevIndex >= indexNonDirectory[0]) {
           prevFilePath = self.searchResults[prevIndex].path;
         } else {
-          prevFilePath = self.searchResults[indexNonDirectory[indexNonDirectory.length - 1]].path;
+          prevFilePath = self.searchResults[self.searchResults.length - 1].path;
         }
       }
       //console.log("Path: "+entry.path);
