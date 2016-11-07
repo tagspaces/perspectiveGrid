@@ -875,13 +875,20 @@ define(function(require, exports, module) {
   ExtUI.prototype.getNextFile = function(filePath) {
     var nextFilePath;
     var self = this;
+    var indexNonDirectory = [];
+    this.searchResults.map(function(entry, index) {
+      if (entry.isDirectory === false) {
+        indexNonDirectory.push(index);
+      }
+    });
     this.searchResults.forEach(function(entry, index) {
       if (entry.path === filePath) {
         var nextIndex = index + 1;
-        if (nextIndex < self.searchResults.length) {
+        if (nextIndex < self.searchResults.length && self.searchResults[nextIndex].isDirectory === false) {
           nextFilePath = self.searchResults[nextIndex].path;
         } else {
-          nextFilePath = self.searchResults[0].path;
+          nextFilePath = self.searchResults[indexNonDirectory[0]].path;
+          //nextFilePath = self.searchResults[nextIndex].path;
         }
       }
       //console.log("Path: "+entry.path);
@@ -894,13 +901,21 @@ define(function(require, exports, module) {
   ExtUI.prototype.getPrevFile = function(filePath) {
     var prevFilePath;
     var self = this;
+    var indexNonDirectory = [];
+    var length;
+    this.searchResults.map(function(entry, index) {
+      if (entry.isDirectory === false) {
+        indexNonDirectory.push(index);
+        length = indexNonDirectory.length;
+      }
+    });
     this.searchResults.forEach(function(entry, index) {
       if (entry.path === filePath) {
         var prevIndex = index - 1;
-        if (prevIndex >= 0) {
+        if (prevIndex >= indexNonDirectory[0]) {
           prevFilePath = self.searchResults[prevIndex].path;
         } else {
-          prevFilePath = self.searchResults[self.searchResults.length - 1].path;
+          prevFilePath = self.searchResults[indexNonDirectory[indexNonDirectory.length - 1]].path;
         }
       }
       //console.log("Path: "+entry.path);
