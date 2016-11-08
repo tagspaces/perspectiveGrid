@@ -758,11 +758,13 @@ define(function(require, exports, module) {
       if ($(this).attr("filepath") === filePath) {
         $(this).parent().toggleClass("ui-selected");
         $(this).find("i").toggleClass("fa-check-square").toggleClass("fa-square-o");
-        TSCORE.selectedFiles.push($(this).attr("filepath"));
+        //TSCORE.selectedFiles.push($(this).attr("filepath"));
         selectedIsFolderArr[$(this).attr("filepath")] = (typeof($(this).attr("folderpath")) != "undefined");
+        $("#viewContainers").animate({
+          scrollTop: $('.ui-selected').offset().top - $("#perspectiveGridContainer").offset().top
+        }, 100);
       }
     });
-
     TSCORE.selectedFiles.push(filePath);
     this.handleElementActivation();
   };
@@ -873,13 +875,18 @@ define(function(require, exports, module) {
   ExtUI.prototype.getNextFile = function(filePath) {
     var nextFilePath;
     var self = this;
+    var indexNonDirectory = [];
     this.searchResults.forEach(function(entry, index) {
+      if (entry.isDirectory === false) {
+        indexNonDirectory.push(index);
+      }
       if (entry.path === filePath) {
         var nextIndex = index + 1;
-        if (nextIndex < self.searchResults.length) {
+        if (nextIndex < self.searchResults.length && self.searchResults[nextIndex].isDirectory === false) {
           nextFilePath = self.searchResults[nextIndex].path;
         } else {
-          nextFilePath = self.searchResults[0].path;
+          nextFilePath = self.searchResults[indexNonDirectory[0]].path;
+          //nextFilePath = self.searchResults[nextIndex].path;
         }
       }
       //console.log("Path: "+entry.path);
@@ -892,10 +899,15 @@ define(function(require, exports, module) {
   ExtUI.prototype.getPrevFile = function(filePath) {
     var prevFilePath;
     var self = this;
+    var indexNonDirectory = [];
+
     this.searchResults.forEach(function(entry, index) {
+      if (entry.isDirectory === false) {
+        indexNonDirectory.push(index);
+      }
       if (entry.path === filePath) {
         var prevIndex = index - 1;
-        if (prevIndex >= 0) {
+        if (prevIndex >= indexNonDirectory[0]) {
           prevFilePath = self.searchResults[prevIndex].path;
         } else {
           prevFilePath = self.searchResults[self.searchResults.length - 1].path;
