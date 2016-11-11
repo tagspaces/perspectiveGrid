@@ -81,6 +81,7 @@ define(function(require, exports, module) {
       $('#' + extensionID + 'TagButton').hide();
       $('#' + extensionID + 'CopyMoveButton').hide();
       $('#' + extensionID + 'CreateDirectoryButton').hide();
+      $('#' + extensionID + 'DeleteSelectedFilesButton').hide();
     } else if (isFirefox) {
       $('#' + extensionID + 'AddFileButton').hide(); // Current impl has 0.5mb limit
     }
