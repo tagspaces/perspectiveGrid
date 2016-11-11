@@ -728,7 +728,8 @@ define(function(require, exports, module) {
      //e.preventDefault();
      self.selectFile(filePath);
      TSCORE.openTagMenu(this, $(this).attr("tag"), filePath);
-     })*/.draggable({
+     })*/
+     .draggable({
       "cancel": false,
       "appendTo": "body",
       "helper": "clone",
