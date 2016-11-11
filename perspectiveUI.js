@@ -420,11 +420,11 @@ define(function(require, exports, module) {
     $("#" + this.extensionID + "IncreaseThumbsButton").prop('disabled', true);
     $("#" + this.extensionID + "TagButton").prop('disabled', true);
 
-    if (this.searchResults.length !== undefined) {
+    if (this.searchResults.length) {
       if (TSCORE.Search.nextQuery.length > 0) {
-        $("#statusBar").text(this.searchResults.length + " files found for '" + TSCORE.Search.nextQuery + "'");
+        $("#statusBar").text(this.searchResults.length + " " +  $.i18n.t("ns.perspectives:filesFoundFor") + " '" + TSCORE.Search.nextQuery + "'");
       } else {
-        $("#statusBar").text(this.searchResults.length + " files found");
+        $("#statusBar").text(this.searchResults.length + " " +  $.i18n.t("ns.perspectives:filesFound"));
       }
     }
     $('.fileTile').addClass(zoomSteps[currentZoomState]);
