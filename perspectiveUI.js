@@ -501,9 +501,9 @@ define(function(require, exports, module) {
         title: $.i18n.t("ns.perspectives:ungroupTitle"),
         "data-dismiss": "modal",
         class: "btn btn-link transformation-none",
-        text: " " + $.i18n.t("ns.perspectives:ungroup")
+        text: $.i18n.t("ns.perspectives:ungroup")
       }).prepend("<i class='fa fa-times-circle'></i>").click(function() {
-        $("#" + self.extensionID + "GroupingButton").text(" Group ").prepend("<i class='fa fa-group' />").append("<span class='caret'></span>");
+        //$("#" + self.extensionID + "GroupingButton").text(" Group ").prepend("<i class='fa fa-group' />").append("<span class='caret'></span>");
         self.switchGrouping("");
       })
     ));
@@ -511,13 +511,13 @@ define(function(require, exports, module) {
     // Adding context menu entries according to the taggroups
     for (var i = 0; i < self.supportedGroupings.length; i++) {
       suggMenu.append($('<li>').append($('<button>', {
-          text: " " + $.i18n.t("ns.perspectives:groupBy") + " " + self.supportedGroupings[i].title,
+          text: $.i18n.t("ns.perspectives:groupBy") + " " + self.supportedGroupings[i].title,
           "data-dismiss": "modal",
           class: "btn btn-link transformation-none",
           key: self.supportedGroupings[i].key,
           group: self.supportedGroupings[i].title
-        }).prepend("<i class='fa fa-group fa-fw' />").click(function() {
-          $("#" + self.extensionID + "GroupingButton").attr("title", " Grouped by " + $(this).attr("group") + " ").text(" " + $(this).attr("group") + " ").prepend("<i class='fa fa-group fa-fw' />").append("<span class='caret'></span>");
+        }).prepend("<i class='fa fa-group fa-fw'></i>&nbsp;&nbsp;&nbsp;").click(function() {
+          //$("#" + self.extensionID + "GroupingButton").attr("title", " Grouped by " + $(this).attr("group") + " ").text(" " + $(this).attr("group") + " ").prepend("<i class='fa fa-group fa-fw' />").append("<span class='caret'></span>");
           self.switchGrouping($(this).attr("key"));
         }) // jshint ignore:line
       ));
@@ -877,21 +877,24 @@ define(function(require, exports, module) {
     var nextFilePath;
     var self = this;
     var indexNonDirectory = [];
-    this.searchResults.forEach(function(entry, index) {
-      if (entry.isDirectory === false) {
-        indexNonDirectory.push(index);
+
+    this.searchResults.forEach(function(entry) {
+      if (!entry.isDirectory) {
+        indexNonDirectory.push(entry);
       }
+    });
+
+    indexNonDirectory.forEach(function(entry, index) {
       if (entry.path === filePath) {
         var nextIndex = index + 1;
-        if (nextIndex < self.searchResults.length && self.searchResults[nextIndex].isDirectory === false) {
-          nextFilePath = self.searchResults[nextIndex].path;
+        if (nextIndex < indexNonDirectory.length) {
+          nextFilePath = indexNonDirectory[nextIndex].path;
         } else {
-          nextFilePath = self.searchResults[indexNonDirectory[0]].path;
-          //nextFilePath = self.searchResults[nextIndex].path;
+          nextFilePath = indexNonDirectory[0].path;
         }
       }
-      //console.log("Path: "+entry.path);
     });
+
     TSCORE.PerspectiveManager.clearSelectedFiles();
     console.log("Next file: " + nextFilePath);
     return nextFilePath;
@@ -902,20 +905,23 @@ define(function(require, exports, module) {
     var self = this;
     var indexNonDirectory = [];
 
-    this.searchResults.forEach(function(entry, index) {
-      if (entry.isDirectory === false) {
-        indexNonDirectory.push(index);
+    this.searchResults.forEach(function(entry) {
+      if (!entry.isDirectory) {
+        indexNonDirectory.push(entry);
       }
+    });
+
+    indexNonDirectory.forEach(function(entry, index) {
       if (entry.path === filePath) {
         var prevIndex = index - 1;
-        if (prevIndex >= indexNonDirectory[0]) {
-          prevFilePath = self.searchResults[prevIndex].path;
+        if (prevIndex >= 0) {
+          prevFilePath = indexNonDirectory[prevIndex].path;
         } else {
-          prevFilePath = self.searchResults[self.searchResults.length - 1].path;
+          prevFilePath = indexNonDirectory[indexNonDirectory.length - 1].path;
         }
       }
-      //console.log("Path: "+entry.path);
     });
+
     TSCORE.PerspectiveManager.clearSelectedFiles();
     console.log("Prev file: " + prevFilePath);
     return prevFilePath;
@@ -1061,7 +1067,7 @@ define(function(require, exports, module) {
           class: "btn btn-link transformation-none",
           key: self.supportedSortings[i].key,
           group: self.supportedSortings[i].title
-        }).prepend("<i class='fa fa-sort-amount-asc fa-fw' />").click(function() {
+        }).prepend("<i class='fa fa-sort-amount-asc fa-fw'></i>&nbsp;&nbsp;").click(function() {
           $("#" + self.extensionID + "SortingButton").attr("title", " Sort by " + $(this).attr("sort") + " ").text(" " + $(this).attr("sort") + " ").prepend("<i class='fa fa-group fa-fw' />").append("<span class='caret'></span>");
           orderBy = true;
           showSortDataInList = $(this).attr("key");
@@ -1076,7 +1082,7 @@ define(function(require, exports, module) {
           class: "btn btn-link transformation-none",
           key: self.supportedSortings[i].key,
           group: self.supportedSortings[i].title
-        }).prepend("<i class='fa fa-sort-amount-desc fa-fw' />").click(function() {
+        }).prepend("<i class='fa fa-sort-amount-desc fa-fw'></i>&nbsp;&nbsp;").click(function() {
           $("#" + self.extensionID + "SortingButton").attr("title", " Sort by " + $(this).attr("sort") + " ").text(" " + $(this).attr("sort") + " ").prepend("<i class='fa fa-group fa-fw' />").append("<span class='caret'></span>");
           orderBy = false;
           showSortDataInList = $(this).attr("key");
