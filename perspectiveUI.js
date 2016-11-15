@@ -325,7 +325,7 @@ define(function(require, exports, module) {
       }
     }
     if (orderBy === undefined) {
-      self.sortByCriteria('', true);
+      self.sortByCriteria('byName', true);
     } else {
       self.sortByCriteria(showSortDataInList, orderBy);
     }
