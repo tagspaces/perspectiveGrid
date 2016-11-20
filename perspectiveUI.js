@@ -62,7 +62,7 @@ define(function(require, exports, module) {
     this.currentGrouping = ""; // tagchain, day, month, year
     this.thumbEnabled = false;
     this.currentTmbSize = 0;
-    this.searchResults = undefined;
+    this.searchResults = [];
     this.supportedGroupings = [];
     this.supportedSortings = [
       {
