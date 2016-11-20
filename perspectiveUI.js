@@ -442,7 +442,7 @@ define(function(require, exports, module) {
 
     if (metaObj.thumbnailPath && metaObj.thumbnailPath.length > 2) {
       tmbPath = encodeURI(metaObj.thumbnailPath);
-      if(isWin) {
+      if (isWin) {
         tmbPath = tmbPath.split('%5C').join('/').split('%3A').join(':');
       }
     }
