@@ -629,10 +629,15 @@ define(function(require, exports, module) {
     }
 
     // Sort groups by date
-    data = _.sortBy(data, function(value) {
-      var tmpDate = new Date(value[0].lmdt);
-      return -tmpDate.getTime();
-    });
+    //data = _.sortBy(data, function(value) {
+    //  //var tmpDate = new Date(value[0].lmdt);
+    //  return value;
+    //});
+
+    // Sort groups by name(alphabetical order)
+    data = _(data).chain().sortBy(function(data) {
+      return data[0].tags[0];
+    }).value();
 
     return data;
   };
