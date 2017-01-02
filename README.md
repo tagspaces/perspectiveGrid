@@ -1,9 +1,14 @@
+# Grid Perspective for TagSpaces
+
 A TagSpaces extension allowing you to view your files in a grid with an image preview.
 
 ## Features
 
 * Listing the file of the current folder in a grid fomtat.
+* Changing the size if the grids
 * Showing thumbnails image of the file if available.
+* Grouping the files by date, month, year or tags from a tag group.
+* Sorting the files by various createria such as name, size, extension and other.
 
 ## Installation
 
