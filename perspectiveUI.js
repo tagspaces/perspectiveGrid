@@ -749,7 +749,7 @@ define(function(require, exports, module) {
     });
 
     Mousetrap.unbind(TSCORE.Config.getSelectAllKeyBinding());
-    Mousetrap.bindGlobal(TSCORE.Config.getSelectAllKeyBinding(), function() {
+    Mousetrap.bind(TSCORE.Config.getSelectAllKeyBinding(), function() {
       self.toggleSelectAll();
     });
   };
