@@ -53,17 +53,6 @@ define(function(require, exports, module) {
     });
   }
 
-  function handleLinks($element) {
-    $element.find("a[href]").each(function() {
-      var currentSrc = $(this).attr("href");
-      $(this).bind('click', function(e) {
-        e.preventDefault();
-        var msg = {command: "openLinkExternally", link: currentSrc};
-        window.parent.postMessage(JSON.stringify(msg), "*");
-      });
-    });
-  }
-
   function platformTuning() {
     if (isCordova) {
       $("#" + extensionID + "IncludeSubDirsButton").hide();
