@@ -421,7 +421,7 @@ define(function(require, exports, module) {
         }
       });
       if (TSCORE.Search.nextQuery.length > 0) {
-         $("#statusBar").text(fileCount + " " +  $.i18n.t("ns.perspectives:filesFoundFor") + " '" + TSCORE.Search.nextQuery + "'");
+        $("#statusBar").text(fileCount + " " +  $.i18n.t("ns.perspectives:filesFoundFor") + " '" + TSCORE.Search.nextQuery + "'");
       } else {
         $("#statusBar").text(fileCount + " " +  $.i18n.t("ns.perspectives:filesFound"));
       }
@@ -697,7 +697,7 @@ define(function(require, exports, module) {
           $stateTag.removeClass("fa-check-square").addClass("fa-square-o");
           $(this).parent().removeClass("ui-selected");
           TSCORE.selectedFiles.splice(TSCORE.selectedFiles.indexOf(path), 1);
-         }
+        }
         selectedIsFolderArr[path] = false;
         self.handleElementActivation();
       } else {
