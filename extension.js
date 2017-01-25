@@ -23,7 +23,6 @@ define(function(require, exports, module) {
       require([
         extensionDirectory + '/perspectiveUI.js',
         "text!" + extensionDirectory + '/toolbar.html',
-        "marked",
         "css!" + extensionDirectory + '/extension.css',
       ], function(extUI, toolbarTPL, marked) {
         var toolbarTemplate = Handlebars.compile(toolbarTPL);
@@ -40,19 +39,12 @@ define(function(require, exports, module) {
               url: extensionDirectory + '/README.md',
               type: 'GET'
             }).done(function(mdData) {
-              //console.log("DATA: " + mdData);
-              if (marked) {
-                var modalBody = $("#aboutExtensionModalGrid .modal-body");
-                modalBody.html(marked(mdData, {sanitize: true}));
-                handleLinks(modalBody);
-              } else {
-                console.log("markdown to html transformer not found");
-              }
+              var modalBody = $("#aboutExtensionModalGrid .modal-body");
+              TSCORE.Utils.setMarkDownContent(modalBody, mdData)
             }).fail(function(data) {
               console.warn("Loading file failed " + data);
             });
           });
-
         } catch (err) {
           console.log("Failed translating extension");
         }
