@@ -133,10 +133,14 @@ define(function(require, exports, module) {
 
   var folderTileTmpl = Handlebars.compile(
     '<div title="{{folderpath}}" data-path="{{folderpath}}" data-isfile="false" class="fileTile">' +
-      '<button class="btn btn-link fileTileSelector {{coloredExtClass}}" data-ext="folder" data-path="{{folderpath}}">' +
-        '<i class="fa fa-folder-o fa-lg"></i>' +
-      '</button>' +
-      '<div class="titleInFileTile">{{title}}</div>' +
+      '<div class="thumbnailArea" style="background-image: url(\'{{thumbPath}}\')">' +
+      '</div>' +
+      '<div class="fileInfoArea">' +
+        '<button class="btn btn-link fileTileSelector {{coloredExtClass}}" data-ext="folder" data-path="{{folderpath}}">' +
+          '<i class="fa fa-folder-o fa-lg"></i>' +
+        '</button>' +
+        '<div class="titleInFileTile">{{title}}</div>' +
+      '</div>' +
     '</div>'
   );
 
