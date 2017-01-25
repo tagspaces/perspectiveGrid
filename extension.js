@@ -40,7 +40,7 @@ define(function(require, exports, module) {
               type: 'GET'
             }).done(function(mdData) {
               var modalBody = $("#aboutExtensionModalGrid .modal-body");
-              TSCORE.Utils.setMarkDownContent(modalBody, mdData)
+              TSCORE.Utils.setMarkDownContent(modalBody, mdData);
             }).fail(function(data) {
               console.warn("Loading file failed " + data);
             });
