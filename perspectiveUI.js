@@ -114,53 +114,55 @@ define(function(require, exports, module) {
 
   var fileTileTmpl = Handlebars.compile(
     '<div title="{{filepath}}" filepath="{{filepath}}" class="fileTile" style="background-image: url(\'{{thumbPath}}\')">' +
-    '<button class="btn btn-link fileTileSelector {{coloredExtClass}}" data-ext="{{fileext}}" filepath="{{filepath}}">' +
-    '<i class="fa {{selected}} fa-lg"></i><span class="fileExtTile">{{fileext}}</span></button>' +
-    '<div class="tagsInFileTile">' +
-    '{{#each tags}}' +
-    '<button class="btn btn-sm tagButton fileTagsTile" tag="{{tag}}" filepath="{{filepath}}" style="{{style}}">{{tag}}' +
-    '<!-- <span class="fa fa-ellipsis-v"></span--></button>' +
-    '{{/each}}' +
-    '</div>' +
-    '<div class="titleInFileTile">{{title}}</div>' +
+      '<button class="btn btn-link fileTileSelector {{coloredExtClass}}" data-ext="{{fileext}}" filepath="{{filepath}}">' +
+        '<i class="fa {{selected}} fa-lg"></i><span class="fileExtTile">{{fileext}}</span>' +
+       '</button>' +
+       '<div class="tagsInFileTile">' +
+       '{{#each tags}}' +
+         '<button class="btn btn-sm tagButton fileTagsTile" tag="{{tag}}" filepath="{{filepath}}" style="{{style}}">{{tag}}' +
+       '<!-- <span class="fa fa-ellipsis-v"></span--></button>' +
+       '{{/each}}' +
+      '</div>' +
+      '<div class="titleInFileTile">{{title}}</div>' +
     '</div>'
   );
 
   var folderTileTmpl = Handlebars.compile(
     '<div title="{{folderpath}}" folderpath="{{folderpath}}" class="fileTile">' +
-    '<button class="btn btn-link fileTileSelector {{coloredExtClass}}" data-ext="folder" folderpath="{{folderpath}}">' +
-    '<i class="fa fa-folder-o fa-lg"></i><!--span class="fileExtTile">{{title}}</span--></button>' +
-    '<div class="tagsInFileTile">' +
-    '{{#each tags}}' +
-    '<button class="btn btn-sm tagButton fileTagsTile" tag="{{tag}}" folderpath="{{folderpath}}" style="{{style}}">{{tag}}</button>' +
-    '{{/each}}' +
-    '</div>' +
-    '<div class="titleInFileTile">{{title}}</div>' +
+      '<button class="btn btn-link fileTileSelector {{coloredExtClass}}" data-ext="folder" folderpath="{{folderpath}}">' +
+        '<i class="fa fa-folder-o fa-lg"></i><!--span class="fileExtTile">{{title}}</span-->' +
+      '</button>' +
+      '<div class="tagsInFileTile">' +
+      '{{#each tags}}' +
+        '<button class="btn btn-sm tagButton fileTagsTile" tag="{{tag}}" folderpath="{{folderpath}}" style="{{style}}">{{tag}}</button>' +
+      '{{/each}}' +
+      '</div>' +
+      '<div class="titleInFileTile">{{title}}</div>' +
     '</div>'
   );
 
   var mainLayoutTemplate = Handlebars.compile(
     '<div class="extMainContent accordion">' +
     '{{#each groups}}' +
-    '<div class="accordion-group disableTextSelection" style="width: 100%; border: 0px #aaa solid;">' +
-    '{{#if ../moreThanOneGroup}}' +
-    '<div class="accordion-heading btn-group" style="width:100%; margin: 0px; border-bottom: solid 1px #eee; background-color: #f0f0f0;">' +
-    '<button class="btn btn-link groupTitle" data-toggle="collapse" data-target="#{{../../id}}SortingButtons{{@index}}">' +
-    '<i class="fa fa-minus-square">&nbsp;</i>' +
-    '</button>' +
-    '<span class="btn btn-link groupTitle" id="{{../../id}}HeaderTitle{{@index}}" style="margin-left: 0px; padding-left: 0px;"></span>' +
-    '</div>' +
-    '{{/if}}' +
-    '<div class="accordion-body collapse in" id="{{../id}}SortingButtons{{@index}}" style="margin: 0px 0px 0px 3px; border: 0px;">' +
-    '<div class="accordion-inner tileContainer" id="{{../id}}GroupContent{{@index}}"></div>' +
-    '</div>' +
+      '<div class="accordion-group disableTextSelection" style="width: 100%; border: 0px #aaa solid;">' +
+      '{{#if ../moreThanOneGroup}}' +
+        '<div class="accordion-heading btn-group" style="width:100%; margin: 0px; border-bottom: solid 1px #eee; background-color: #f0f0f0;">' +
+          '<button class="btn btn-link groupTitle" data-toggle="collapse" data-target="#{{../../id}}SortingButtons{{@index}}">' +
+            '<i class="fa fa-minus-square">&nbsp;</i>' +
+          '</button>' +
+          '<span class="btn btn-link groupTitle" id="{{../../id}}HeaderTitle{{@index}}" style="margin-left: 0px; padding-left: 0px;"></span>' +
+        '</div>' +
+      '{{/if}}' +
+      '<div class="accordion-body collapse in" id="{{../id}}SortingButtons{{@index}}" style="margin: 0px 0px 0px 3px; border: 0px;">' +
+        '<div class="accordion-inner tileContainer" id="{{../id}}GroupContent{{@index}}"></div>' +
+      '</div>' +
     '</div>' +
     '{{else}}' +
-    '<p style="margin: 5px; font-size: 13px; text-align: center;">Directory does not contain any files or is currently being analysed.</p>' +
+      '<p style="margin: 5px; font-size: 13px; text-align: center;">Directory does not contain any files or is currently being analysed.</p>' +
     '{{/each}}' +
-    '<div id="gridShowAllFilesContainer">' +
-    '<button class="btn btn-primary" id="gridShowAllFilesButton">Show all files</button>' +
-    '</div>' +
+      '<div id="gridShowAllFilesContainer">' +
+        '<button class="btn btn-primary" id="gridShowAllFilesButton">Show all files</button>' +
+      '</div>' +
     '</div>'
   );
 
@@ -421,10 +423,16 @@ define(function(require, exports, module) {
     $("#" + this.extensionID + "TagButton").prop('disabled', true);
 
     if (this.searchResults.length) {
+      var fileCount = 0;
+      this.searchResults.forEach(function(entry) {
+        if (!entry.isDirectory) {
+          fileCount++;
+        }
+      });
       if (TSCORE.Search.nextQuery.length > 0) {
-        $("#statusBar").text(this.searchResults.length + " " +  $.i18n.t("ns.perspectives:filesFoundFor") + " '" + TSCORE.Search.nextQuery + "'");
+         $("#statusBar").text(fileCount + " " +  $.i18n.t("ns.perspectives:filesFoundFor") + " '" + TSCORE.Search.nextQuery + "'");
       } else {
-        $("#statusBar").text(this.searchResults.length + " " +  $.i18n.t("ns.perspectives:filesFound"));
+        $("#statusBar").text(fileCount + " " +  $.i18n.t("ns.perspectives:filesFound"));
       }
     }
     $('.fileTile').addClass(zoomSteps[currentZoomState]);
