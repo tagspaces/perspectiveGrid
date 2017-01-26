@@ -857,7 +857,7 @@ define(function(require, exports, module) {
         }
       });
     } else {
-      $fileTile = this.viewContainer.find(".fileTile[filepath='" + oldFilePath + "']");
+      $fileTile = this.viewContainer.find(".fileTile[data-path='" + oldFilePath + "']");
     }
 
     var metaObj = TSCORE.Meta.findMetaObjectFromFileList(oldFilePath);
@@ -876,7 +876,7 @@ define(function(require, exports, module) {
         }
       });
     } else {
-      this.viewContainer.find(".fileTile[filepath='" + newFilePath + "']");
+      this.viewContainer.find(".fileTile[data-path='" + newFilePath + "']");
     }
 
     TSCORE.Meta.loadThumbnailPromise(newFilePath).then(function(url) {
