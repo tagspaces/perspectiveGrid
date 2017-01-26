@@ -746,7 +746,7 @@ define(function(require, exports, module) {
       var isFile = $(this).data("isfile");
       if (path === filePath) {
         $(this).toggleClass("ui-selected");
-        $(this).find("fileTileSelector i").toggleClass("fa-check-square").toggleClass("fa-square-o");
+        $(this).find(".fileTileSelector i").toggleClass("fa-check-square").toggleClass("fa-square-o");
         selectedIsFolderArr[path] = !isFile;
 
         // TODO check selection offset

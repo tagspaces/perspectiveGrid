@@ -57,9 +57,8 @@
 .fileInfoArea {
   flex: 1 1 auto;
   -ms-flex: 1 1 auto;
-
-  display: flex;
-  display: -ms-flexbox;
+  display: block;
+  /*display: -ms-flexbox;*/
   flex-direction: row;
   -ms-flex-direction: row;
 }
@@ -75,8 +74,7 @@
   z-index: 99;
   padding: 4px;
   padding-left: 0;
-
-  display: flex;
+  display: inline;
 }
 
 .activeRow { background: rgba(29, 209, 159, 0.52) !important; }
