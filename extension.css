@@ -46,7 +46,7 @@
 }
 
 .thumbnailArea {
-  background-color: #f3f3f3;
+  /*background-color: #f3f3f3;*/
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -55,6 +55,7 @@
 }
 
 .fileInfoArea {
+  background-color: #f3f3f3;
   flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   display: block;

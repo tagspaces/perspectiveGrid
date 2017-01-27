@@ -114,15 +114,15 @@ define(function(require, exports, module) {
   }
 
   var fileTileTmpl = Handlebars.compile(
-    '<div title="{{filepath}}" data-path="{{filepath}}" data-isfile="true" class="fileTile">' +
-      '<div class="thumbnailArea" style="background-image: url(\'{{thumbPath}}\')">' +
+    '<div title="{{filepath}}" data-path="{{filepath}}" data-isfile="true" class="fileTile" style="background-image: url(\'{{thumbPath}}\')">' +
+      '<div class="thumbnailArea" >' +
         '<div class="tagsInFileTile">' +
         '{{#each tags}}' +
           '<button class="btn btn-sm tagButton fileTagsTile" data-tag="{{tag}}" data-path="{{filepath}}" style="{{style}}">{{tag}}</button>' +
         '{{/each}}' +
         '</div>' +
       '</div>' +
-      '<div class="fileInfoArea" filepath="{{filepath}}">' +
+      '<div class="fileInfoArea" filepath="{{filepath}}" data-path="{{filepath}}">' +
         '<button class="btn btn-link fileTileSelector {{coloredExtClass}}" data-ext="{{fileext}}" >' +
           '<i class="fa {{selected}} fa-fw fa-lg"></i><span class="fileExtTile">{{fileext}}</span>' +
         '</button>' +
@@ -638,7 +638,7 @@ define(function(require, exports, module) {
 
   ExtUI.prototype.setThumbnail = function(uiElement) {
     if (TSCORE.Utils.isVisibleOnScreen(uiElement) && (uiElement.style.backgroundImage.indexOf("image/gif") > 0)) {
-      var filePath = uiElement.dataset.filepath;
+      var filePath = uiElement.getAttribute('data-path');
       TSCORE.Meta.loadThumbnailPromise(filePath).then(function(url) {
         uiElement.style.backgroundImage = "url('" + url + "')";
       });
