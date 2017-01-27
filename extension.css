@@ -37,9 +37,6 @@
   display: -ms-flexbox;
   flex-direction: column;
   -ms-flex-direction: column;
-
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
 }
 
 @media (max-width: 768px) {
@@ -49,21 +46,22 @@
 }
 
 .thumbnailArea {
-  /*background-color: #f3f3f3;*/
+  background-color: #f3f3f3;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  flex: 0 1 130px;
-  -ms-flex: 0 1 130px;
+  flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
 }
 
 .fileInfoArea {
-  /*background-color: #f3f3f3;*/
-  background-color: rgba(243, 243, 243, 0.71);;
-  flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  display: block;
-  /*display: -ms-flexbox;*/
+  background-color: #f3f3f3;
+
+  flex: 0 1 40px;
+  -ms-flex: 0 1 40px;
+
+  display: flex;
+  display: -ms-flexbox;
   flex-direction: row;
   -ms-flex-direction: row;
 }
@@ -79,7 +77,7 @@
   z-index: 99;
   padding: 4px;
   padding-left: 0;
-  display: inline;
+  display: flex;
 }
 
 .activeRow { background: rgba(29, 209, 159, 0.52) !important; }
@@ -129,13 +127,6 @@
   background-color: gray;
 }
 
-/*.thumbImg {
-  max-width: 100px;
-  max-height: 100px;
-  vertical-align: text-top;
-  border: 0px lightgray solid;
-} */
-
 #aboutExtensionModalGrid .modal-body {
   max-height: 500px;
   overflow: auto;
@@ -156,49 +147,42 @@
 
 .zoomSmallest {
   flex: 1 1 130px;
-  -webkit-flex: 1 1 130px;
   -ms-flex: 1 1 130px;
   height: 80px;
 }
 
 .zoomSmaller {
   flex: 1 1 150px;
-  -webkit-flex: 1 1 150px;
   -ms-flex: 1 1 150px;
   height: 100px;
 }
 
 .zoomSmall {
   flex: 1 1 170px;
-  -webkit-flex: 1 1 170px;
   -ms-flex: 1 1 170px;
   height: 120px;
 }
 
 .zoomDefault {
   flex: 1 1 200px;
-  -webkit-flex: 1 1 200px;
   -ms-flex: 1 1 200px;
   height: 170px;
 }
 
 .zoomLarge {
   flex: 1 1 250px;
-  -webkit-flex: 1 1 250px;
   -ms-flex: 1 1 250px;
   height: 200px;
 }
 
 .zoomLarger {
   flex: 1 1 340px;
-  -webkit-flex: 1 1 340px;
   -ms-flex: 1 1 340px;
   height: 300px;
 }
 
 .zoomLargest {
   flex: 1 1 370px;
-  -webkit-flex: 1 1 370px;
   -ms-flex: 1 1 370px;
   height: 400px;
 }
