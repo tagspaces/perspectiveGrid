@@ -62,6 +62,7 @@
 
   display: flex;
   display: -ms-flexbox;
+
   flex-direction: row;
   -ms-flex-direction: row;
 }
