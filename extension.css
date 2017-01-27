@@ -37,9 +37,6 @@
   display: -ms-flexbox;
   flex-direction: column;
   -ms-flex-direction: column;
-
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
 }
 
 @media (max-width: 768px) {
@@ -49,7 +46,7 @@
 }
 
 .thumbnailArea {
-  /*background-color: #f3f3f3;*/
+  background-color: #f3f3f3;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -58,8 +55,6 @@
 }
 
 .fileInfoArea {
-  /*background-color: #f3f3f3;*/
-  background-color: rgba(243, 243, 243, 0.71);;
   flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   display: block;

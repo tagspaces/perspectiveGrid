@@ -115,14 +115,14 @@ define(function(require, exports, module) {
 
   var fileTileTmpl = Handlebars.compile(
     '<div title="{{filepath}}" data-path="{{filepath}}" data-isfile="true" class="fileTile">' +
-      '<div class="thumbnailArea" data-path="{{filepath}}" style="background-image: url(\'{{thumbPath}}\')">' +
+      '<div class="thumbnailArea" style="background-image: url(\'{{thumbPath}}\')">' +
         '<div class="tagsInFileTile">' +
         '{{#each tags}}' +
           '<button class="btn btn-sm tagButton fileTagsTile" data-tag="{{tag}}" data-path="{{filepath}}" style="{{style}}">{{tag}}</button>' +
         '{{/each}}' +
         '</div>' +
       '</div>' +
-      '<div class="fileInfoArea" filepath="{{filepath}}">' +
+      '<div class="fileInfoArea">' +
         '<button class="btn btn-link fileTileSelector {{coloredExtClass}}" data-ext="{{fileext}}" >' +
           '<i class="fa {{selected}} fa-fw fa-lg"></i><span class="fileExtTile">{{fileext}}</span>' +
         '</button>' +
