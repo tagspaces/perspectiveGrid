@@ -122,7 +122,7 @@ define(function(require, exports, module) {
         '{{/each}}' +
         '</div>' +
       '</div>' +
-      '<div class="fileInfoArea">' +
+      '<div class="fileInfoArea" filepath="{{filepath}}">' +
         '<button class="btn btn-link fileTileSelector {{coloredExtClass}}" data-ext="{{fileext}}" >' +
           '<i class="fa {{selected}} fa-fw fa-lg"></i><span class="fileExtTile">{{fileext}}</span>' +
         '</button>' +
