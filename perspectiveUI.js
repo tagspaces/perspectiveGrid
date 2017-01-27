@@ -115,14 +115,14 @@ define(function(require, exports, module) {
 
   var fileTileTmpl = Handlebars.compile(
     '<div title="{{filepath}}" data-path="{{filepath}}" data-isfile="true" class="fileTile">' +
-      '<div class="thumbnailArea" style="background-image: url(\'{{thumbPath}}\')">' +
+      '<div class="thumbnailArea" data-path="{{filepath}}" style="background-image: url(\'{{thumbPath}}\')">' +
         '<div class="tagsInFileTile">' +
         '{{#each tags}}' +
           '<button class="btn btn-sm tagButton fileTagsTile" data-tag="{{tag}}" data-path="{{filepath}}" style="{{style}}">{{tag}}</button>' +
         '{{/each}}' +
         '</div>' +
       '</div>' +
-      '<div class="fileInfoArea">' +
+      '<div class="fileInfoArea" filepath="{{filepath}}">' +
         '<button class="btn btn-link fileTileSelector {{coloredExtClass}}" data-ext="{{fileext}}" >' +
           '<i class="fa {{selected}} fa-fw fa-lg"></i><span class="fileExtTile">{{fileext}}</span>' +
         '</button>' +
@@ -283,7 +283,7 @@ define(function(require, exports, module) {
     this.initFileSortingMenu();
 
     $('#viewContainers').on('scroll', _.debounce(function() { // Triggering thumbnails generation
-      $('#viewContainers').find(".fileTile").each(function() {
+      $('#viewContainers').find(".fileTile,.thumbnailArea").each(function() {
         self.setThumbnail(this);
       });
     }, 500));
@@ -638,7 +638,7 @@ define(function(require, exports, module) {
 
   ExtUI.prototype.setThumbnail = function(uiElement) {
     if (TSCORE.Utils.isVisibleOnScreen(uiElement) && (uiElement.style.backgroundImage.indexOf("image/gif") > 0)) {
-      var filePath = uiElement.dataset.filepath;
+      var filePath = $(uiElement).data('path');
       TSCORE.Meta.loadThumbnailPromise(filePath).then(function(url) {
         uiElement.style.backgroundImage = "url('" + url + "')";
       });
