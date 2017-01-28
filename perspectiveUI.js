@@ -115,7 +115,7 @@ define(function(require, exports, module) {
 
   var fileTileTmpl = Handlebars.compile(
     '<div title="{{filepath}}" data-path="{{filepath}}" data-isfile="true" class="fileTile">' +
-      '<div class="thumbnailArea" style="background-image: url(\'{{thumbPath}}\')">' +
+      '<div class="thumbnailArea" data-path="{{filepath}}" style="background-image: url(\'{{thumbPath}}\')">' +
         '<div class="tagsInFileTile">' +
         '{{#each tags}}' +
           '<button class="btn btn-sm tagButton fileTagsTile" data-tag="{{tag}}" data-path="{{filepath}}" style="{{style}}">{{tag}}</button>' +
@@ -283,7 +283,7 @@ define(function(require, exports, module) {
     this.initFileSortingMenu();
 
     $('#viewContainers').on('scroll', _.debounce(function() { // Triggering thumbnails generation
-      $('#viewContainers').find(".fileTile,.thumbnailArea").each(function() {
+      $('#viewContainers').find(".thumbnailArea").each(function() {
         self.setThumbnail(this);
       });
     }, 500));
@@ -880,7 +880,7 @@ define(function(require, exports, module) {
     }
 
     TSCORE.Meta.loadThumbnailPromise(newFilePath).then(function(url) {
-      $fileTile.css("background-image", "url('" + url + "')");
+      $fileTile.find('.thumbnailArea').css("background-image", "url('" + url + "')");
     });
 
     this.assingFileTileHandlers($fileTile);
