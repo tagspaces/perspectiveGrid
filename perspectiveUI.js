@@ -882,8 +882,6 @@ define(function(require, exports, module) {
     }
 
     TSCORE.Meta.loadThumbnailPromise(newFilePath).then(function(url) {
-      console.log(url);
-      console.log($fileTile);
       $fileTile.children('.thumbnailArea').attr("style", "background-image: url('" + url + "')");
     });
 
