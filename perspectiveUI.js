@@ -820,9 +820,9 @@ define(function(require, exports, module) {
     TSCORE.selectedFiles.splice(TSCORE.selectedFiles.indexOf(filePath), 1);
 
     if (isWin && !isWeb) {
-      filePath = filePath.replace("\\", "");
+      filePath = filePath.replace("/\//g", "");
       this.viewContainer.find(".fileTile").each(function() {
-        if ($(this).data("path").replace("\\", "") === filePath) {
+        if ($(this).data("path").replace("/\//g", "") === filePath) {
           $(this).remove();
         }
       });
