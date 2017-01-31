@@ -646,6 +646,7 @@ define(function(require, exports, module) {
   };
 
   ExtUI.prototype.assingFileTileHandlers = function($fileTile) {
+
     var path = $fileTile.data("path");
     var isFile = $fileTile.data("isfile");
     var self = this;
@@ -849,10 +850,10 @@ define(function(require, exports, module) {
     var attrFilePath;
 
     if (isWin && !isWeb) {
-      oldFilePath = oldFilePath.replace("\\", "");
+      oldFilePath = oldFilePath.replace("/\//g", "");
       this.viewContainer.find(".fileTile").each(function() {
         attrFilePath = $(this).data("path");
-        if (attrFilePath.replace("\\", "") === oldFilePath) {
+        if (attrFilePath.replace("/\//g", "") === oldFilePath) {
           $fileTile = $(this);
         }
       });
@@ -868,10 +869,10 @@ define(function(require, exports, module) {
     $fileTile.replaceWith(this.createFileTile(title, newFilePath, fileExt, fileTags, true, metaObj));
 
     if (isWin && !isWeb) {
-      newFilePath = newFilePath.replace("\\", "");
+      newFilePath = newFilePath.replace("/\//g", "");
       this.viewContainer.find(".fileTile").each(function() {
         attrFilePath = $(this).data("path");
-        if (attrFilePath.replace("\\", "") === newFilePath) {
+        if (attrFilePath.replace("/\//g", "") === newFilePath) {
           $fileTile = $(this);
         }
       });
@@ -880,7 +881,9 @@ define(function(require, exports, module) {
     }
 
     TSCORE.Meta.loadThumbnailPromise(newFilePath).then(function(url) {
-      $fileTile.find('.thumbnailArea').css("background-image", "url('" + url + "')");
+      console.log(url);
+      console.log($fileTile);
+      $fileTile.children('.thumbnailArea').attr("style", "background-image: url('" + url + "')");
     });
 
     this.assingFileTileHandlers($fileTile);
