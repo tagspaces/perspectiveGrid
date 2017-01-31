@@ -750,10 +750,11 @@ define(function(require, exports, module) {
         $(this).find(".fileTileSelector i").toggleClass("fa-check-square").toggleClass("fa-square-o");
         selectedIsFolderArr[path] = !isFile;
 
-        // TODO check selection offset
-        /* $("#viewContainers").animate({
-          scrollTop: $('.ui-selected').offset().top - $("#perspectiveGridContainer").offset().top
-        }, 100); */
+        if (!TSCORE.Utils.isVisibleOnScreen(this)) {
+          $("#viewContainers").animate({
+            scrollTop: $(this).offset().top - $("#perspectiveGridContainer").offset().top // $(this).height()
+          }, 100);
+        }
       }
     });
     TSCORE.selectedFiles.push(filePath);
