@@ -651,6 +651,8 @@ define(function(require, exports, module) {
     var isFile = $fileTile.data("isfile");
     var self = this;
 
+    $fileTile.addClass(zoomSteps[currentZoomState]);
+
     $fileTile.hammer().on("doubletap", function() { //.dblclick(function() {
       return false;
     }).on('click', function() {
