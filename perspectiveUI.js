@@ -114,7 +114,7 @@ define(function(require, exports, module) {
   }
 
   var fileTileTmpl = Handlebars.compile(
-    '<div title="{{filepath}}" data-path="{{filepath}}" data-isfile="true" class="fileTile">' +
+    '<div title="{{filepath}}" data-path="{{filepath}}" data-isfile="true" class="fileTile {{class}}">' +
       '<div class="thumbnailArea" data-path="{{filepath}}" style="background-image: url(\'{{thumbPath}}\')">' +
         '<div class="tagsInFileTile">' +
         '{{#each tags}}' +
@@ -132,7 +132,7 @@ define(function(require, exports, module) {
   );
 
   var folderTileTmpl = Handlebars.compile(
-    '<div title="{{folderpath}}" data-path="{{folderpath}}" data-isfile="false" class="fileTile">' +
+    '<div title="{{folderpath}}" data-path="{{folderpath}}" data-isfile="false" class="fileTile {{class}}">' +
       '<div class="thumbnailArea" style="background-image: url(\'{{thumbPath}}\')">' +
       '</div>' +
       '<div class="fileInfoArea">' +
@@ -426,7 +426,6 @@ define(function(require, exports, module) {
         $("#statusBar").text(fileCount + " " +  $.i18n.t("ns.perspectives:filesFound"));
       }
     }
-    $('.fileTile').addClass(zoomSteps[currentZoomState]);
 
     TSCORE.hideLoadingAnimation();
     $('#viewContainers').trigger('scroll');
@@ -453,8 +452,9 @@ define(function(require, exports, module) {
       coloredExtClass: TSCORE.Config.getColoredFileExtensionsEnabled() ? "fileExtColor" : "",
       tags: [],
       selected: isSelected ? "fa-check-square" : "fa-square-o",
-      thumbPath: tmbPath
-    };
+      thumbPath: tmbPath,
+      class: zoomSteps[currentZoomState]
+     };
 
     if (fileTags.length > 0) {
       var tagString = "" + fileTags;
@@ -487,7 +487,8 @@ define(function(require, exports, module) {
       folderpath: filePath,
       title: name,
       tags: [],
-      selected: isSelected ? "fa-check-square" : "fa-square-o"
+      selected: isSelected ? "fa-check-square" : "fa-square-o",
+      class: zoomSteps[currentZoomState]
     };
     return folderTileTmpl(context);
   };
@@ -650,8 +651,6 @@ define(function(require, exports, module) {
     var path = $fileTile.data("path");
     var isFile = $fileTile.data("isfile");
     var self = this;
-
-    $fileTile.addClass(zoomSteps[currentZoomState]);
 
     $fileTile.hammer().on("doubletap", function() { //.dblclick(function() {
       return false;
