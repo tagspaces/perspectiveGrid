@@ -879,7 +879,7 @@ define(function(require, exports, module) {
         }
       });
     } else {
-      this.viewContainer.find(".fileTile[data-path='" + newFilePath + "']");
+      $fileTile = this.viewContainer.find(".fileTile[data-path='" + newFilePath + "']");
     }
 
     TSCORE.Meta.loadThumbnailPromise(newFilePath).then(function(url) {
