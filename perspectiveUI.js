@@ -288,10 +288,6 @@ define(function(require, exports, module) {
       });
     }, 500));
 
-    Mousetrap.unbind(TSCORE.Config.getSelectAllKeyBinding());
-    Mousetrap.bind(TSCORE.Config.getSelectAllKeyBinding(), function() {
-      self.toggleSelectAll();
-    });
   };
 
   ExtUI.prototype.reInit = function(showAllResult) {
@@ -426,6 +422,11 @@ define(function(require, exports, module) {
         $("#statusBar").text(fileCount + " " +  $.i18n.t("ns.perspectives:filesFound"));
       }
     }
+
+    Mousetrap.unbind(TSCORE.Config.getSelectAllKeyBinding());
+    Mousetrap.bind(TSCORE.Config.getSelectAllKeyBinding(), function() {
+      self.toggleSelectAll();
+    });
 
     TSCORE.hideLoadingAnimation();
     $('#viewContainers').trigger('scroll');
