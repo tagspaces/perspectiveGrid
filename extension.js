@@ -115,11 +115,6 @@ define(function(require, exports, module) {
     });
   }
 
-  function updateTreeData(fsTreeData) {
-
-    console.log("Updating tree data not implemented");
-  }
-
   // API Vars
   exports.Title = extensionTitle;
   exports.ID = extensionID;
@@ -134,7 +129,6 @@ define(function(require, exports, module) {
   exports.selectFile = selectFile;
   exports.removeFileUI = removeFileUI;
   exports.updateFileUI = updateFileUI;
-  exports.updateTreeData = updateTreeData;
   exports.setReadOnly = setReadOnly;
 
 });
