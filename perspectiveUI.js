@@ -962,6 +962,12 @@ define(function(require, exports, module) {
 
   ExtUI.prototype.sortByCriteria = function(criteria, orderBy) {
     function sortByName(a, b) {
+      if (!a.name) {
+        a.name = "";
+      }
+      if (!b.name) {
+        b.name = "";
+      }
       if (orderBy) {
         return (b.isDirectory - a.isDirectory) || (a.name.toString().localeCompare(b.name));
       } else {
