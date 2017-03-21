@@ -48,7 +48,7 @@
 .thumbnailArea {
   background-color: #f3f3f3;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   flex: 1 1 auto;
   -ms-flex: 1 1 auto;
