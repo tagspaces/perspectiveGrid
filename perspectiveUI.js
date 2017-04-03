@@ -457,18 +457,21 @@ define(function(require, exports, module) {
       class: zoomSteps[currentZoomState]
      };
 
-    if (fileTags.length > 0) {
-      var tagString = "" + fileTags;
-      var tags = tagString.split(",");
-
-      for (var i = 0; i < tags.length; i++) {
-        context.tags.push({
-          tag: tags[i],
-          filepath: filePath,
-          style: TSCORE.generateTagStyle(TSCORE.Config.findTag(tags[i]))
-        });
-      }
+    if (fileTags && fileTags.length > 0) {
+      fileTags.forEach(function(tag) {
+        if((typeof tag) === 'string') {
+          context.tags.push({
+            tag: tag,
+            path: filePath,
+            style: TSCORE.generateTagStyle(TSCORE.Config.findTag(tag))
+          });
+        } else {
+          context.tags.push(tag);
+        }
+      });
     }
+
+
 
     if (metaObj.metaData && metaObj.metaData.tags) {
       metaObj.metaData.tags.forEach(function(elem) {
