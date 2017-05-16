@@ -5,15 +5,15 @@
 define(function(require, exports, module) {
   "use strict";
 
-  const TSCORE = require('tscore');
   const React = require('react');
   const ReactDOM = require('react-dom');
+  const TSCORE = require('tscore');
   const MainMenu = require('./components/main-menu').MainMenu;
   const AboutDialog = require('./components/about-dialog').AboutDialog;
   const SortingDialog = require('./components/sorting-dialog').SortingDialog;
   const GroupingDialog = require('./components/grouping-dialog').GroupingDialog;
   const ExtUI = require('./perspectiveUI').ExtUI;
-  const readme = require('text!./README.md'); // TODO make loading conditional
+  
   require('css!./extension.css');
 
   const extensionTitle = "Grid"; // should be equal to the name in the bower.json
@@ -51,11 +51,6 @@ define(function(require, exports, module) {
       );
 
       $('#' + extensionID + 'Container [data-i18n]').i18n();
-      
-      $('#aboutExtensionModalGrid').on('show.bs.modal', function() {
-        var modalBody = $("#aboutExtensionModalGrid .modal-body");
-        TSCORE.Utils.setMarkDownContent(modalBody, readme);
-      });
       
       platformTuning();
       

@@ -2,12 +2,21 @@ define(function(require, exports, module) {
 
   const React = require("react");
   const ReactDOM = require("react-dom");
-
+  const TSCORE = require('tscore');
+  const readme = require('text!../README.md'); // TODO make loading conditional
+  
   class AboutDialog extends React.Component {
+
+    componentDidMount() {
+      $('#aboutExtensionModalGrid').on('show.bs.modal', function() {
+        var modalBody = $("#aboutExtensionModalGrid .modal-body");
+        TSCORE.Utils.setMarkDownContent(modalBody, readme);
+      });
+    }
 
     render() {
       return (
-        <div className="modal fullScreenMobile" id="aboutExtensionModalGrid" tabindex="-1" role="dialog" aria-hidden="true">
+        <div className="modal fullScreenMobile" id="aboutExtensionModalGrid" role="dialog" aria-hidden="true">
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">

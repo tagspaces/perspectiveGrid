@@ -12,6 +12,8 @@ define(function (require, exports, module) {
 
   var React = require("react");
   var ReactDOM = require("react-dom");
+  var TSCORE = require('tscore');
+  var readme = require('text!../README.md'); // TODO make loading conditional
 
   var AboutDialog = function (_React$Component) {
     _inherits(AboutDialog, _React$Component);
@@ -23,11 +25,19 @@ define(function (require, exports, module) {
     }
 
     _createClass(AboutDialog, [{
+      key: "componentDidMount",
+      value: function componentDidMount() {
+        $('#aboutExtensionModalGrid').on('show.bs.modal', function () {
+          var modalBody = $("#aboutExtensionModalGrid .modal-body");
+          TSCORE.Utils.setMarkDownContent(modalBody, readme);
+        });
+      }
+    }, {
       key: "render",
       value: function render() {
         return React.createElement(
           "div",
-          { className: "modal fullScreenMobile", id: "aboutExtensionModalGrid", tabindex: "-1", role: "dialog", "aria-hidden": "true" },
+          { className: "modal fullScreenMobile", id: "aboutExtensionModalGrid", role: "dialog", "aria-hidden": "true" },
           React.createElement(
             "div",
             { className: "modal-dialog" },

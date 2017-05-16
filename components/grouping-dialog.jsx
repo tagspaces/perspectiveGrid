@@ -7,7 +7,7 @@ define(function(require, exports, module) {
 
     render() {
       return (
-        <div className="modal" id={this.props.extensionID + "ExtensionModal"} tabindex="-1" role="dialog" aria-hidden="true">
+        <div className="modal" id={this.props.extensionID + "ExtensionModal"} role="dialog" aria-hidden="true">
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">

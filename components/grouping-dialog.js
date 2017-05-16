@@ -27,7 +27,7 @@ define(function (require, exports, module) {
       value: function render() {
         return React.createElement(
           "div",
-          { className: "modal", id: this.props.extensionID + "ExtensionModal", tabindex: "-1", role: "dialog", "aria-hidden": "true" },
+          { className: "modal", id: this.props.extensionID + "ExtensionModal", role: "dialog", "aria-hidden": "true" },
           React.createElement(
             "div",
             { className: "modal-dialog" },
