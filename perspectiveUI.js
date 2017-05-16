@@ -169,11 +169,10 @@ define(function(require, exports, module) {
     '</div>'
   );
 
-  ExtUI.prototype.buildUI = function(toolbarTemplate) {
+  ExtUI.prototype.buildUI = function() {
     console.log("Init UI module");
 
     var self = this;
-    this.viewContainer.append(toolbarTemplate({id: this.extensionID}));
 
     $("#" + this.extensionID + "ToogleSelectAll").on("click", function() {
       self.toggleSelectAll();
@@ -213,38 +212,8 @@ define(function(require, exports, module) {
       TSCORE.navigateToDirectory(TSCORE.currentPath);
     });
 
-    $("#" + this.extensionID + "CreateDirectoryButton").on("click", function() {
-      TSCORE.showCreateDirectoryDialog(TSCORE.currentPath);
-    });
-
     $("#" + this.extensionID + "IncludeSubDirsButton").on("click", function() {
       TSCORE.IOUtils.createDirectoryIndex(TSCORE.currentPath);
-    });
-
-    $("#" + this.extensionID + "TagButton").on("click", function() {
-      if ($(this).parent().hasClass("disabled")) {
-        return false;
-      }
-      TSCORE.showAddTagsDialog();
-    });
-
-    $("#" + this.extensionID + "CopyMoveButton").on("click", function() {
-      if ($(this).parent().hasClass("disabled")) {
-        return false;
-      }
-      TSCORE.showMoveCopyFilesDialog();
-    });
-
-    $("#" + this.extensionID + "DeleteSelectedFilesButton").on("click", function() {
-      if ($(this).parent().hasClass("disabled")) {
-        return false;
-      } else {
-        TSCORE.UI.showDeleteFilesDialog();
-      }
-    });
-
-    $("#" + this.extensionID + "MainDropUp").on('click', function() {
-      TSCORE.hideAllDropDownMenus();
     });
 
     $("#increasingThumbnails").on('click', function(e) {

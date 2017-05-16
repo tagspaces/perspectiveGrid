@@ -1,55 +1,65 @@
-/* Copyright (c) 2013-2016 The TagSpaces Authors.
+/* Copyright (c) 2013-present The TagSpaces Authors.
  * Use of this source code is governed by the MIT license which can be found in the LICENSE.txt file. */
 
 /* global define, Handlebars, isCordova  */
 define(function(require, exports, module) {
   "use strict";
 
-  var extensionTitle = "Grid"; // should be equal to the name in the bower.json
-  var extensionID = "perspectiveGrid"; // ID must be equal to the directory name where the extension is located
-  var extensionIcon = "fa fa-th"; // icon class from font awesome
+  const TSCORE = require('tscore');
+  const React = require('react');
+  const ReactDOM = require('react-dom');
+  const MainMenu = require('./components/main-menu').MainMenu;
+  const AboutDialog = require('./components/about-dialog').AboutDialog;
+  const SortingDialog = require('./components/sorting-dialog').SortingDialog;
+  const GroupingDialog = require('./components/grouping-dialog').GroupingDialog;
+  const ExtUI = require('./perspectiveUI').ExtUI;
+  const readme = require('text!./README.md'); // TODO make loading conditional
+  require('css!./extension.css');
+
+  const extensionTitle = "Grid"; // should be equal to the name in the bower.json
+  const extensionID = "perspectiveGrid"; // ID must be equal to the directory name where the extension is located
+  const extensionIcon = "fa fa-th"; // icon class from font awesome
 
   console.log("Loading " + extensionID);
 
-  var TSCORE = require("tscore");
-  var extensionDirectory = TSCORE.Config.getExtensionPath() + "/" + extensionID;
-  var UI;
-  var extensionLoaded;
+  let extensionDirectory = TSCORE.Config.getExtensionPath() + "/" + extensionID;
+  let UI;
+  let extensionLoadedPromise;
 
   function init() {
     console.log("Initializing perspective " + extensionID);
 
-    extensionLoaded = new Promise(function(resolve, reject) {
-      require([
-        extensionDirectory + '/perspectiveUI.js',
-        "text!" + extensionDirectory + '/toolbar.html',
-        "css!" + extensionDirectory + '/extension.css',
-      ], function(extUI, toolbarTPL, marked) {
-        var toolbarTemplate = Handlebars.compile(toolbarTPL);
-        UI = new extUI.ExtUI(extensionID);
-        UI.buildUI(toolbarTemplate);
-        platformTuning();
-        if (isCordova) {
-          TSCORE.reLayout();
-        }
-        try {
-          $('#' + extensionID + 'Container [data-i18n]').i18n();
-          $('#aboutExtensionModalGrid').on('show.bs.modal', function() {
-            $.ajax({
-              url: extensionDirectory + '/README.md',
-              type: 'GET'
-            }).done(function(mdData) {
-              var modalBody = $("#aboutExtensionModalGrid .modal-body");
-              TSCORE.Utils.setMarkDownContent(modalBody, mdData);
-            }).fail(function(data) {
-              console.warn("Loading file failed " + data);
-            });
-          });
-        } catch (err) {
-          console.log("Failed translating extension");
-        }
-        resolve(true);
+    extensionLoadedPromise = new Promise((resolve, reject) => {
+      UI = new ExtUI(extensionID);
+      UI.buildUI();
+
+      if (TSCORE.isCordova) {
+        TSCORE.reLayout();
+      }
+
+      let props = { "extensionID": extensionID };
+      ReactDOM.render(
+        React.createElement(
+          "div",
+          null,
+          React.createElement(MainMenu, props, null),
+          React.createElement(AboutDialog, props, null),
+          React.createElement(SortingDialog, props, null),
+          React.createElement(GroupingDialog, props, null)
+        ), 
+        document.getElementById(extensionID + 'Container')        
+      );
+
+      $('#' + extensionID + 'Container [data-i18n]').i18n();
+      
+      $('#aboutExtensionModalGrid').on('show.bs.modal', function() {
+        var modalBody = $("#aboutExtensionModalGrid .modal-body");
+        TSCORE.Utils.setMarkDownContent(modalBody, readme);
       });
+      
+      platformTuning();
+      
+      resolve(true);
     });
   }
 
@@ -70,7 +80,7 @@ define(function(require, exports, module) {
 
   function load() {
     console.log("Loading perspective " + extensionID);
-    extensionLoaded.then(function() {
+    extensionLoadedPromise.then(function() {
       UI.reInit();
     }, function(err) {
       console.warn("Loading extension failed: " + err);
