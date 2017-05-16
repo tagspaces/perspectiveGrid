@@ -1,4 +1,7 @@
-define(function(require, exports, module) {
+/* Copyright (c) 2017-present The TagSpaces Authors.
+ * Use of this source code is governed by the MIT license which can be found in the LICENSE.txt file. */
+
+define((require, exports, module) => {
 
   const React = require("react");
   const ReactDOM = require("react-dom");

@@ -1,10 +1,16 @@
-define(function(require, exports, module) {
+/* Copyright (c) 2017-present The TagSpaces Authors.
+ * Use of this source code is governed by the MIT license which can be found in the LICENSE.txt file. */
+
+define((require, exports, module) => {
 
   const React = require("react");
   const ReactDOM = require("react-dom");
   const TSCORE = require("tscore");
 
   class MainMenu extends React.Component {
+    constructor(props) {
+      super(props);
+    }
 
     showDeleteFilesDialog(e) {
       if ($(e.nativeEvent.target).parent().hasClass("disabled")) {
@@ -28,6 +34,10 @@ define(function(require, exports, module) {
       TSCORE.showAddTagsDialog();
     }
 
+    createDirectoryIndex() {
+      TSCORE.IOUtils.createDirectoryIndex(TSCORE.currentPath);
+    }
+
     render() {
       return (
         <div className="btn-group dropup extMainMenu">
@@ -38,7 +48,7 @@ define(function(require, exports, module) {
             <li className="dropdown-header">
               <button className="close">&times;</button>&nbsp;
             </li>
-            <li><a id={this.props.extensionID + "ToogleSelectAll"}>
+            <li><a id={this.props.extensionID + "ToogleSelectAll"} onClick={this.props.toggleSelectAll}>
               <i className="fa fa-square-o fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectives:toggleSelectAll"></span>
             </a></li>
             <li className="disabled"><a id={this.props.extensionID + "TagButton"}>
@@ -67,13 +77,13 @@ define(function(require, exports, module) {
             <li><a id="moreButton" data-toggle="modal" data-target={"#" + this.props.extensionID + "ExtensionModal"}>
               <i className="fa fa-th-large fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectives:fileGrouping"></span>
             </a></li>
-            <li><a id={this.props.extensionID + "showFoldersInListCheckbox"}>
+            <li><a id={this.props.extensionID + "showFoldersInListCheckbox"} onClick={this.props.showFoldersInListCheckbox}>
                 <i className="fa fa-folder fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectives:showFolders"></span>
               </a></li>
-            <li><a id={this.props.extensionID + "hideFoldersInListCheckbox"}>
+            <li><a id={this.props.extensionID + "hideFoldersInListCheckbox"} onClick={this.props.hideFoldersInListCheckbox}>
                 <i className="fa fa-folder fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectives:hideFolders"></span>
               </a></li>
-            <li><a id={this.props.extensionID + "IncludeSubDirsButton"}>
+            <li><a id={this.props.extensionID + "IncludeSubDirsButton"} onClick={this.createDirectoryIndex}>
               <i className="fa fa-refresh fa-lg fa-fw"></i>&nbsp;<span data-i18n="ns.perspectives:showSubfolderContent"></span>
             </a></li>
             <li className="divider"></li>

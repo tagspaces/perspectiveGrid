@@ -1,10 +1,13 @@
 {
   "name": "tagspaces-grid-perspective",
+  "title": "Grid",
+  "identifier": "perspectiveGrid",
   "version": "1.0.0",
   "description": "A TagSpaces extension allowing opening of markdown files",
   "main": "extension.js",
   "scripts": {
-    "buildJSX": "babel --presets es2015,react --watch '**/*.jsx' --out-dir ./"
+    "buildJSX": "babel --presets es2015,react --watch '**/*.jsx' --out-dir ./",
+    "buildJSXES6": "babel --presets react --watch '**/*.jsx' --out-dir ./"
   },
   "repository": {
     "type": "git",
