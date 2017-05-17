@@ -399,7 +399,7 @@ class GridPerspective {
     let extSettings = JSON.parse(localStorage.getItem("perpectiveGridSettings"));
     if (extSettings) {
       if (extSettings.showFoldersInList) {
-        this.showFoldersInList = this.extSettings.showFoldersInList;
+        this.showFoldersInList = extSettings.showFoldersInList;
       }        
       if (extSettings.orderBy) {
         this.orderBy = extSettings.orderBy;
