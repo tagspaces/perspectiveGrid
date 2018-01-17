@@ -1,0 +1,17 @@
+{
+  "name": "@tagspaces/perspective-grid",
+  "version": "1.0.0",
+  "description": "A TagSpaces extension allowing playing of audio and video files.",
+  "homepage": "https://www.tagspaces.org",
+  "main": "main.js",
+  "author": {
+    "name": "TagSpaces UG",
+    "email": "info@tagspaces.org",
+    "url": "https://www.tagspaces.org"
+  },
+  "license": "MIT",
+  "tagspaces": {
+    "extensionType": "perspective"
+  },
+  "dependencies": {}
+}
