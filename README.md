@@ -1,3 +1,5 @@
+This repository is archived.
+
 # Grid Perspective for TagSpaces
 
 A TagSpaces extension allowing you to view your files in a grid with an image preview.
